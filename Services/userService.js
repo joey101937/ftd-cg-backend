@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client'
-import { get } from 'lodash';
 
 const prismaClient = new PrismaClient();
 const secretKey = process.env.SECRET_KEY
