@@ -88,4 +88,4 @@ const vision = [
           isSubScreen: false,
           isTemporary: false,
       },
-]
+];

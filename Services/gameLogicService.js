@@ -12,7 +12,7 @@ export const canPlayerAffordCard = (game, card, playerId) => {
     } else {
         return game.defendingPlayerCp >= cpCost && game.defendingPlayerMaterials >= materialCost;
     }
-}
+};
 
 export const payForCard = (inputGame, card, playerId) => {
     const isAttackingPlayer = inputGame.attackingPlayerId === playerId;
@@ -30,7 +30,7 @@ export const payForCard = (inputGame, card, playerId) => {
     }
 
     return inputGame;
-}
+};
 
 export const canCardBePlayedToZoneType = (card, zoneType) => {
     if(card.type === CARD_TYPES.VEHICLE) {
@@ -50,7 +50,7 @@ export const canCardBePlayedToZoneType = (card, zoneType) => {
     }
     console.log('WARNING canCardBePlayedToZone called on card without valid type', card);
     return true;
-}
+};
 
 export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
     const attackingPlayerCard = game.attackingPlayerHand.find(x => x.instanceId === cardInstanceId);
@@ -77,7 +77,7 @@ export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
     }
 
     return true;
-}
+};
 
 
 /*
@@ -88,4 +88,4 @@ export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
 export const getResourcesForTurn = (turnNumber) => {
     const realTurnNumber = Math.floor(turnNumber);
     return realTurnNumber*50000;
-}
+};

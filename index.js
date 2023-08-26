@@ -1,5 +1,5 @@
 import express from 'express';
-import 'dotenv/config' // sets environment variables
+import 'dotenv/config'; // sets environment variables
 import bodyParser from 'body-parser';
 import { createUserHandler } from './routes/createUser';
 import { loginHandler } from './routes/login';

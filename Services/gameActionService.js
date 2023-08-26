@@ -15,7 +15,7 @@ const endTurnHandler = async (game, playerId) => {
 
     if(isAttackingPlayer) {
         game.defendingPlayerMaterials = getResourcesForTurn(game.turnNumber);
-        const drawnCard = game.defendingPlayerDeckInstance.shift()
+        const drawnCard = game.defendingPlayerDeckInstance.shift();
         if(drawnCard) game.defendingPlayerHand.push(drawnCard);
     } else {
         game.attackingPlayerMaterials = getResourcesForTurn(game.turnNumber);
@@ -32,7 +32,7 @@ const endTurnHandler = async (game, playerId) => {
 
     return { status: 200, data: updatedGame };
 
-}
+};
 
 const attackEnemyBase = async (game, actionBody, playerId) => {
     const {
@@ -63,7 +63,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
 
     friendlyVehicles.forEach(x => {
         if(x.vehicleType && x.vehicleType !== VEHICLE_TYPES.SUB && `${x.meta.turnPlayed}` !== `${game.turnNumber}`) {
-            damageToDeal += (x.materialCost / 1000)
+            damageToDeal += (x.materialCost / 1000);
         }
     });
     
@@ -84,7 +84,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
 
     return { status: 200, data: updatedGame };
 
-}
+};
 
 const playCardToZoneHandler = async (game, actionBody, playerId) => {
     const {
@@ -146,7 +146,7 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
 export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType, actionBody }) => {
 
     if (!triggeringPlayerId || !gameId || !actionType || !actionBody) {
-        return { status: 400, data: { error: 'Missing parameter. triggeringPlayerId, gameId, actionType, actionBody required' } }
+        return { status: 400, data: { error: 'Missing parameter. triggeringPlayerId, gameId, actionType, actionBody required' } };
     }
 
     const game = await prismaClient.game.findFirst({
@@ -162,13 +162,13 @@ export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType,
     });
 
     if (!game) {
-        return { status: 400, data: { error: `User is not in a game with given id ${gameId}` } }
+        return { status: 400, data: { error: `User is not in a game with given id ${gameId}` } };
     }
 
     switch (actionType) {
         case GAME_ACTION_TYPES.PLAY_CARD_TO_ZONE: return await playCardToZoneHandler(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.ATTACK_ENEMY_BASE: return await attackEnemyBase(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.END_TURN: return await endTurnHandler(game, triggeringPlayerId);
-        default: return { status: 400, data: { error: `unknown actionType ${actionType}` } }
+        default: return { status: 400, data: { error: `unknown actionType ${actionType}` } };
     }
-}
+};

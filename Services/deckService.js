@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 import { shuffle } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
@@ -30,7 +30,7 @@ export const getDeckById = async (deckId) => {
             }
         }
     });
-}
+};
 
 
 export const createInstanceOfDeck = async (deck) => {
@@ -57,9 +57,9 @@ export const createInstanceOfDeck = async (deck) => {
             output.push({
                 ...card,
                 instanceId: uuid(),
-            })
+            });
         }
     });
 
     return shuffle(output);
-}
+};

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
 const prismaClient = new PrismaClient();
-const secretKey = process.env.SECRET_KEY
+const secretKey = process.env.SECRET_KEY;
 
 export const getUserIdFromJwt = (token) => {
     if(!token) return null;
@@ -19,22 +19,22 @@ export const getUserIdFromJwt = (token) => {
         console.log(e.message, e);
         return null;
     }
-}
+};
 
 export const getUserIdFromRequest = (req) => {
     const authHeader = req.headers?.authorization || '';
     return getUserIdFromJwt(authHeader.substring(7));
-}
+};
 
 const hashPassword = async (plaintextPassword) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
     return hashedPassword;
-}
+};
 
 export const createUser = async (username, password) => {
     try {
-        const hashedPassword = await hashPassword(password)
+        const hashedPassword = await hashPassword(password);
         const dbRes = await prismaClient.User.create({
             data: { username, password: hashedPassword }
         });
@@ -54,13 +54,13 @@ export const createUser = async (username, password) => {
             return { error: 'Internal Server Error', statusCode: 500 };
         }
     }
-}
+};
 
 
 export const getAllUsers = async () => {
     const dbRes = await prismaClient.user.findMany();
     return dbRes;
-}
+};
 
 
 export const loginAndGenerateJwt = async (username, password) => {
@@ -71,7 +71,7 @@ export const loginAndGenerateJwt = async (username, password) => {
     });
 
     if (!user) {
-        return { error: 'No user with that username', statusCode: 400 }
+        return { error: 'No user with that username', statusCode: 400 };
     }
 
     const validPw = await bcrypt.compare(password, user.password);
@@ -88,8 +88,8 @@ export const loginAndGenerateJwt = async (username, password) => {
         jwt: token,
         username: user.username,
         statusCode: 200,
-    }
-}
+    };
+};
 
 export const getActiveDeckOfPlayer = async (userId) => {
     const user = await prismaClient.user.findFirst({
@@ -101,7 +101,7 @@ export const getActiveDeckOfPlayer = async (userId) => {
     });
 
     if(!user) {
-        console.log(`warning attempting to get active deck of user who was not found- id ${userId}`)
+        console.log(`warning attempting to get active deck of user who was not found- id ${userId}`);
         return null;
     }
 
@@ -118,5 +118,5 @@ export const getActiveDeckOfPlayer = async (userId) => {
     } else {
         return testDefaultDeck;
     }
-}
+};
 

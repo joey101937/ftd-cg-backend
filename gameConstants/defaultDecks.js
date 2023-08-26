@@ -7,4 +7,4 @@ export const testDefaultDeck = {
             '728d8040-5122-4c25-87eb-51fa00b71a4e': 3 // test ability
         }
     } 
-}
+};

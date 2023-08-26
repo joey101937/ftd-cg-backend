@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 import { createInstanceOfDeck, getDeckById } from './deckService';
 import { STARTING_CP_AMOUNT, STARTING_HAND_SIZE } from '../gameConstants/gameSettings';
 import { testDefaultDeck } from '../gameConstants/defaultDecks';
@@ -25,7 +25,7 @@ export const getGamesOfUser = async (userId, includeFinished) => {
         if(!includeFinished) {
             queryObj.where.status = {
                 equals: 'active'
-            }
+            };
         }
 
         const data = await prismaClient.game.findMany(queryObj);
@@ -34,7 +34,7 @@ export const getGamesOfUser = async (userId, includeFinished) => {
         console.log(`failed to get decks for user ${userId}`, e);
         return { status: 500, data: [], error: e.message };
     }
-}
+};
 
 
 export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayout) => {
@@ -99,4 +99,4 @@ export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayou
     const dbResult = await prismaClient.game.create({data: game});
 
     return {data: dbResult, status: 200};
-}
+};

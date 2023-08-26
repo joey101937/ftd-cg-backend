@@ -1,5 +1,4 @@
 import { getCustomCardsOfUser } from "../Services/cardService";
-import { getDecksOfUser } from "../Services/deckService";
 import { getUserIdFromRequest } from "../Services/userService";
 
 
