@@ -4,9 +4,6 @@ import { CARD_TYPES, GAME_ACTION_TYPES } from "../gameConstants/gameSettings";
 
 const prismaClient = new PrismaClient();
 
-// land is 6328e4bd-f7e5-45f7-926c-b637752f2d5a
-// water is 1d41fb4a-2fed-4b9e-9f80-339544586844
-
 const playCardToZoneHandler = async (game, actionBody, playerId) => {
     const {
         targetZoneId,
@@ -40,9 +37,13 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
         if (isAttackingPlayer) {
             targetZone.attackingPlayerCards.push(playingCard);
             game.attackingPlayerHand = game.attackingPlayerHand.filter(x => x.instanceId !== playingCard.instanceId);
+            game.attackingPlayerMaterials -= playingCard.materialCost;
+            game.attackingPlayerCp -= playingCard.cpCost;
         } else {
             targetZone.defendingPlayerCards.push(playingCard);
             game.defendingPlayerHand = game.defendingPlayerHand.filter(x => x.instanceId !== playingCard.instanceId);
+            game.attackingPlayerMaterials -= playingCard.materialCost;
+            game.attackingPlayerCp -= playingCard.cpCost;
         }
     }
 
