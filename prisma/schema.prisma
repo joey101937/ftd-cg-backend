@@ -25,6 +25,7 @@ model Game {
   meta Json @default("{}")
 
   turnNumber Decimal @default(1) // 1 = attackers t1, 1.5 = defenders t1. 2 = attackers t2, 2.5 = defenders t2
+  activeBattle Json?
   
   attackingPlayerId String
   defendingPlayerId String
@@ -82,6 +83,7 @@ model Card {
   vehicleType String? // ship, tank, sub, flier
   cardText String
   meta Json @default("{}")
+  faction String @default("NEUTRAL")
   //  meta contains
   // keywords: ['blocker', 'scrappy', airScreen, 'subScreen', 'temporary']
   // may also contain the anti surface/air/sub capabilities for ui display

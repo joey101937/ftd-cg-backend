@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Card" ADD COLUMN     "faction" TEXT NOT NULL DEFAULT 'NEUTRAL';

@@ -41,3 +41,16 @@ export const VEHICLE_KEYWORDS = {
     INOFFENSIVE: 'inoffensive',
     HALF_COST: 'halfCost', // for fliers, they are half cost by default
 };
+
+
+export const FACTIONS = {
+    NEUTRAL: 'NEUTRAL',
+    DWG: 'DWG',
+    SS: 'SS',
+    LH: 'LH',
+    TG: 'TG',
+    OW: 'OW',
+    SD: 'SD',
+    WF: 'WF',
+    GT: 'GT',
+};

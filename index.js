@@ -8,6 +8,7 @@ import { getDefaultCardsHandler } from './routes/getDefaultCards';
 import { getGamesOfUserHandler } from './routes/getGamesOfUser';
 import { createGameHandler } from './routes/createGame';
 import { gameActionHandler } from './routes/gameAction';
+import { stageDbHandler } from './routes/stageDb';
 
 const app = express();
 const port = 8000;
@@ -27,6 +28,8 @@ app.get('/defaultCards', getDefaultCardsHandler);
 app.post('/createGame', createGameHandler);
 
 app.post('/gameAction', gameActionHandler);
+
+app.post('/stageDb', stageDbHandler);
 
 app.listen(port, () => {
   console.log(`FTD-CG listening on port ${port}!`);
