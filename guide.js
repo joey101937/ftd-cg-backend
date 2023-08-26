@@ -37,9 +37,9 @@ const vision = [
             attackingPlayerCards: [],
             defendingPlayerCards: [],
             attackingPlayerHp: 500,
-            attackingPlayerhp: 500,
+            attackingPlayerHp: 500,
             attackingPlayerActiveEffects: [],
-            defendinPlayerActiveEffects: [],
+            defendingPlayerActiveEffects: [],
           }
         ],
       },

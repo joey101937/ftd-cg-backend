@@ -1,31 +1,34 @@
-export const standardZoneLayout = {
-    standard: [
-        {
-            type: 'water',
-            attackingPlayerCards: [],
-            defendingPlayerCards: [],
-            attackingPlayerHp: 500,
-            attackingPlayerhp: 500,
-            attackingPlayerActiveEffects: [],
-            defendinPlayerActiveEffects: [],
-          },
-          {
-            type: 'beach',
-            attackingPlayerCards: [],
-            defendingPlayerCards: [],
-            attackingPlayerHp: 500,
-            attackingPlayerhp: 500,
-            attackingPlayerActiveEffects: [],
-            defendinPlayerActiveEffects: [],
-          },
-          {
-            type: 'land',
-            attackingPlayerCards: [],
-            defendingPlayerCards: [],
-            attackingPlayerHp: 500,
-            attackingPlayerhp: 500,
-            attackingPlayerActiveEffects: [],
-            defendinPlayerActiveEffects: [],
-          }
-    ]
-};
+import { v4 as uuid } from 'uuid'; 
+
+export const standardZoneLayout = [
+  {
+      type: 'water',
+      attackingPlayerCards: [],
+      defendingPlayerCards: [],
+      attackingPlayerHp: 500,
+      defendingPlayerHp: 500,
+      attackingPlayerActiveEffects: [],
+      defendingPlayerActiveEffects: [],
+      id: uuid(),
+    },
+    {
+      type: 'beach',
+      attackingPlayerCards: [],
+      defendingPlayerCards: [],
+      attackingPlayerHp: 500,
+      defendingPlayerHp: 500,
+      attackingPlayerActiveEffects: [],
+      defendingPlayerActiveEffects: [],
+      id: uuid(),
+    },
+    {
+      type: 'land',
+      attackingPlayerCards: [],
+      defendingPlayerCards: [],
+      attackingPlayerHp: 500,
+      defendingPlayerHp: 500,
+      attackingPlayerActiveEffects: [],
+      defendingPlayerActiveEffects: [],
+      id: uuid(),
+    }
+];

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { shuffle, uniqueId } from 'lodash';
+import { shuffle } from 'lodash';
+import { v4 as uuid } from 'uuid';
 
 const prismaClient = new PrismaClient();
 
@@ -37,7 +38,7 @@ export const createInstanceOfDeck = async (deck) => {
 
     const cardIds = Object.keys(cardMap);
 
-    const cards = await prismaClient.user.findMany({
+    const cards = await prismaClient.card.findMany({
         where: {
             id: {
                 in: cardIds,
@@ -46,7 +47,7 @@ export const createInstanceOfDeck = async (deck) => {
     });
 
     if (cards.length !== cardIds.length) {
-        console.log('WARNING unexpected card count returned for deck', { deck, cards });
+        console.log('WARNING unexpected card count returned for deck', { deck, cards, cardIds });
     }
 
     const output = [];
@@ -55,7 +56,7 @@ export const createInstanceOfDeck = async (deck) => {
         for(let i = 0; i < cardMap[card.id]; i++) {
             output.push({
                 ...card,
-                instanceId: uniqueId(),
+                instanceId: uuid(),
             })
         }
     });

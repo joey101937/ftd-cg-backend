@@ -23,7 +23,7 @@ export const getGamesOfUser = async (userId, includeFinished) => {
         };
 
         if(!includeFinished) {
-            queryObj.where.OR.status = {
+            queryObj.where.status = {
                 equals: 'active'
             }
         }
@@ -64,6 +64,7 @@ export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayou
     const attackingDeck = (await getDeckById(attackingPlayer.meta.activeDeckId)) || testDefaultDeck;
     const defendingDeck = (await getDeckById(defendingPlayer.meta.activeDeckId)) || testDefaultDeck;
 
+    
     const attackingPlayerDeckInstance = await createInstanceOfDeck(attackingDeck);
     const defendingPlayerDeckInstance = await createInstanceOfDeck(defendingDeck);
 
