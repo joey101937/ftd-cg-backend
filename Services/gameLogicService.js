@@ -78,6 +78,9 @@ export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
     if(card.type === CARD_TYPES.VEHICLE) {
         if(card.vehicleType === VEHICLE_TYPES.SUB && isSubScreened) return false;
         if(card.vehicleType === VEHICLE_TYPES.FLIER && isAirScreened) return false;
+    } else {
+        // abilityCard has a play on zone effect
+        return !!card.meta.playOnZoneEffect;
     }
 
     return true;

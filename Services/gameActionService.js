@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { canCardBePlayedToZone, canPlayerAffordCard, getResourcesForTurn, hasKeyword } from "./gameLogicService";
 import { CARD_TYPES, GAME_ACTION_TYPES, VEHICLE_KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
+import { cardEffects } from "./cardEffectHandler";
 
 const prismaClient = new PrismaClient();
 
@@ -136,6 +137,16 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
             game.attackingPlayerMaterials -= materialCost;
             game.attackingPlayerCp -= playingCard.cpCost;
         }
+    }
+
+    if(playingCard.meta.onPlayEffect) {
+        const func = cardEffects[playingCard.meta.onPlayEffect];
+        func({
+            game,
+            playingCard,
+            playerId,
+            targetZone,
+        });
     }
 
     const updatedGame = await prismaClient.game.update({
