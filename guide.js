@@ -1,5 +1,5 @@
 ///
-///  this is general schema that im going to try to stick to
+///  this is general schema that im going to try to implement
 ///
 ///
 ///

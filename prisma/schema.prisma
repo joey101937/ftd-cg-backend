@@ -21,7 +21,8 @@ model User {
 
 model Game {
   id String @id @default(uuid())
-  staus String @default("active")
+  status String @default("active")
+  meta Json @default("{}")
   
   attackingPlayerId String
   defendingPlayerId String
@@ -58,6 +59,7 @@ model Deck {
   name String
   playerId String
   meta Json @default("{}")
+  // contains cards field that maps card id to integer quantity
 
   player User @relation(fields: [playerId], references: [id])
 }
@@ -66,7 +68,7 @@ model Card {
   id String @id @default(uuid())
   name String
   isBuiltIn Boolean @default(false) // true = base game card, false = custom card
-  playerId String
+  playerId String?
   imageUrl String?
   blueprint String?
   blueprintCost Int
@@ -82,5 +84,6 @@ model Card {
   //  isAirScreen: false,
   //  isSubScreen: false,
   //  isTemporary: false,
-  player User @relation(fields: [playerId], references: [id])
+  // may also contain the anti surface/air/sub capabilities for ui display
+  player User? @relation(fields: [playerId], references: [id])
 }

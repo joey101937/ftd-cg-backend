@@ -91,3 +91,33 @@ export const loginAndGenerateJwt = async (username, password) => {
         statusCode: 200,
     }
 }
+
+export const getActiveDeckOfPlayer = async (userId) => {
+    const user = await prismaClient.user.findFirst({
+        where: {
+            id: {
+                equals: userId
+            }
+        }
+    });
+
+    if(!user) {
+        console.log(`warning attempting to get active deck of user who was not found- id ${userId}`)
+        return null;
+    }
+
+    if(user.meta.activeDeckId) {
+        const foundDeck = prismaClient.deck.findFirst({
+            where: {
+                id: {
+                    equals: user.meta.activeDeck
+                }
+            }
+        });
+
+        return foundDeck || testDefaultDeck;
+    } else {
+        return testDefaultDeck;
+    }
+}
+

@@ -1,9 +1,0 @@
-THESE 3 LINKS SHOULD BE ALL INFO THAT IS REQUIRED
- 
-https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment
-https://stackoverflow.com/questions/28782656/how-to-run-node-js-app-with-es6-features-enabled
-https://jestjs.io/docs/en/getting-started
-
-1st: express- runs as node API
-2nd: babel- allows ES6 syntax (ie. import x from "./x")
-3rd: jest- unit tests
