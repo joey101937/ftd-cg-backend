@@ -23,7 +23,7 @@ export const getUserIdFromJwt = (token) => {
 }
 
 export const getUserIdFromRequest = (req) => {
-    const authHeader = get(req, 'headers.authorization', '');
+    const authHeader = req.headers?.authorization || '';
     return getUserIdFromJwt(authHeader.substring(7));
 }
 
