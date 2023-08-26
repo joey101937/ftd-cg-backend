@@ -1,7 +1,7 @@
 
 
 export const cardEffects = {
-    marauderEffect = ({game, playerId}) => {
+    marauderEffect: ({game, playerId}) => {
 
     }
 };
