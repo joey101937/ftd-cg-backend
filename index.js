@@ -6,6 +6,7 @@ import { loginHandler } from './routes/login';
 import { getDecksHandler } from './routes/getDecks';
 import { getDefaultCardsHandler } from './routes/getDefaultCards';
 import { getGamesOfUserHandler } from './routes/getGamesOfUser';
+import { createGameHandler } from './routes/createGame';
 
 const app = express();
 const port = 8000;
@@ -21,6 +22,8 @@ app.get('/mydecks', getDecksHandler);
 app.get('/myCards', getDecksHandler);
 app.get('/myGames', getGamesOfUserHandler);
 app.get('/defaultCards', getDefaultCardsHandler);
+
+app.post('/createGame', createGameHandler);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);

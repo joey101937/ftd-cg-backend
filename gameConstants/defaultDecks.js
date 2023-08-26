@@ -1,4 +1,4 @@
-const testDefaultDeck = {
+export const testDefaultDeck = {
     name: 'test deault deck',
     playerId: null,
     meta: {

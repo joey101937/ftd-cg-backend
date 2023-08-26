@@ -5,16 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "babel-node --presets es2015 index.js",
+    "start": "nodemon --exec babel-node index.js",
     "migrate-up": "sequelize-cli db:migrate",
     "migrate-down": "sequelize-cli db:migrate:undo"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.22.11",
+    "@babel/node": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
     "@prisma/client": "4.12.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "latest",
     "bcrypt": "^5.1.1",
     "body-parser": "1.20.2",
     "dotenv": "16.3.1",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "eslint": "8.38.0",
-    "prisma": "4.12.0"
+    "prisma": "4.12.0",
+    "nodemon": "3.0.1"
   }
 }

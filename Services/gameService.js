@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { createInstanceOfDeck, getDeckById } from './deckService';
 import { STARTING_CP_AMOUNT, STARTING_HAND_SIZE } from '../gameConstants/gameSettings';
+import { testDefaultDeck } from '../gameConstants/defaultDecks';
 
 const prismaClient = new PrismaClient();
 
@@ -88,13 +89,13 @@ export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayou
         attackingPlayerHand,
         defendingPlayerHand,
         attackingPlayerCp: STARTING_CP_AMOUNT,
-        defendingingPlayerCp: STARTING_CP_AMOUNT,
+        defendingPlayerCp: STARTING_CP_AMOUNT,
         attackingPlayerAvailableHeroPowers: [], // todo
         defendingPlayerAvailableHeroPowers: [], // todo
         meta: {},
     };
 
-    const dbResult = await prismaClient.game.create(game);
+    const dbResult = await prismaClient.game.create({data: game});
 
     return {data: dbResult, status: 200};
 }

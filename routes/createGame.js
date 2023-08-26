@@ -1,7 +1,7 @@
 import { createGame } from "../Services/gameService";
 import { standardZoneLayout } from "../gameConstants/zoneLayouts";
 
-export const craeteGameHandler = async (req, res) => {
+export const createGameHandler = async (req, res) => {
     
     const {attackingPlayerId, defendingPlayerId, zoneLayout = 'standard'} = req.body;
 
