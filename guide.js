@@ -5,6 +5,44 @@
 ///
 
 const vision = [
+    // game
+    {
+        id: 'abc',
+        status: 'active', // active complete canceled
+        winningPlayerId: null, // only on complete games
+        losingPlayerId: null, // only on complete games
+        
+        attackingPlayerId: '123',
+        defendingPlayerId: '456',
+        attackingPlayerUsername: 'asdasdasdad',
+        defendingPlayerUsername: 'asdasdasdad',
+
+        attackingPlayerDeck: [/* card ids here */],
+        defendingPlayerDeck: [/* card ids here */],
+
+        attackingPlayerHand: [/* card ids here */],
+        defendingPlayerHand: [/* card ids here */],
+
+        attackingPlayerCp: 1,
+        defendingPlayerCp: 2,
+
+        attackingPlayerAvailableHeroPowers: [/** names of hero powers that are still available */],
+        defendingPlayerAvailableHeroPowers: [],
+
+        isAttackingPlayersTurn: false, // false means defending players turn
+
+        zones: [
+          {
+            type: 'water', // beach, land
+            attackingPlayerCards: [],
+            defendingPlayerCards: [],
+            attackingPlayerHp: 500,
+            attackingPlayerhp: 500,
+            attackingPlayerActiveEffects: [],
+            defendinPlayerActiveEffects: [],
+          }
+        ],
+      },
      //player
      {
         username: 'aksdjbad',

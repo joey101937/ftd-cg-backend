@@ -13,4 +13,74 @@ model User {
   username String @unique
   password String
   meta Json @default("{}")
+  offensiveGames Game[] @relation("attackingPlayer")
+  defensiveGames Game[] @relation("defendingPlayer")
+  decks Deck[]
+  cards Card[]
+}
+
+model Game {
+  id String @id @default(uuid())
+  staus String @default("active")
+  
+  attackingPlayerId String
+  defendingPlayerId String
+  
+  winningPlayerId String?
+  losingPlayerId String?
+  
+  
+  attackingPlayerUsername String
+  defendingPlayerUsername String
+
+  attackingPlayerDeckInstance Json @default("[]")
+  defendingPlayerDeckInstance Json @default("[]")
+
+  attackingPlayerHand Json @default("[]")
+  defendingPlayerHand Json @default("[]")
+
+  attackingPlayerCp Int @default(0)
+  defendingPlayerCp Int @default(0)
+
+  attackingPlayerAvailableHeroPowers Json @default("[]")
+  defendingPlayerAvailableHeroPowers Json @default("[]")
+
+  isAttackingPlayersTurn Boolean @default(true)
+
+  zones Json
+
+  attackingPlayer User @relation("attackingPlayer", fields: [attackingPlayerId], references: [id])
+  defendingPlayer User @relation("defendingPlayer", fields: [defendingPlayerId], references: [id])
+}
+
+model Deck {
+  id String @id @default(uuid())
+  name String
+  playerId String
+  meta Json @default("{}")
+
+  player User @relation(fields: [playerId], references: [id])
+}
+
+model Card {
+  id String @id @default(uuid())
+  name String
+  isBuiltIn Boolean @default(false) // true = base game card, false = custom card
+  playerId String
+  imageUrl String?
+  blueprint String?
+  blueprintCost Int
+  materialCost Int
+  cpCost Int @default(0)
+  type String // vehicle or ability
+  vehicleType String? // ship, tank, sub, flier
+  cardText String
+  meta Json @default("{}")
+  //  meta contains
+  //  isBlocker: false,
+  //  isScrappy: false,
+  //  isAirScreen: false,
+  //  isSubScreen: false,
+  //  isTemporary: false,
+  player User @relation(fields: [playerId], references: [id])
 }
