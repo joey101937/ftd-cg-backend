@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { getSequelize } from '../sequelize/models/index';
+import { PrismaClient } from '@prisma/client'
 
-const {sequelize, models} = getSequelize();
-
+const prismaClient = new PrismaClient();
 
 const hashPassword = async (plaintextPassword) => {
     const saltRounds = 10;
@@ -14,14 +13,14 @@ const hashPassword = async (plaintextPassword) => {
 export const createUser = async (username, password) => {
     try {
         const hashedPassword = await hashPassword(password)
-        const dbRes = await sequelize.models.User.build({
+        const dbRes = await prismaClient.User.create({
             data: { username, password: hashedPassword }
         });
 
         const token = jwt.sign({
             id: dbRes.id,
             username: dbRes.username,
-        }, secretKey);
+        }, process.env.SECRET_KEY);
 
         return { data: dbRes, jwt: token, statusCode: 200 };
     } catch (e) {

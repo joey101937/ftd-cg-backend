@@ -1,6 +1,0 @@
-{
-  "development": {
-    "url": "postgres://ipbnqywu:CeD35Ip7ZPky2CIvLZBX2yJNiLAIhhA8@batyr.db.elephantsql.com/ipbnqywu",
-    "dialect": "postgres"
-  }
-}
