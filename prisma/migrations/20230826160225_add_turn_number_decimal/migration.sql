@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Game" ADD COLUMN     "turnNumber" DECIMAL(65,30) NOT NULL DEFAULT 1;

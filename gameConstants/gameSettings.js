@@ -9,6 +9,9 @@ export const GAME_STATUSES = {
 
 export const GAME_ACTION_TYPES = {
     PLAY_CARD_TO_ZONE: 'PLAY_CARD_TO_ZONE', // Either plays vehicle or applies ability effect to zone
+    ATTACK_ENEMY_BASE: 'ATTACK_ENEMY_BASE',
+    START_FLEET_BATTLE: 'START_FLEET_BATTLE',
+    END_TURN: 'END_TURN',
 }
 
 export const CARD_TYPES = {
@@ -35,4 +38,6 @@ export const VEHICLE_KEYWORDS = {
     BLOCKER: 'blocker',
     SCRAPPY: 'scrappy',
     TEMPORARY: 'temporary',
+    INOFFENSIVE: 'inoffensive',
+    HALF_COST: 'halfCost', // for fliers, they are half cost by default
 }

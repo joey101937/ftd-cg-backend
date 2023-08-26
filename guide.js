@@ -25,6 +25,10 @@ const vision = [
 
         attackingPlayerCp: 1,
         defendingPlayerCp: 2,
+        attackingPlayerMaterials: 1,
+        defendingPlayerMaterials: 2,
+
+        turnNumber: 1.5,
 
         attackingPlayerAvailableHeroPowers: [/** names of hero powers that are still available */],
         defendingPlayerAvailableHeroPowers: [],

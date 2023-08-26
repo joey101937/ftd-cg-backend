@@ -48,8 +48,8 @@ export const createUser = async (username, password) => {
         return { data: dbRes, jwt: token, statusCode: 200 };
     } catch (e) {
         console.log(e.message, e);
-        const unqiueConstraintFailed = e.code === 'P2002';
-        if (unqiueConstraintFailed) {
+        const uniqueConstraintFailed = e.code === 'P2002';
+        if (uniqueConstraintFailed) {
             return { error: 'Username already taken', statusCode: 400 };
         } else {
             return { error: 'Internal Server Error', statusCode: 500 };

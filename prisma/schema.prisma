@@ -23,6 +23,8 @@ model Game {
   id String @id @default(uuid())
   status String @default("active")
   meta Json @default("{}")
+
+  turnNumber Decimal @default(1) // 1 = attackers t1, 1.5 = defenders t1. 2 = attackers t2, 2.5 = defenders t2
   
   attackingPlayerId String
   defendingPlayerId String
@@ -72,7 +74,7 @@ model Card {
   isBuiltIn Boolean @default(false) // true = base game card, false = custom card
   playerId String?
   imageUrl String?
-  blueprint String?
+  blueprintId String?
   blueprintCost Int
   materialCost Int
   cpCost Int @default(0)
@@ -84,4 +86,12 @@ model Card {
   // keywords: ['blocker', 'scrappy', airScreen, 'subScreen', 'temporary']
   // may also contain the anti surface/air/sub capabilities for ui display
   player User? @relation(fields: [playerId], references: [id])
+}
+
+model blueprint {
+  id String @id @default(uuid())
+  meta Json @default("{}")
+  blueprintCost Int @default(0)
+  name String?
+  blueprintRaw Json?
 }

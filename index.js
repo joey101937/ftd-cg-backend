@@ -29,5 +29,5 @@ app.post('/createGame', createGameHandler);
 app.post('/gameAction', gameActionHandler);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
+  console.log(`FTD-CG listening on port ${port}!`);
 });

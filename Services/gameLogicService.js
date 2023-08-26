@@ -78,3 +78,14 @@ export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
 
     return true;
 }
+
+
+/*
+    at the start of each turn, player's resources are set to a certain amount
+    turnNumber 1 = attacking player turn 1
+    turnNumber 2 = defending player turn 1
+*/
+export const getResourcesForTurn = (turnNumber) => {
+    const realTurnNumber = Math.floor(turnNumber);
+    return realTurnNumber*50000;
+}
