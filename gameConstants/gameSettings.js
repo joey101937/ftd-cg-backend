@@ -54,3 +54,12 @@ export const FACTIONS = {
     WF: 'WF',
     GT: 'GT',
 };
+
+// these are keys that a card can have in its meta that point to a particular effect that triggers at the corresponding time
+export const TRIGGERS = {
+    ON_PLAY: 'onPlayEffect', // triggers when the card is played without target
+    PLAY_ON_ZONE: 'playOnZoneEffect', // triggers against a specified zone
+    PLAY_ON_VEHICLE: 'playOnVehicleEffect', // triggers against a specified vehicle (on board)
+    PLAY_ON_CARD: 'playOnCardEffect', // triggers against a specified card (in hand)
+    ON_DEATH: 'onDeathEffect',
+};

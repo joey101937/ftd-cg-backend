@@ -1,4 +1,4 @@
-import { FACTIONS, VEHICLE_KEYWORDS } from "../gameSettings";
+import { FACTIONS, TRIGGERS, VEHICLE_KEYWORDS } from "../gameSettings";
 
 export const owVehicles = [
     {
@@ -31,7 +31,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            playOnVehicleEffect: 'trebuchetEffect',
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'trebuchetEffect',
             keywords: [VEHICLE_KEYWORDS.SCRAPPY]
         }
     },
@@ -49,7 +49,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            playOnVehicleEffect: 'subKillerEffect',
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'subKillerEffect',
         }
     },{
         name: 'Claymore',
@@ -65,7 +65,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            playOnGameEffect: 'claymoreEffect'
+            [TRIGGERS.ON_PLAY]: 'claymoreEffect'
         }
     },
     {
@@ -82,7 +82,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            playOnGameEffect: 'palisadeEffect'
+            [TRIGGERS.ON_PLAY]: 'palisadeEffect'
         }
     },{
         name: 'Defensive Palisade',
@@ -98,7 +98,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            playOnZoneEffect: 'defensivePalisadeEffect',
+            [TRIGGERS.PLAY_ON_ZONE]: 'defensivePalisadeEffect',
         }
     },
 ];

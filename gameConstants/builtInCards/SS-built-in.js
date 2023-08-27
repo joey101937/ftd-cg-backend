@@ -1,4 +1,4 @@
-import { FACTIONS, VEHICLE_KEYWORDS } from "../gameSettings";
+import { FACTIONS, TRIGGERS, VEHICLE_KEYWORDS } from "../gameSettings";
 
 export const ssVehicles = [
     {
@@ -63,7 +63,7 @@ export const ssVehicles = [
         faction: FACTIONS.SS,
         blueprintId: null,
         meta: {
-            playOnZoneEffect: 'auroraStrafeEffect'
+            [TRIGGERS.PLAY_ON_ZONE]: 'auroraStrafeEffect'
         }
     },{
         name: 'Repairmen Ready',
@@ -79,7 +79,7 @@ export const ssVehicles = [
         faction: FACTIONS.SS,
         blueprintId: null,
         meta: {
-            playOnVehicleEffect: 'repairmenReadyEffect'
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'repairmenReadyEffect'
         }
     },{
         name: 'Excalibur',

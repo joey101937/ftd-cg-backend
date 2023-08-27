@@ -1,4 +1,4 @@
-import { FACTIONS, VEHICLE_KEYWORDS } from "../gameSettings";
+import { FACTIONS, VEHICLE_KEYWORDS, TRIGGERS } from "../gameSettings";
 
 export const dwgVehicles = [
     {
@@ -15,7 +15,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            onPlayEffect: 'marauderOnPlay'
+            [TRIGGERS.ON_PLAY]: 'marauderOnPlay'
         }
     }, 
     {
@@ -32,7 +32,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            onPlayEffect: 'crossbonesOnPlay',
+            [TRIGGERS.ON_PLAY]: 'crossbonesOnPlay',
             keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         }
     },
@@ -133,7 +133,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            onDeathEffect: 'loggerheadOnDeath',
+            [TRIGGERS.ON_DEATH]: 'loggerheadOnDeath',
             keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         }
     },{
@@ -150,7 +150,23 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            playOnGameEffect: 'reservesEffect',
+            [TRIGGERS.ON_PLAY]: 'reservesEffect',
+        }
+    },{
+        name: 'Buccaneer',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 230000,
+        blueprintCost: 230639,
+        cpCost: 0,
+        imageUrl: 'buccaneer.png',
+        playerId: null,
+        vehicleType: 'flier',
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        meta: {
+            keywords: [VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         }
     },{
         name: 'Spawn Buccaneer',
@@ -166,7 +182,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            playOnZoneEffect: 'spawnBuccaneerEffect',
+            [TRIGGERS.PLAY_ON_ZONE]: 'spawnBuccaneerEffect',
         }
     },{
         name: 'Double Up',
@@ -182,7 +198,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            playOnCardEffect: 'doubleUpEffect',
+            [TRIGGERS.PLAY_ON_CARD]: 'doubleUpEffect',
         }
     },{
         name: 'DWG Waters',
@@ -198,7 +214,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            playOnZoneEffect: 'dwgWatersEffect',
+            [TRIGGERS.PLAY_ON_ZONE]: 'dwgWatersEffect',
         }
     },{
         name: 'Gang Up',
@@ -214,7 +230,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            playOnVehicleEffect: 'gangUpEffect',
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'gangUpEffect',
         }
     },{
         name: 'Ongoing Attrition',
@@ -230,7 +246,7 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            playOnZoneEffect: 'ongoingAttritionEffect',
+            [TRIGGERS.PLAY_ON_ZONE]: 'ongoingAttritionEffect',
         }
     }
 ];
