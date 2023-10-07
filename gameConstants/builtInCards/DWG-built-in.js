@@ -248,5 +248,37 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'ongoingAttritionEffect',
         }
+    },{
+        name: 'Abactor',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 150000,
+        blueprintCost: 156600,
+        cpCost: 0,
+        imageUrl: 'abactor.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        meta: {
+            keywords: [],
+        }
+    },{
+        name: 'Albacore',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 240000,
+        blueprintCost: 249522,
+        cpCost: 0,
+        imageUrl: 'albacore.png',
+        playerId: null,
+        vehicleType: 'flier',
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        meta: {
+            keywords: [keywords.HALF_COST, keywords.TEMPORARY],
+        }
     }
 ];
