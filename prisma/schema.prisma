@@ -83,10 +83,9 @@ model Card {
   vehicleType String? // ship, tank, sub, flier
   cardText String
   meta Json @default("{}")
+  keywords Json @default("[]") // keywords: ['blocker', 'scrappy', airScreen, 'subScreen', 'temporary', 'inoffensive']
   faction String @default("NEUTRAL")
-  //  meta contains
-  // keywords: ['blocker', 'scrappy', airScreen, 'subScreen', 'temporary']
-  // may also contain the anti surface/air/sub capabilities for ui display
+  // meta also contain the anti surface/air/sub capabilities for ui display
   player User? @relation(fields: [playerId], references: [id])
 }
 

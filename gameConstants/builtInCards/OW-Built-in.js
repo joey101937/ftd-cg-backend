@@ -14,8 +14,8 @@ export const owVehicles = [
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.AIR_SCREEN],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.AIR_SCREEN]
         }
     },{
         name: 'Trebuchet',
@@ -30,9 +30,9 @@ export const owVehicles = [
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
             [TRIGGERS.PLAY_ON_VEHICLE]: 'trebuchetEffect',
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY]
         }
     },
     {

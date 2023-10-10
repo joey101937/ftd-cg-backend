@@ -96,10 +96,7 @@ export const cardEffects = {
 
         arrayToAddTo.push({
             ...card,
-            meta: {
-                ...card.meta,
-                keywords: [VEHICLE_KEYWORDS.SCRAPPY],
-            }
+            keywords: [VEHICLE_KEYWORDS.SCRAPPY],
         });
 
         return true;

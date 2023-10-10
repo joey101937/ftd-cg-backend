@@ -1,7 +1,7 @@
 import { CARD_TYPES, VEHICLE_KEYWORDS, VEHICLE_TYPES, ZONE_TYPES } from "../gameConstants/gameSettings";
 
 export const hasKeyword = (vehicle, keyword) => {
-    return vehicle?.meta?.keywords?.includes(keyword) || false;
+    return vehicle?.keywords?.includes(keyword) || false;
 };
 
 export const canPlayerAffordCard = (game, card, playerId) => {

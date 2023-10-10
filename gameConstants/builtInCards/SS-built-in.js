@@ -14,8 +14,8 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.BLOCKER],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.BLOCKER]
         }
     },{
         name: 'Victoria',
@@ -30,8 +30,8 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY]
         }
     },{
         name: 'Resolute',
@@ -46,8 +46,8 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY]
         }
     },{
         name: 'Aurora Strafe',
@@ -94,8 +94,8 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.BLOCKER],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.BLOCKER]
         }
     }
 ];

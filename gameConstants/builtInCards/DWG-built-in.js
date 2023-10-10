@@ -31,9 +31,9 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
             [TRIGGERS.ON_PLAY]: 'crossbonesOnPlay',
-            keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         }
     },
     {
@@ -49,8 +49,8 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY],
         }
     },{
         name: 'Plunderer',
@@ -65,9 +65,9 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
             costModifier: 'plundererCostModifier',
-            keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         }
     },{
         name: 'Tarpon',
@@ -82,8 +82,8 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY, VEHICLE_KEYWORDS.SUB_SCREEN, VEHICLE_KEYWORDS.AIR_SCREEN],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY, VEHICLE_KEYWORDS.SUB_SCREEN, VEHICLE_KEYWORDS.AIR_SCREEN],
         }
     },{
         name: 'Corsair',
@@ -98,9 +98,9 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         meta: {
             additionalSpawns: 1,
-            keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
         }
     },{
         name: 'Land Marauder',
@@ -115,9 +115,9 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.AIR_SCREEN],
         meta: {
             additionalSpawns: 1,
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.AIR_SCREEN],
         }
     },{
         name: 'Loggerhead',
@@ -132,9 +132,9 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         meta: {
             [TRIGGERS.ON_DEATH]: 'loggerheadOnDeath',
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         }
     },{
         name: 'Reserves',
@@ -165,8 +165,8 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         meta: {
-            keywords: [VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         }
     },{
         name: 'Spawn Buccaneer',
@@ -262,7 +262,6 @@ export const dwgVehicles = [
         faction: FACTIONS.DWG,
         blueprintId: null,
         meta: {
-            keywords: [],
         }
     },{
         name: 'Albacore',
@@ -277,8 +276,8 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [VEHICLE_KEYWORDS.HALF_COST, VEHICLE_KEYWORDS.TEMPORARY],
         meta: {
-            keywords: [keywords.HALF_COST, keywords.TEMPORARY],
         }
     }
 ];
