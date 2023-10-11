@@ -6,11 +6,12 @@ import { v4 as uuid } from "uuid";
 const prismaClient = new PrismaClient();
 
 export const cardEffects = {
-    // draw a card
+    // draw a card and gain 1 cp
     marauderOnPlay: ({game, playerId, playingCard, actionBody}) => {
         const playersHand = getPlayerHand(game, playerId);
         const drawnCard = getPlayerDeckInstance(game, playerId).shift();
         playersHand.push(drawnCard);
+        addCpToPlayer(game, playerId, 1);
         return true;
     },
 
@@ -102,11 +103,13 @@ export const cardEffects = {
         return true;
     },
 
-    // Target DWG vehicle card in hand spawns an additional copy of that vehicle when played
+    // Target DWG vehicle card in hand spawns an additional copy of that vehicle when played if it costs less than 400k
     doubleUpEffect: ({game, playerId, actionBody}) => {
         const {targetCardInstanceId} = actionBody;
         const hand = getPlayerHand(game, playerId);
         const targetCard = hand.find(x => x.instanceId === targetCardInstanceId);
+        if(targetCard.materialCost > 400000) return false;
+
         if(targetCard.meta.additionalSpawns) {
             targetCard.meta.additionalSpawns += 1;
         } else {

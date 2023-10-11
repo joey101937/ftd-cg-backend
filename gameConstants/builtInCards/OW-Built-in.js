@@ -38,7 +38,7 @@ export const owVehicles = [
     {
         name: 'Sub Killer',
         isBuiltIn: true,
-        cardText: 'Target an enemy submarine or flier vehicle. Remove it from play.',
+        cardText: 'Target an enemy submarine or plane vehicle. Remove it from play.',
         materialCost: 0,
         blueprintCost: 0,
         cpCost: 2,

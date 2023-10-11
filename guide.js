@@ -80,7 +80,7 @@ const vision = [
           materialCost: 50000, // how much card costs to play
           cpCost: 0, // how much cp card costs to play
           type: 'vehicle', // alternatively ability
-          vehicleType: 'ship', // as opposed to flier, sub
+          vehicleType: 'ship', // as opposed to plane, sub
           cardText: 'ability text here if applicable',
           isBlocker: false,
           isScrappy: false,

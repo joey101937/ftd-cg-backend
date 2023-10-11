@@ -21,8 +21,9 @@ export const CARD_TYPES = {
 
 export const VEHICLE_TYPES = {
     SHIP: 'ship',
+    AIRSHIP: 'airship',
     TANK: 'tank',
-    FLIER: 'flier',
+    PLANE: 'plane',
     SUB: 'sub',
 };
 
@@ -39,7 +40,7 @@ export const VEHICLE_KEYWORDS = {
     SCRAPPY: 'scrappy',
     TEMPORARY: 'temporary',
     INOFFENSIVE: 'inoffensive',
-    HALF_COST: 'halfCost', // for fliers, they are half cost by default
+    HALF_COST: 'halfCost', // for planes, they are half cost by default
 };
 
 

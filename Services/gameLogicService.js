@@ -42,7 +42,8 @@ export const canCardBePlayedToZoneType = (card, zoneType) => {
             case VEHICLE_TYPES.SHIP: return zoneType === ZONE_TYPES.WATER || zoneType === ZONE_TYPES.BEACH;
             case VEHICLE_TYPES.SUB: return zoneType === ZONE_TYPES.WATER || zoneType === ZONE_TYPES.BEACH;
             case VEHICLE_TYPES.TANK: return zoneType === ZONE_TYPES.LAND || zoneType === ZONE_TYPES.BEACH;
-            case VEHICLE_TYPES.FLIER: return true;
+            case VEHICLE_TYPES.AIRSHIP: return true;
+            case VEHICLE_TYPES.PLANE: return true;
             default:
                 console.log('WARNING canCardBePlayedToZone called on vehicle card with invalid or missing vehicleType', card);
                 return true;
@@ -77,7 +78,7 @@ export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
 
     if(card.type === CARD_TYPES.VEHICLE) {
         if(card.vehicleType === VEHICLE_TYPES.SUB && isSubScreened) return false;
-        if(card.vehicleType === VEHICLE_TYPES.FLIER && isAirScreened) return false;
+        if(card.vehicleType === VEHICLE_TYPES.PLANE && isAirScreened) return false;
     } else {
         // abilityCard has a play on zone effect
         return !!card.meta.playOnZoneEffect;
