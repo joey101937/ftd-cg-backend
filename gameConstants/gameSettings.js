@@ -10,7 +10,8 @@ export const GAME_STATUSES = {
 export const GAME_ACTION_TYPES = {
     PLAY_CARD_TO_ZONE: 'PLAY_CARD_TO_ZONE', // Either plays vehicle or applies ability effect to zone
     ATTACK_ENEMY_BASE: 'ATTACK_ENEMY_BASE',
-    START_FLEET_BATTLE: 'START_FLEET_BATTLE',
+    SUBMIT_PENDING_CHANGE: 'SUBMIT_PENDING_CHANGE',
+    DECIDE_PENDING_CHANGE: 'DECIDE_PENDING_CHANGE',
     END_TURN: 'END_TURN',
 };
 
@@ -62,5 +63,7 @@ export const TRIGGERS = {
     PLAY_ON_ZONE: 'playOnZoneEffect', // triggers against a specified zone
     PLAY_ON_VEHICLE: 'playOnVehicleEffect', // triggers against a specified vehicle (on board)
     PLAY_ON_CARD: 'playOnCardEffect', // triggers against a specified card (in hand)
-    ON_DEATH: 'onDeathEffect',
+    ON_DEATH: 'onDeathEffect', // triggers when card is destroyed
+    ON_BATTLE_EFFECT: 'onBattleEffect', // triggers when the card is played via battleReport pendingChange. parameter for battle
+    ON_BATTLE_TARGETED_EFFECT: 'onBattleTargetedEffect', // triggers when the card is played via battleReport pendingChange. parameter for battle and target instance
 };

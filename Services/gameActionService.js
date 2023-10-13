@@ -2,7 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import { canCardBePlayedToZone, canPlayerAffordCard, getResourcesForTurn, hasKeyword } from "./gameLogicService";
 import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, VEHICLE_KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
 import { cardEffects } from "./cardEffectHandler";
-import { cloneDeep } from "lodash";
+import { cloneDeep, update } from "lodash";
+import { pendingChange } from "../gameConstants/schemas";
+import { getActiveCardsOfPlayer, isOwnerOfCardAttackerOrDefender, removeCardFromPlay } from "../utils";
 
 const prismaClient = new PrismaClient();
 
@@ -92,6 +94,53 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
 
     return { status: 200, data: updatedGame };
 
+};
+
+export const applyPendingDecision = async (game) => {
+    if(!game.pendingChange) return { status: 400, data: {error: 'Game has no pending change'} };
+    const validationResponse = pendingChange.validate(game.pendingChange);
+    if(validationResponse.error) return { status: 409, data: {error: `Pending change failed schema validation- ${validationResponse.error}`} };
+
+    const updatedGame = cloneDeep(game);
+    
+    const allActiveCards = [...getActiveCardsOfPlayer(updatedGame.attackingPlayerId), ...getActiveCardsOfPlayer(updatedGame.defendingPlayerId)];
+    const instanceIdsToDestroy = updatedGame.pendingChange.CardsToDestroy || [];
+    const instanceIdsToRepair = updatedGame.pendingChange.vehiclesToRepair || [];
+    
+    // remove destroyed vehicles
+    instanceIdsToDestroy.forEach(instanceId => {
+        removeCardFromPlay(updatedGame, instanceId);
+    });
+    // trigger on death effects
+    onDeathEffectError = null;
+    allActiveCards.filter(x => instanceIdsToDestroy.includes(x.instanceId)).forEach(destroyedCard => {
+        if(destroyedCard.meta[TRIGGERS.ON_DEATH]) {
+            const func = cardEffects[destroyedCard?.meta[TRIGGERS.ON_DEATH]];
+            if (!func) onDeathEffectError = `missing on death function ${destroyedCard.meta[TRIGGERS.ON_DEATH]}`;
+            if (!wasSuccess) onDeathEffectError = `Cards ON_DEATH trigger failed ${destroyedCard.instanceId}`;
+        };
+    });
+    if(onDeathEffectError) return { status: 500, data: {error: onDeathEffectError }};
+
+    // handle repair costs
+    allActiveCards.filter(x => instanceIdsToDestroy.includes(x.instanceId)).forEach(cardToRepair => {
+        const roleOfOwner = isOwnerOfCardAttackerOrDefender(updatedGame, cardToRepair); // attacker or defender
+        if(roleOfOwner === 'attacker') {
+            updatedGame.attackingPlayerMaterials -= (cardToRepair.materialCost/2);
+        }
+        if(roleOfOwner === 'defender') {
+            updatedGame.defendingPlayerMaterials -= (cardToRepair.materialCost/2);
+        }
+    });
+    if(updatedGame.defendingPlayerMaterials < 0 || updatedGame.attackingPlayerMaterials < 0) return {status: 400, data: { error: 'Repairs cannot be afforded' }};
+
+
+    // handle postBattleCardsPlayed
+    // these should attempt to proc effects if any and charge player for their cost if any
+
+    // TODO
+
+    return null;
 };
 
 /**
@@ -202,7 +251,29 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
     });
 
     return { status: 200, data: updatedGame };
+};
 
+export const submitPendingChangeHandler = async (game, actionBody, triggeringPlayerId) => {
+    const validationResponse = pendingChange.validate(actionBody);
+    if(!validationResponse.error) {
+        game.pendingChange = actionBody;
+        const updatedGame = await prismaClient.game.update(game);
+        return { status: 200, data: {updatedGame} };
+    } else {
+        return { status: 400, data: {error: `Validation Error: ${validationResponse.error}`}};
+    }
+};
+
+export const decidePendingChangeHandler = async (game, actionBody, triggeringPlayerId) => {
+    if(game.pendingChange.proposingPlayerId === triggeringPlayerId) return {status: 400, data: { error: 'You cannot approve your own proposal' }};
+    if(actionBody.decision === false) {
+        game.pendingChange = null;
+        const updatedGame = await prismaClient.game.update(game);
+        return { status: 200, data: {updatedGame} };
+    }
+
+    const result = await applyPendingDecision(game);
+    return result;
 };
 
 export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType, actionBody }) => {
@@ -216,6 +287,7 @@ export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType,
             id: {
                 equals: gameId,
             },
+            // make sure the triggering player is in the game
             OR: {
                 attackingPlayerId: { equals: triggeringPlayerId },
                 defendingPlayerId: { equals: triggeringPlayerId }
@@ -231,6 +303,8 @@ export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType,
         case GAME_ACTION_TYPES.PLAY_CARD_TO_ZONE: return await playCardToZoneHandler(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.ATTACK_ENEMY_BASE: return await attackEnemyBase(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.END_TURN: return await endTurnHandler(game, triggeringPlayerId);
+        case GAME_ACTION_TYPES.SUBMIT_PENDING_CHANGE: return await submitPendingChangeHandler(game, actionBody, triggeringPlayerId);
+        case GAME_ACTION_TYPES.DECIDE_PENDING_CHANGE: return await decidePendingChangeHandler(game, actionBody, triggeringPlayerId);
         default: return { status: 400, data: { error: `unknown actionType ${actionType}` } };
     }
 };

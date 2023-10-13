@@ -25,14 +25,14 @@ model Game {
   meta Json @default("{}")
 
   turnNumber Decimal @default(1) // 1 = attackers t1, 1.5 = defenders t1. 2 = attackers t2, 2.5 = defenders t2
-  activeBattle Json?
+  pendingChange Json? // contains updates to gamestate proposed by one player that must be approved by the other. 
+                      // used for battle results or other things ie correcting mistakes
   
   attackingPlayerId String
   defendingPlayerId String
   
   winningPlayerId String?
   losingPlayerId String?
-  
   
   attackingPlayerUsername String
   defendingPlayerUsername String
@@ -80,7 +80,7 @@ model Card {
   materialCost Int
   cpCost Int @default(0)
   type String // vehicle or ability
-  vehicleType String? // ship, tank, sub, plane
+  vehicleType String? // ship, tank, sub, plane, airship
   cardText String
   meta Json @default("{}")
   keywords Json @default("[]") // keywords: ['blocker', 'scrappy', airScreen, 'subScreen', 'temporary', 'inoffensive']

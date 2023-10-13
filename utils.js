@@ -14,6 +14,37 @@ export const getPlayerHand = (game, playerId) => {
     return isAttackingPlayer ? game.attackingPlayerHand : game.defendingPlayerHand;
 };
 
+export const getActiveCardsOfPlayer = (game, playerId) => {
+    const out = [];
+    if(game.attackingPlayerId === playerId) {
+        isAttackingPlayer = true;
+    }
+    game.zones.forEach(zone => {
+        const array = isAttackingPlayer ? zone.attackingPlayerCards : zone.defendingPlayerCards;
+        out.concat(array);
+    });
+
+    return out;
+};
+
+export const removeCardFromPlay = (game, instanceId) => {
+    game.zones.forEach(zone => {
+        zone.attackingPlayerCards = zone.attackingPlayerCards.filter(x => x.instanceId !== instanceId);
+        zone.defendingPlayerCards = zone.defendingPlayerCards.filter(x => x.instanceId !== instanceId);
+    });
+};
+
+export const isOwnerOfCardAttackerOrDefender = (game, instanceId) => {
+    const out = null;
+    game.zones.forEach(zone => {
+        if(zone.attackingPlayerCards.find(x => x.instanceId === instanceId)) out = 'attacker';
+        if(zone.defendingPlayerCards.find(x => x.instanceId === instanceId)) out = 'defender';
+    });
+    if(game.attackingPlayerHand.find(x => x.instanceId === instanceId)) out = 'attacker';
+    if(game.defendingPlayerHand.find(x => x.instanceId === instanceId)) out = 'defender';
+    return out;
+};
+
 
 export const getPlayerDeckInstance = (game, playerId) => {
     let isAttackingPlayer = false;
