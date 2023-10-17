@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { FACTIONS, VEHICLE_KEYWORDS } from "../gameConstants/gameSettings";
+import { FACTIONS, KEYWORDS } from "../gameConstants/gameSettings";
 import { addCpToPlayer, getPlayerDeckInstance, getPlayerHand, shuffleMutating } from "../utils";
 import { v4 as uuid } from "uuid";
 
@@ -97,7 +97,7 @@ export const cardEffects = {
 
         arrayToAddTo.push({
             ...card,
-            keywords: [VEHICLE_KEYWORDS.SCRAPPY],
+            keywords: [KEYWORDS.SCRAPPY],
         });
 
         return true;

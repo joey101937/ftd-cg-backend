@@ -1,4 +1,4 @@
-import { FACTIONS, TRIGGERS, VEHICLE_KEYWORDS } from "../gameSettings";
+import { FACTIONS, TRIGGERS, KEYWORDS } from "../gameSettings";
 
 export const ssVehicles = [
     {
@@ -14,7 +14,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.BLOCKER],
+        keywords: [KEYWORDS.BLOCKER],
         meta: {
         }
     },{
@@ -30,7 +30,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.SCRAPPY],
         meta: {
         }
     },{
@@ -46,7 +46,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.SCRAPPY],
         meta: {
         }
     },{
@@ -94,7 +94,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.BLOCKER],
+        keywords: [KEYWORDS.BLOCKER],
         meta: {
         }
     }

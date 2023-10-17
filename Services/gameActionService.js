@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { canCardBePlayedToZone, canPlayerAffordCard, doPlayersHaveNegativeResources, getResourcesForTurn, hasKeyword, payForCard } from "./gameLogicService";
-import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, VEHICLE_KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
+import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
 import { cardEffects } from "./cardEffectHandler";
 import { cloneDeep, update } from "lodash";
 import { pendingChange } from "../gameConstants/schemas";
@@ -22,14 +22,14 @@ const endTurnHandler = async (game, playerId) => {
         const drawnCard = game.defendingPlayerDeckInstance.shift();
         if (drawnCard) game.defendingPlayerHand.push(drawnCard);
         for (let i = 0; i < game.zones.length; i++) {
-            game.zones[i].defendingPlayerCards = game.zones[i].defendingPlayerCards.filter(x => !hasKeyword(x, VEHICLE_KEYWORDS.TEMPORARY));
+            game.zones[i].defendingPlayerCards = game.zones[i].defendingPlayerCards.filter(x => !hasKeyword(x, KEYWORDS.TEMPORARY));
         }
     } else {
         game.attackingPlayerMaterials = getResourcesForTurn(game.turnNumber);
         const drawnCard = game.attackingPlayerDeckInstance.shift();
         if (drawnCard) game.attackingPlayerHand.push(drawnCard);
         for (let i = 0; i < game.zones.length; i++) {
-            game.zones[i].attackingPlayerCards = game.zones[i].defendingPlayerCards.filter(x => !hasKeyword(x, VEHICLE_KEYWORDS.TEMPORARY));
+            game.zones[i].attackingPlayerCards = game.zones[i].defendingPlayerCards.filter(x => !hasKeyword(x, KEYWORDS.TEMPORARY));
         }
     }
 
@@ -63,7 +63,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
     if (`${targetZone.lastActivatedTurn}` == `${game.turnNumber}`) return { status: 400, data: { error: 'Zone already activated this turn' } };
 
     const enemyVehicles = isAttackingPlayer ? targetZone.defendingPlayerCards : targetZone.attackingPlayerCards;
-    const enemyHasBlockers = enemyVehicles.find(x => hasKeyword(x, VEHICLE_KEYWORDS.BLOCKER));
+    const enemyHasBlockers = enemyVehicles.find(x => hasKeyword(x, KEYWORDS.BLOCKER));
 
     if (enemyHasBlockers) return { status: 400, data: { error: 'Unable to attack base when enemy has blockers' } };
 
@@ -72,7 +72,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
     let damageToDeal = 0;
 
     friendlyVehicles.forEach(x => {
-        if (x.vehicleType && x.vehicleType !== VEHICLE_TYPES.SUB && `${x.meta.turnPlayed}` !== `${game.turnNumber}` && !hasKeyword(x, VEHICLE_KEYWORDS.INOFFENSIVE)) {
+        if (x.vehicleType && x.vehicleType !== VEHICLE_TYPES.SUB && `${x.meta.turnPlayed}` !== `${game.turnNumber}` && !hasKeyword(x, KEYWORDS.INOFFENSIVE)) {
             damageToDeal += (x.materialCost / 1000);
         }
     });
@@ -286,7 +286,7 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
         }
     }
 
-    const materialCost = hasKeyword(playingCard, VEHICLE_KEYWORDS.HALF_COST) ? playingCard.materialCost / 2 : playingCard.materialCost;
+    const materialCost = hasKeyword(playingCard, KEYWORDS.HALF_COST) ? playingCard.materialCost / 2 : playingCard.materialCost;
 
     if (playingCard.type === CARD_TYPES.VEHICLE) {
         playingCard.meta.turnPlayed = game.turnNumber;

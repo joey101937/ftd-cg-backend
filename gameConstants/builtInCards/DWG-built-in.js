@@ -1,4 +1,4 @@
-import { FACTIONS, VEHICLE_KEYWORDS, TRIGGERS, VEHICLE_TYPES } from "../gameSettings";
+import { FACTIONS, KEYWORDS, TRIGGERS, VEHICLE_TYPES } from "../gameSettings";
 
 export const dwgVehicles = [
     {
@@ -31,7 +31,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY],
         meta: {
             [TRIGGERS.ON_PLAY]: 'crossbonesOnPlay',
         }
@@ -49,7 +49,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.SCRAPPY],
         meta: {
         }
     },{
@@ -65,7 +65,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY],
         meta: {
             costModifier: 'plundererCostModifier',
         }
@@ -82,7 +82,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.SUB_SCREEN, VEHICLE_KEYWORDS.AIR_SCREEN],
+        keywords: [KEYWORDS.SUB_SCREEN, KEYWORDS.AIR_SCREEN],
         meta: {
         }
     },{
@@ -98,7 +98,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.BLOCKER, VEHICLE_KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY],
         meta: {
             additionalSpawns: 1,
         }
@@ -115,7 +115,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.AIR_SCREEN],
+        keywords: [KEYWORDS.SCRAPPY, KEYWORDS.AIR_SCREEN],
         meta: {
             additionalSpawns: 1,
         }
@@ -132,7 +132,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.SCRAPPY, VEHICLE_KEYWORDS.HALF_COST],
+        keywords: [KEYWORDS.SCRAPPY, KEYWORDS.HALF_COST],
         meta: {
             [TRIGGERS.ON_DEATH]: 'loggerheadOnDeath',
         }
@@ -165,7 +165,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.HALF_COST],
+        keywords: [KEYWORDS.HALF_COST],
         meta: {
         }
     },{
@@ -277,7 +277,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [VEHICLE_KEYWORDS.HALF_COST],
+        keywords: [KEYWORDS.HALF_COST],
         meta: {
         }
     }

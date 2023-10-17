@@ -1,4 +1,4 @@
-import { CARD_TYPES, VEHICLE_KEYWORDS, VEHICLE_TYPES, ZONE_TYPES } from "../gameConstants/gameSettings";
+import { CARD_TYPES, KEYWORDS, VEHICLE_TYPES, ZONE_TYPES } from "../gameConstants/gameSettings";
 
 export const hasKeyword = (vehicle, keyword) => {
     return vehicle?.keywords?.includes(keyword) || false;
@@ -25,7 +25,7 @@ export const payForCard = (inputGame, card, playerId) => {
         cpCost
     } = card;
 
-    const calcMaterialCost = hasKeyword(card, VEHICLE_KEYWORDS.HALF_COST) ? materialCost / 2 : materialCost;
+    const calcMaterialCost = hasKeyword(card, KEYWORDS.HALF_COST) ? materialCost / 2 : materialCost;
 
     if(isAttackingPlayer) {
         inputGame.attackingPlayerCp -= cpCost;
@@ -75,8 +75,8 @@ export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
 
     const enemyCards = attackingPlayerCard ? zone.defendingPlayerCards : zone.attackingPlayerCards;
     
-    const isSubScreened = enemyCards.find(x => hasKeyword(x, VEHICLE_KEYWORDS.SUB_SCREEN));
-    const isAirScreened = enemyCards.find(x => hasKeyword(x, VEHICLE_KEYWORDS.AIR_SCREEN));
+    const isSubScreened = enemyCards.find(x => hasKeyword(x, KEYWORDS.SUB_SCREEN));
+    const isAirScreened = enemyCards.find(x => hasKeyword(x, KEYWORDS.AIR_SCREEN));
 
     if(card.type === CARD_TYPES.VEHICLE) {
         if(card.vehicleType === VEHICLE_TYPES.SUB && isSubScreened) return false;

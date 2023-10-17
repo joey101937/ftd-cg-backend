@@ -34,7 +34,7 @@ export const ZONE_TYPES = {
     LAND: 'land',
 };
 
-export const VEHICLE_KEYWORDS = {
+export const KEYWORDS = {
     AIR_SCREEN: 'airScreen',
     SUB_SCREEN: 'subScreen',
     BLOCKER: 'blocker',
