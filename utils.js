@@ -16,6 +16,7 @@ export const getPlayerHand = (game, playerId) => {
 
 export const getActiveCardsOfPlayer = (game, playerId) => {
     const out = [];
+    let isAttackingPlayer = false;
     if(game.attackingPlayerId === playerId) {
         isAttackingPlayer = true;
     }

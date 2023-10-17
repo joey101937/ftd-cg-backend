@@ -100,3 +100,12 @@ export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayou
 
     return {data: dbResult, status: 200};
 };
+
+export const updateGameDbEntry = async (game) => {
+    return await prismaClient.game.update({
+        data: game,
+        where: {
+            id: game.id
+        }
+    });
+};

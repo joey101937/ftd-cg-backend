@@ -1,10 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { canCardBePlayedToZone, canPlayerAffordCard, doPlayersHaveNegativeResources, getResourcesForTurn, hasKeyword, payForCard } from "./gameLogicService";
 import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
 import { cardEffects } from "./cardEffectHandler";
 import { cloneDeep, update } from "lodash";
-import { pendingChange } from "../gameConstants/schemas";
+import { pendingChange as pendingChangeSchema } from "../gameConstants/schemas";
 import { getActiveCardsOfPlayer, isOwnerOfCardAttackerOrDefender, removeCardFromHand, removeCardFromPlay } from "../utils";
+import { updateGameDbEntry } from "./gameService";
 
 const prismaClient = new PrismaClient();
 
@@ -33,12 +34,7 @@ const endTurnHandler = async (game, playerId) => {
         }
     }
 
-    const updatedGame = await prismaClient.game.update({
-        where: {
-            id: game.id,
-        },
-        data: game
-    });
+    const updatedGame = await updateGameDbEntry(game);
 
     return { status: 200, data: updatedGame };
 
@@ -85,12 +81,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
 
     targetZone.lastActivatedTurn = game.turnNumber;
 
-    const updatedGame = await prismaClient.game.update({
-        where: {
-            id: game.id,
-        },
-        data: game
-    });
+    const updatedGame = await updateGameDbEntry(game);
 
     return { status: 200, data: updatedGame };
 
@@ -138,12 +129,12 @@ const handlePostBattleHeroPowers = (game) => {
 export const applyPendingDecision = async (game) => {
     const { pendingChange } = game;
     if(!game.pendingChange) return { status: 400, data: {error: 'Game has no pending change'} };
-    const validationResponse = pendingChange.validate(game.pendingChange);
+    const validationResponse = pendingChangeSchema.validate(game.pendingChange);
     if(validationResponse.error) return { status: 409, data: {error: `Pending change failed schema validation- ${validationResponse.error}`} };
 
     const updatedGame = cloneDeep(game);
     
-    const allActiveCards = [...getActiveCardsOfPlayer(updatedGame.attackingPlayerId), ...getActiveCardsOfPlayer(updatedGame.defendingPlayerId)];
+    const allActiveCards = [...getActiveCardsOfPlayer(game, updatedGame.attackingPlayerId), ...getActiveCardsOfPlayer(game, updatedGame.defendingPlayerId)];
     const instanceIdsToDestroy = pendingChange.CardsToDestroy || [];
     const instanceIdsToRepair = pendingChange.vehiclesToRepair || [];
     
@@ -152,7 +143,7 @@ export const applyPendingDecision = async (game) => {
         removeCardFromPlay(updatedGame, instanceId);
     });
     // trigger on death effects
-    onDeathEffectError = null;
+    let onDeathEffectError = null;
     allActiveCards.filter(x => instanceIdsToDestroy.includes(x.instanceId)).forEach(destroyedCard => {
         if(destroyedCard.meta[TRIGGERS.ON_DEATH]) {
             const func = cardEffects[destroyedCard?.meta[TRIGGERS.ON_DEATH]];
@@ -211,8 +202,10 @@ export const applyPendingDecision = async (game) => {
 
     if(!heroPowerResult) return { status: 500, data: { error: 'Hero powers failed' } };
 
-    await prismaClient.game.update(game);
-    return {status: 200, data: game };
+    game.pendingChange = Prisma.JsonNull;
+    await updateGameDbEntry(game);
+    // putting null in response bc Prisma.JsonNull serializes to empty json
+    return {status: 200, data: {...game, pendingChange: null } };
 };
 
 /**
@@ -315,21 +308,16 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
         }
     }
 
-    const updatedGame = await prismaClient.game.update({
-        where: {
-            id: game.id,
-        },
-        data: game
-    });
+    const updatedGame = await updateGameDbEntry(game);
 
     return { status: 200, data: updatedGame };
 };
 
 export const submitPendingChangeHandler = async (game, actionBody, triggeringPlayerId) => {
-    const validationResponse = pendingChange.validate(actionBody);
+    const validationResponse = pendingChangeSchema.validate(actionBody);
     if(!validationResponse.error) {
         game.pendingChange = actionBody;
-        const updatedGame = await prismaClient.game.update(game);
+        const updatedGame = await updateGameDbEntry(game);
         return { status: 200, data: {updatedGame} };
     } else {
         return { status: 400, data: {error: `Validation Error: ${validationResponse.error}`}};
@@ -337,10 +325,11 @@ export const submitPendingChangeHandler = async (game, actionBody, triggeringPla
 };
 
 export const decidePendingChangeHandler = async (game, actionBody, triggeringPlayerId) => {
+    if(!game.pendingChange) return { status: 400, data: { error: 'Game has no pending change' } };
     if(game.pendingChange.proposingPlayerId === triggeringPlayerId) return {status: 400, data: { error: 'You cannot approve your own proposal' }};
     if(actionBody.decision === false) {
-        game.pendingChange = null;
-        const updatedGame = await prismaClient.game.update(game);
+        game.pendingChange = Prisma.JsonNull;
+        const updatedGame = await updateGameDbEntry(game);
         return { status: 200, data: { updatedGame } };
     }
 
