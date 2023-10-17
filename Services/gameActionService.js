@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { canCardBePlayedToZone, canPlayerAffordCard, getResourcesForTurn, hasKeyword } from "./gameLogicService";
+import { canCardBePlayedToZone, canPlayerAffordCard, doPlayersHaveNegativeResources, getResourcesForTurn, hasKeyword, payForCard } from "./gameLogicService";
 import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, VEHICLE_KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
 import { cardEffects } from "./cardEffectHandler";
 import { cloneDeep, update } from "lodash";
 import { pendingChange } from "../gameConstants/schemas";
-import { getActiveCardsOfPlayer, isOwnerOfCardAttackerOrDefender, removeCardFromPlay } from "../utils";
+import { getActiveCardsOfPlayer, isOwnerOfCardAttackerOrDefender, removeCardFromHand, removeCardFromPlay } from "../utils";
 
 const prismaClient = new PrismaClient();
 
@@ -96,7 +96,47 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
 
 };
 
+/**
+ * Iterates through all hero powers used in a battle and triggers their effects.
+ * returns true if they all succeed, false if one or more fails.
+ * @param {object} game game to run against
+ * @returns true/false if successful
+ */
+const handlePostBattleHeroPowers = (game) => {
+    const { pendingChange, attackingPlayerAvailableHeroPowers, defendingPlayerAvailableHeroPowers } = game;
+    const { heroPowersUsed } = pendingChange;
+
+    const allHeroPowers = [...attackingPlayerAvailableHeroPowers, ...defendingPlayerAvailableHeroPowers];
+
+    if(!Object.keys(heroPowersUsed).every(key => !!allHeroPowers.find(hp => hp.instanceId === key))) {
+        console.log('not all hero powers used are available in the game', {
+            heroPowersUsed,
+            attackingPlayerAvailableHeroPowers,
+            defendingPlayerAvailableHeroPowers
+        });
+    }
+
+    const results = [];
+
+    Object.keys(heroPowersUsed).forEach(hpInstanceId => {
+        const heroPower = allHeroPowers.find(x => x.instanceId === hpInstanceId);
+        const onBattleFuncName = heroPower.meta[TRIGGERS.ON_BATTLE_EFFECT];
+        const onBattleTargetedFuncName = heroPower.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT];
+        const onBattleFunc = cardEffects[heroPower.meta[TRIGGERS.ON_BATTLE_EFFECT]];
+        const onBattleTargetedFunc = cardEffects[heroPower.meta[TRIGGERS.ON_BATTLE_EFFECT]];
+        if((onBattleFuncName && !onBattleFunc) || (onBattleTargetedFuncName && !onBattleTargetedFunc)) {
+            console.log('missing battle func or targeted battle func for ', heroPower);
+            results.push(false);
+        }
+        if(onBattleFunc) results.push(onBattleFunc(game, heroPower));
+        if(onBattleTargetedFunc) results.push(onBattleTargetedFunc(game, heroPower));
+    });
+
+    return results.every(x => !!x);
+};
+
 export const applyPendingDecision = async (game) => {
+    const { pendingChange } = game;
     if(!game.pendingChange) return { status: 400, data: {error: 'Game has no pending change'} };
     const validationResponse = pendingChange.validate(game.pendingChange);
     if(validationResponse.error) return { status: 409, data: {error: `Pending change failed schema validation- ${validationResponse.error}`} };
@@ -104,8 +144,8 @@ export const applyPendingDecision = async (game) => {
     const updatedGame = cloneDeep(game);
     
     const allActiveCards = [...getActiveCardsOfPlayer(updatedGame.attackingPlayerId), ...getActiveCardsOfPlayer(updatedGame.defendingPlayerId)];
-    const instanceIdsToDestroy = updatedGame.pendingChange.CardsToDestroy || [];
-    const instanceIdsToRepair = updatedGame.pendingChange.vehiclesToRepair || [];
+    const instanceIdsToDestroy = pendingChange.CardsToDestroy || [];
+    const instanceIdsToRepair = pendingChange.vehiclesToRepair || [];
     
     // remove destroyed vehicles
     instanceIdsToDestroy.forEach(instanceId => {
@@ -123,7 +163,7 @@ export const applyPendingDecision = async (game) => {
     if(onDeathEffectError) return { status: 500, data: {error: onDeathEffectError }};
 
     // handle repair costs
-    allActiveCards.filter(x => instanceIdsToDestroy.includes(x.instanceId)).forEach(cardToRepair => {
+    allActiveCards.filter(x => instanceIdsToRepair.includes(x.instanceId)).forEach(cardToRepair => {
         const roleOfOwner = isOwnerOfCardAttackerOrDefender(updatedGame, cardToRepair); // attacker or defender
         if(roleOfOwner === 'attacker') {
             updatedGame.attackingPlayerMaterials -= (cardToRepair.materialCost/2);
@@ -134,13 +174,45 @@ export const applyPendingDecision = async (game) => {
     });
     if(updatedGame.defendingPlayerMaterials < 0 || updatedGame.attackingPlayerMaterials < 0) return {status: 400, data: { error: 'Repairs cannot be afforded' }};
 
-
+    
     // handle postBattleCardsPlayed
     // these should attempt to proc effects if any and charge player for their cost if any
+    const attackersPostBattleCards = game.attackingPlayerHand.filter(x => pendingChange.postBattleCardsPlayed.includes(x.instanceId));
+    const defendersPostBattleCards = game.attackingPlayerHand.filter(x => pendingChange.postBattleCardsPlayed.includes(x.instanceId));
 
-    // TODO
+    attackersPostBattleCards.forEach(card => payForCard(game, card, game.attackingPlayerId));
+    defendersPostBattleCards.forEach(card => payForCard(game, card, game.defendingPlayerId));
+    
+    if(doPlayersHaveNegativeResources(game)) return {status: 400, data: {error: 'Players would have negative resources after paying for postbattle cards' }};
 
-    return null;
+    const effectResults = [...attackersPostBattleCards, ...defendersPostBattleCards].filter(x => !!x.meta[TRIGGERS.ON_BATTLE_EFFECT]).map(card => {
+        const func = cardEffects[card.meta[TRIGGERS.ON_BATTLE_EFFECT]];
+        if(!func) {
+            console.log('Missing on battle function for ', card.meta[TRIGGERS.ON_BATTLE_EFFECT]);
+            return false;
+        }
+        else return func(game, card); 
+    });
+
+    if(effectResults.filter(x => !x).length > 0) return { status: 400, data: { error: 'Not all card effects returned true' }};
+
+    const targetedEffects = [...attackersPostBattleCards, ...defendersPostBattleCards].filter(x => !!x.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT]).map(card => {
+        const func = cardEffects[card.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT]];
+        if(!func) {
+            console.log('Missing on battle targeted function for ', card.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT]);
+            return false;
+        }
+        else return func(game, card);
+    });
+
+    if(targetedEffects.filter(x => !x).length > 0) return { status: 400, data: { error: 'Not all targeted card effects returned true' }};
+
+    const heroPowerResult = handlePostBattleHeroPowers(game);
+
+    if(!heroPowerResult) return { status: 500, data: { error: 'Hero powers failed' } };
+
+    await prismaClient.game.update(game);
+    return {status: 200, data: game };
 };
 
 /**
@@ -269,7 +341,7 @@ export const decidePendingChangeHandler = async (game, actionBody, triggeringPla
     if(actionBody.decision === false) {
         game.pendingChange = null;
         const updatedGame = await prismaClient.game.update(game);
-        return { status: 200, data: {updatedGame} };
+        return { status: 200, data: { updatedGame } };
     }
 
     const result = await applyPendingDecision(game);

@@ -25,12 +25,14 @@ export const payForCard = (inputGame, card, playerId) => {
         cpCost
     } = card;
 
+    const calcMaterialCost = hasKeyword(card, VEHICLE_KEYWORDS.HALF_COST) ? materialCost / 2 : materialCost;
+
     if(isAttackingPlayer) {
         inputGame.attackingPlayerCp -= cpCost;
-        inputGame.attackingPlayerMaterials -= materialCost;
+        inputGame.attackingPlayerMaterials -= calcMaterialCost;
     } else {
         inputGame.defendingPlayerCp -= cpCost;
-        inputGame.defendingPlayerMaterials -= materialCost;
+        inputGame.defendingPlayerMaterials -= calcMaterialCost;
     }
 
     return inputGame;
@@ -97,3 +99,8 @@ export const getResourcesForTurn = (turnNumber) => {
     const realTurnNumber = Math.floor(turnNumber);
     return realTurnNumber*50000;
 };
+
+export const doPlayersHaveNegativeResources = (game) => (
+    game.attackingPlayerCp < 0 || game.attackingPlayerMaterials < 0
+    || game.defendingPlayerCp < 0 || game.defendingPlayerMaterials < 0
+);

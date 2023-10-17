@@ -8,7 +8,7 @@ export const pendingChange = Joi.object({
     vehiclesToRepair: Joi.array().items(Joi.string()), // array of instance ids
     vehiclesToRemain: Joi.array().items(Joi.string()), // array of instance ids
     postBattleCardsPlayed: Joi.array().items(Joi.string()), // array of instance ids of cards in hand(s)
-    heroPowersUsed: Joi.object(), // object mapping player id to array of instance ids of powers to be expended
+    heroPowersUsed: Joi.object(), // object mapping hero power instance id to target instance id (null means played without target)
 });
 
 export const zone = Joi.object({

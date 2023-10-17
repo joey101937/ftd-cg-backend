@@ -73,7 +73,7 @@ model Card {
   id String @id @default(uuid())
   name String
   isBuiltIn Boolean @default(false) // true = base game card, false = custom card
-  playerId String?
+  playerId String? // this refers to player who created the custom card. DOES NOT REPRESENT WHICH PLAYER CONTROLS THE CARD IN-GAME
   imageUrl String?
   blueprintId String?
   blueprintCost Int
@@ -95,4 +95,14 @@ model blueprint {
   blueprintCost Int @default(0)
   name String?
   blueprintRaw Json?
+}
+
+model heropower {
+  id String @id @default(uuid())
+  name String
+  faction String @default("NEUTRAL")
+  text String
+  cpCost Int @default(1)
+  materialCost Int @default(0)
+  meta Json @default("{}")
 }

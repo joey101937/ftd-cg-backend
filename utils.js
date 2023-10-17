@@ -34,6 +34,11 @@ export const removeCardFromPlay = (game, instanceId) => {
     });
 };
 
+export const removeCardFromHand = (game, instanceId) => {
+    game.attackingPlayerHand = game.attackingPlayerHand.filter(x => x.instanceId !== instanceId);
+    game.defendingPlayerHand = game.defendingPlayerHand.filter(x => x.instanceId !== instanceId);
+};
+
 export const isOwnerOfCardAttackerOrDefender = (game, instanceId) => {
     const out = null;
     game.zones.forEach(zone => {
