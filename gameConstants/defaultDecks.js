@@ -3,8 +3,9 @@ export const testDefaultDeck = {
     playerId: null,
     meta: {
         cards: {
-            'd5e6289f-d5c3-47f4-93e6-d00e3f8d31b5': 3, // test vehicle
-            '728d8040-5122-4c25-87eb-51fa00b71a4e': 3 // test ability
+            // these ids need to be updated with each seeding
+            'bd8ba1e2-60e3-4083-b9cf-33adfdac4c64': 3,
+            '85e89901-c2fa-4b52-bd4f-db33374b811d': 3
         }
     } 
 };

@@ -38,7 +38,7 @@ export const createInstanceOfDeck = async (deck) => {
 
     const cardIds = Object.keys(cardMap);
 
-    const cards = await prismaClient.card.findMany({
+    const cardsFound = await prismaClient.card.findMany({
         where: {
             id: {
                 in: cardIds,
@@ -46,13 +46,13 @@ export const createInstanceOfDeck = async (deck) => {
         }
     });
 
-    if (cards.length !== cardIds.length) {
-        console.log('WARNING unexpected card count returned for deck', { deck, cards, cardIds });
+    if (cardsFound.length !== cardIds.length) {
+        console.log('WARNING unexpected card count returned for deck', { deck, cardsFound, cardIds });
     }
 
     const output = [];
 
-    cards.forEach(card => {
+    cardsFound.forEach(card => {
         for(let i = 0; i < cardMap[card.id]; i++) {
             output.push({
                 ...card,
