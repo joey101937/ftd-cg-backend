@@ -97,5 +97,38 @@ export const ssVehicles = [
         keywords: [KEYWORDS.BLOCKER],
         meta: {
         }
+    } ,{
+        name: 'Asphodel',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 470521,
+        blueprintCost: 470000,
+        cpCost: 0,
+        imageUrl: 'asphodel.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        keywords: [],
+        meta: {
+        }
+    }
+    ,{
+        name: 'Rhrea',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 560000,
+        blueprintCost: 563000,
+        cpCost: 0,
+        imageUrl: 'rhrea.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        keywords: [KEYWORDS.BLOCKER],
+        meta: {
+        }
     }
 ];

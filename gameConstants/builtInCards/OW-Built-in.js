@@ -14,7 +14,7 @@ export const owVehicles = [
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
-        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY, KEYWORDS.AIR_SCREEN],
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.AIR_SCREEN, KEYWORDS.HALF_COST],
         meta: {
         }
     },{
@@ -50,6 +50,23 @@ export const owVehicles = [
         blueprintId: null,
         meta: {
             [TRIGGERS.PLAY_ON_VEHICLE]: 'subKillerEffect',
+        }
+    },    
+    {
+        name: 'Special Foundries',
+        isBuiltIn: true,
+        cardText: 'Draw a random player made card from your deck. Give it blocker',
+        materialCost: 0,
+        blueprintCost: 0,
+        cpCost: 0,
+        imageUrl: 'specialFoundries.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.OW,
+        blueprintId: null,
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'specialFoundriesEffect',
         }
     },{
         name: 'Claymore',
@@ -87,7 +104,7 @@ export const owVehicles = [
     },{
         name: 'Defensive Parapet',
         isBuiltIn: true,
-        cardText: 'Spawn a parapet into a zone. It gains Inoffensive, Scrappy, and blocker keywords.',
+        cardText: 'Spawn two parapets into a zone. They gain Inoffensive, Scrappy, and blocker keywords.',
         materialCost: 200000,
         blueprintCost: 0,
         cpCost: 2,
@@ -103,7 +120,7 @@ export const owVehicles = [
     },{
         name: 'The Onyx Throne',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle would partake in a defensive battle, spawn any other OW vehicle alongside it',
+        cardText: 'Whenever this vehicle would partake in a defensive battle, spawn any other OW vehicle that costs less than 800k alongside it',
         materialCost: 500000,
         blueprintCost: 492482,
         cpCost: 0,
@@ -119,7 +136,7 @@ export const owVehicles = [
         name: 'Eyrie',
         isBuiltIn: true,
         cardText: 'Whenever this vehicle would partake in a defensive battle, spawn any other OW vehicle alongside it',
-        materialCost: 750000,
+        materialCost: 400000,
         blueprintCost: 781362,
         cpCost: 0,
         imageUrl: 'Eyrie.png',
@@ -134,7 +151,7 @@ export const owVehicles = [
         name: 'Rook',
         isBuiltIn: true,
         cardText: 'Gain 1cp when played',
-        materialCost: 90000,
+        materialCost: 50000,
         blueprintCost: 98841,
         cpCost: 0,
         imageUrl: 'Rook.png',
@@ -147,7 +164,7 @@ export const owVehicles = [
     },{
         name: 'Partisan',
         isBuiltIn: true,
-        cardText: 'When this card is destroyed, draw a card',
+        cardText: 'When this card is destroyed, draw a random player made card from your deck',
         materialCost: 50000,
         blueprintCost: 50125,
         cpCost: 0,
