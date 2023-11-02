@@ -17,7 +17,8 @@ export const owVehicles = [
         keywords: [KEYWORDS.BLOCKER, KEYWORDS.AIR_SCREEN, KEYWORDS.HALF_COST],
         meta: {
         }
-    },{
+    },
+    {
         name: 'Trebuchet',
         isBuiltIn: true,
         cardText: 'When Played, you may choose to have this vehicle battle an opponents vehicle from the same zone in a 1v1. If the trebuchet wins without becoming damaged beyond repair, fully heal it and you may repeat this effect.',

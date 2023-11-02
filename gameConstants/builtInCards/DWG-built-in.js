@@ -55,7 +55,7 @@ export const dwgVehicles = [
     },{
         name: 'Plunderer',
         isBuiltIn: true,
-        cardText: 'Costs 20k less for each friendly dwg vehicle in play',
+        cardText: 'Costs 20k less for each friendly vehicle in play',
         materialCost: 180000,
         blueprintCost: 187000,
         cpCost: 0,
@@ -88,7 +88,7 @@ export const dwgVehicles = [
     },{
         name: 'Corsair',
         isBuiltIn: true,
-        cardText: 'Whenever this card is played, add an additional copy into the zone',
+        cardText: 'Whenever this card is played, add two additional copies into the zone',
         materialCost: 30000,
         blueprintCost: 31000,
         cpCost: 0,
@@ -100,7 +100,7 @@ export const dwgVehicles = [
         blueprintId: null,
         keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY],
         meta: {
-            additionalSpawns: 1,
+            additionalSpawns: 2,
         }
     },{
         name: 'Land Marauder',
@@ -203,7 +203,7 @@ export const dwgVehicles = [
     },{
         name: 'DWG Waters',
         isBuiltIn: true,
-        cardText: ' Choose a zone. For the rest of the game, whenever you fight a defensive battle in that zone, you may choose one DWG vehicle with a cost <60k from the game to fight alongside your fleet in that battle.',
+        cardText: ' Choose a zone. For the rest of the game, whenever you fight a defensive battle in that zone, you may choose one DWG vehicle with a cost <60k from the game to fight alongside your fleet in that battle. If the enemy attacks you directly in this zone, you can force them to beat this ship in battle first before doing damage with their surviving vehicles',
         materialCost: 50000,
         blueprintCost: 0,
         cpCost: 0,
@@ -279,6 +279,22 @@ export const dwgVehicles = [
         blueprintId: null,
         keywords: [KEYWORDS.HALF_COST],
         meta: {
+        }
+    },{
+        name: 'Recurring Threat',
+        isBuiltIn: true,
+        cardText: 'Choose a friendly vehicle, destroy it. For the rest of the game, whenever you would fight a defensive fleet battle in the zone it was in, you may summon a copy of that vehicle to fight alongside your fleet in battle.',
+        materialCost: 100000,
+        blueprintCost: 0,
+        cpCost: 0,
+        imageUrl: 'recurringThreat.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        meta: {
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'recurringThreatEffect',
         }
     }
 ];
