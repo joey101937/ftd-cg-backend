@@ -296,5 +296,22 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_VEHICLE]: 'recurringThreatEffect',
         }
+    },
+    {
+        name: 'Flying Squirrel Attack',
+        isBuiltIn: true,
+        cardText: 'Choose an enemy vehicle, that vehicle fights alone against a flying squirrel (3x squadron)',
+        materialCost: 0,
+        blueprintCost: 0,
+        cpCost: 0,
+        imageUrl: 'flyingSquirrelAttack.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'flyingSquirrelAttackEffect',
+        }
     }
 ];

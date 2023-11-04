@@ -1,4 +1,4 @@
-import { FACTIONS, TRIGGERS, KEYWORDS } from "../gameSettings";
+import { FACTIONS, KEYWORDS } from "../gameSettings";
 
 export const gtVehicles = [
     {
@@ -9,23 +9,6 @@ export const gtVehicles = [
         blueprintCost: 143000,
         cpCost: 0,
         imageUrl: 'zephyr.png',
-        playerId: null,
-        vehicleType: 'airship',
-        type: 'vehicle',
-        faction: FACTIONS.GT,
-        blueprintId: null,
-        keywords: [],
-        meta: {
-        }
-    },
-    {
-        name: 'Wasp',
-        isBuiltIn: true,
-        cardText: '',
-        materialCost: 70000,
-        blueprintCost: 79000,
-        cpCost: 0,
-        imageUrl: 'wasp.png',
         playerId: null,
         vehicleType: 'airship',
         type: 'vehicle',
@@ -116,7 +99,7 @@ export const gtVehicles = [
         type: 'vehicle',
         faction: FACTIONS.GT,
         blueprintId: null,
-        keywords: [KEYWORDS.BLOCKER],
+        keywords: [KEYWORDS.FRAGILE, KEYWORDS.BLOCKER],
         meta: {
         }
     },

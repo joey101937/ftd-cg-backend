@@ -39,7 +39,7 @@ export const owVehicles = [
     {
         name: 'Sub Killer',
         isBuiltIn: true,
-        cardText: 'Target an enemy submarine or plane vehicle. Remove it from play.',
+        cardText: 'Target an enemy submarine, plane, or airship vehicle. Remove it from play.',
         materialCost: 0,
         blueprintCost: 0,
         cpCost: 2,
@@ -99,6 +99,7 @@ export const owVehicles = [
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
+        keywords: [KEYWORDS.SUB_SCREEN],
         meta: {
             [TRIGGERS.ON_PLAY]: 'palisadeEffect'
         }
@@ -151,7 +152,7 @@ export const owVehicles = [
     {
         name: 'Rook',
         isBuiltIn: true,
-        cardText: 'Gain 1cp when played',
+        cardText: 'Gain 1cp and draw a card when played',
         materialCost: 50000,
         blueprintCost: 98841,
         cpCost: 0,
@@ -246,4 +247,21 @@ export const owVehicles = [
             [TRIGGERS.ON_PLAY]: 'CauldronEffect' 
         }
     },
+    {
+        name: 'Sabotage',
+        isBuiltIn: true,
+        cardText: 'Target a vehicle and give it FRAGILE. If it survives the turn, draw a card.',
+        materialCost: 60000,
+        blueprintCost: 0,
+        cpCost: 0,
+        imageUrl: 'sabotage.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.OW,
+        blueprintId: null,
+        meta: {
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'sabotageEffect',
+        }
+    }, 
 ];

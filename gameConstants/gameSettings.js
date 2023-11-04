@@ -42,6 +42,8 @@ export const KEYWORDS = {
     TEMPORARY: 'temporary',
     INOFFENSIVE: 'inoffensive',
     HALF_COST: 'halfCost', // for planes, they are half cost by default
+    FRAGILE: 'fragile',
+    STEALTHY: 'stealthy',
 };
 
 

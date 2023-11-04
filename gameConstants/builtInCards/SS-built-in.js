@@ -4,7 +4,7 @@ export const ssVehicles = [
     {
         name: 'Iron Maiden',
         isBuiltIn: true,
-        cardText: 'When played, draw a card',
+        cardText: 'When this vehicle is destroyed, draw a card',
         materialCost: 170000,
         blueprintCost: 174000,
         cpCost: 0,
@@ -34,20 +34,20 @@ export const ssVehicles = [
         meta: {
         }
     },{
-        name: 'Aurora Strafe',
+        name: 'Air Strafe',
         isBuiltIn: true,
-        cardText: 'Choose a zone, the enemy fleet in that zone begins a fleet battle with an aurora',
-        materialCost: 50000,
+        cardText: 'Choose an enemy ship, it fights alone against a predatorX. If you have 180k+ materials, this costs 90k more and spawns an additional PredatorX',
+        materialCost: 90000,
         blueprintCost: 0,
         cpCost: 0,
-        imageUrl: 'auroraStrafe.png',
+        imageUrl: 'airStrafe.png',
         playerId: null,
         vehicleType: null,
         type: 'ability',
         faction: FACTIONS.SS,
         blueprintId: null,
         meta: {
-            [TRIGGERS.PLAY_ON_ZONE]: 'auroraStrafeEffect'
+            [TRIGGERS.PLAY_ON_ZONE]: 'airStrafeEffect'
         }
     },{
         name: 'Repairmen Ready',
@@ -177,13 +177,13 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [ KEYWORDS.SCRAPPY],
+        keywords: [KEYWORDS.SCRAPPY, KEYWORDS.STEALTHY],
         meta: {
         }
     }, {
         name: 'Resolute',
         isBuiltIn: true,
-        cardText: 'When this vehicle is destroyed by combat, draw a card',
+        cardText: 'When this vehicle is played, draw a card',
         materialCost: 50000,
         blueprintCost: 63300,
         cpCost: 0,
@@ -266,7 +266,7 @@ export const ssVehicles = [
      {
         name: 'Spectre',
         isBuiltIn: true,
-        cardText: 'Whenever your opponent starts a fleet battle in this zone, you may elect to omit this ship from the battle',
+        cardText: '',
         materialCost: 210000,
         blueprintCost: 214000,
         cpCost: 0,
@@ -276,7 +276,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [],
+        keywords: [KEYWORDS.STEALTHY],
         meta: {
         }
     },
