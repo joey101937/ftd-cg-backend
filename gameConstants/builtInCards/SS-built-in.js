@@ -34,28 +34,12 @@ export const ssVehicles = [
         meta: {
         }
     },{
-        name: 'Resolute',
-        isBuiltIn: true,
-        cardText: '',
-        materialCost: 60000,
-        blueprintCost: 63000,
-        cpCost: 0,
-        imageUrl: 'resolute.png',
-        playerId: null,
-        vehicleType: 'ship',
-        type: 'vehicle',
-        faction: FACTIONS.SS,
-        blueprintId: null,
-        keywords: [KEYWORDS.SCRAPPY],
-        meta: {
-        }
-    },{
         name: 'Aurora Strafe',
         isBuiltIn: true,
         cardText: 'Choose a zone, the enemy fleet in that zone begins a fleet battle with an aurora',
-        materialCost: 0,
+        materialCost: 50000,
         blueprintCost: 0,
-        cpCost: 1,
+        cpCost: 0,
         imageUrl: 'auroraStrafe.png',
         playerId: null,
         vehicleType: null,
@@ -149,13 +133,13 @@ export const ssVehicles = [
     }
 
     ,{
-        name: 'Rhrea',
+        name: 'Rhea',
         isBuiltIn: true,
-        cardText: 'The first SS plane you play into my zone loses its temporary keyword',
+        cardText: 'When played, put a random SS plane with a base cost under 300k into your hand. Remove its temporary keyword',
         materialCost: 560000,
         blueprintCost: 563000,
         cpCost: 0,
-        imageUrl: 'rhrea.png',
+        imageUrl: 'rhea.png',
         playerId: null,
         vehicleType: 'ship',
         type: 'vehicle',
@@ -245,7 +229,7 @@ export const ssVehicles = [
         meta: {
         }
     },
-    , {
+     {
         name: 'Cyclone',
         isBuiltIn: true,
         cardText: '',
@@ -262,7 +246,7 @@ export const ssVehicles = [
         meta: {
         }
     },
-    , {
+     {
         name: 'Wolin',
         isBuiltIn: true,
         cardText: '',
@@ -279,7 +263,7 @@ export const ssVehicles = [
         meta: {
         }
     },
-    , {
+     {
         name: 'Spectre',
         isBuiltIn: true,
         cardText: 'Whenever your opponent starts a fleet battle in this zone, you may elect to omit this ship from the battle',
