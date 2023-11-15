@@ -177,7 +177,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [KEYWORDS.SCRAPPY, KEYWORDS.STEALTHY],
+        keywords: [KEYWORDS.SCRAPPY, KEYWORDS.STEALTHY, KEYWORDS.MOBILE],
         meta: {
         }
     }, {

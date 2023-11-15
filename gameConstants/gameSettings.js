@@ -43,7 +43,8 @@ export const KEYWORDS = {
     INOFFENSIVE: 'inoffensive',
     HALF_COST: 'halfCost', // for planes, they are half cost by default
     FRAGILE: 'fragile',
-    STEALTHY: 'stealthy',
+    STEALTHY: 'stealthy', // opt out of defensive battles
+    MOBILE: 'mobile', // can change zones once per turn
 };
 
 
@@ -68,4 +69,5 @@ export const TRIGGERS = {
     ON_DEATH: 'onDeathEffect', // triggers when card is destroyed
     ON_BATTLE_EFFECT: 'onBattleEffect', // triggers when the card is played via battleReport pendingChange. parameter for battle
     ON_BATTLE_TARGETED_EFFECT: 'onBattleTargetedEffect', // triggers when the card is played via battleReport pendingChange. parameter for battle and target instance
+    ON_ACTIVATE: 'onActivate',
 };

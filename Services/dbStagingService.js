@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import { dwgVehicles } from "../gameConstants/builtInCards/DWG-built-in";
 import { owVehicles } from "../gameConstants/builtInCards/OW-Built-in";
 import { ssVehicles } from "../gameConstants/builtInCards/SS-built-in";
+import { wfVehicles } from "../gameConstants/builtInCards/WF-built-in";
+import { gtVehicles } from "../gameConstants/builtInCards/GT-built-in";
 
 
 const prismaClient = new PrismaClient();
@@ -18,8 +20,10 @@ export const refreshBuiltInCards = async () => {
 
         const cardsToInsert = [
            ...dwgVehicles,
-           ...ssVehicles,
            ...owVehicles,
+           ...ssVehicles,
+           ...wfVehicles,
+           ...gtVehicles,
         ];
 
         await prismaClient.card.createMany({
