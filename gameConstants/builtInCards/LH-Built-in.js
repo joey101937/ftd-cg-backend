@@ -45,7 +45,7 @@ export const lhVehicles = [
         cpCost: 0,
         imageUrl: 'umbra.png',
         playerId: null,
-        vehicleType: 'ship',
+        vehicleType: VEHICLE_TYPES.SUB,
         type: 'vehicle',
         faction: FACTIONS.LH,
         blueprintId: null,
@@ -207,6 +207,41 @@ export const lhVehicles = [
         meta: {
         }
     },
+    {
+        name: 'Sapphire',
+        isBuiltIn: true,
+        cardText: 'When this vehicle is played into an empty zone, draw a card and refund its cost',
+        materialCost: 30000,
+        blueprintCost: 37085,
+        cpCost: 0,
+        imageUrl: 'sapphire.png',
+        playerId: null,
+        vehicleType: 'plane',
+        type: 'vehicle',
+        faction: FACTIONS.LH,
+        blueprintId: null,
+        keywords: [KEYWORDS.MOBILE, KEYWORDS.STEALTHY],
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'sapphireEffect'
+        }
+    },
+    {
+        name: 'Sapphire Screen',
+        isBuiltIn: true,
+        cardText: 'Spawn a friendly Sapphire into each zone. They have MOBILE and STEALTHY keywords',
+        materialCost: 90000,
+        blueprintCost: 0,
+        cpCost: 0,
+        imageUrl: 'sapphireScreen.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.LH,
+        blueprintId: null,
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'sapphireScreenEffect'
+        }
+    },
      {
         name: 'Orbit',
         isBuiltIn: true,
@@ -222,6 +257,7 @@ export const lhVehicles = [
         blueprintId: null,
         keywords: [KEYWORDS.HALF_COST, KEYWORDS.TEMPORARY],
         meta: {
+            [TRIGGERS.ON_PLAY]: 'orbitEffect',
         }
     },
     {
@@ -238,7 +274,7 @@ export const lhVehicles = [
         faction: FACTIONS.LH,
         blueprintId: null,
         meta: {
-            [TRIGGERS.PLAY_ON_VEHICLE]: 'orbitFlank'
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'orbitFlankEffect'
         }
     },
     
