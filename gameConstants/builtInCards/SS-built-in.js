@@ -68,7 +68,7 @@ export const ssVehicles = [
     },{
         name: 'Excalibur',
         isBuiltIn: true,
-        cardText: 'Pick one ship in hand and reduce its cost by 200k',
+        cardText: 'Pick one ship in hand and reduce its cost by 150k',
         materialCost: 550000,
         blueprintCost: 553900,
         cpCost: 0,

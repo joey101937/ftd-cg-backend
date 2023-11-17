@@ -56,7 +56,7 @@ export const wfVehicles = [
     {
         name: 'Purifier',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When played, draw a card',
         materialCost: 760000,
         blueprintCost: 765000,
         cpCost: 0,
@@ -68,6 +68,7 @@ export const wfVehicles = [
         blueprintId: null,
         keywords: [KEYWORDS.BLOCKER],
         meta: {
+            [TRIGGERS.ON_PLAY]: 'purifierEffect'
         }
     },
     {
@@ -222,23 +223,6 @@ export const wfVehicles = [
         blueprintId: null,
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'ambushEffect'
-        }
-    },
-    {
-        name: 'Ripper Den',
-        isBuiltIn: true,
-        cardText: 'Choose a zone. Summon three friendly Rippers into that zone. Give them the TEMPORARY keyword',
-        materialCost: 50000,
-        blueprintCost: 0,
-        cpCost: 0,
-        imageUrl: 'ripperDen.png',
-        playerId: null,
-        vehicleType: null,
-        type: 'ability',
-        faction: FACTIONS.WF,
-        blueprintId: null,
-        meta: {
-            [TRIGGERS.PLAY_ON_ZONE]: 'ripperDenEffect'
         }
     },
     {
