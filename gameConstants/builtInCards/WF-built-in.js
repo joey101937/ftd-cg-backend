@@ -83,7 +83,7 @@ export const wfVehicles = [
         type: 'vehicle',
         faction: FACTIONS.WF,
         blueprintId: null,
-        keywords: [],
+        keywords: [KEYWORDS.SCRAPPY],
         meta: {
         }
     },
@@ -125,8 +125,8 @@ export const wfVehicles = [
         name: 'Disemboweler',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 100000,
-        blueprintCost: 103000,
+        materialCost: 300000,
+        blueprintCost: 305000,
         cpCost: 0,
         imageUrl: 'disemboweler.png',
         playerId: null,
