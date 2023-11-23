@@ -27,5 +27,5 @@ export const gameActionHandler = async (req, res) => {
         actionBody
     });
 
-    return res.status(result.status).json(result.error || result.data);
+    return res.status(result.status).json(result);
 };

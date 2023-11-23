@@ -15,5 +15,5 @@ export const getDecksHandler = async (req, res) => {
     
     const result = await getDecksOfUser(userId);
 
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
 };

@@ -20,5 +20,5 @@ export const createGameHandler = async (req, res) => {
     
     const result = await createGame(attackingPlayerId, defendingPlayerId, zoneLayoutToUse);
 
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
 };

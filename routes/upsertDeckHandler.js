@@ -1,4 +1,4 @@
-import { getCustomCardsOfUser } from "../Services/cardService";
+import { upsertDeckOfUser } from "../Services/deckService";
 import { getUserIdFromRequest } from "../Services/userService";
 
 
@@ -8,13 +8,14 @@ import { getUserIdFromRequest } from "../Services/userService";
  * @param {*} res 
  * @returns 
  */
-export const getCustomCardsHandler = async (req, res) => {
+export const upsertDeckHandler = async (req, res) => {
     
     const userId = getUserIdFromRequest(req);
 
     if (!userId) return res.status(401);
     
-    const result = await getCustomCardsOfUser(userId);
+    console.log(req.body);
+    const result = await upsertDeckOfUser(userId, req.body);
 
-    return res.status(result.status).json(result);
+    return res.status(result.status || 201).json(result);
 };

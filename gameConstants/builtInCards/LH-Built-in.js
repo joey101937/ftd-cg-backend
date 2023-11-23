@@ -260,24 +260,6 @@ export const lhVehicles = [
             [TRIGGERS.ON_PLAY]: 'orbitEffect',
         }
     },
-    {
-        name: 'Orbit Flank',
-        isBuiltIn: true,
-        cardText: 'Choose an enemy ship or tank. It fights alone against an orbit',
-        materialCost: 0,
-        blueprintCost: 0,
-        cpCost: 0,
-        imageUrl: 'orbitFlank.png',
-        playerId: null,
-        vehicleType: null,
-        type: 'ability',
-        faction: FACTIONS.LH,
-        blueprintId: null,
-        meta: {
-            [TRIGGERS.PLAY_ON_VEHICLE]: 'orbitFlankEffect'
-        }
-    },
-    
     
     
 

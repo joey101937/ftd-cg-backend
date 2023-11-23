@@ -251,7 +251,7 @@ export const owVehicles = [
         name: 'Sabotage',
         isBuiltIn: true,
         cardText: 'Target a vehicle and give it FRAGILE. If it survives the turn, draw a card.',
-        materialCost: 60000,
+        materialCost: 30000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'sabotage.png',

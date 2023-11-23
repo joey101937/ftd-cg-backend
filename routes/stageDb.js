@@ -11,5 +11,5 @@ export const stageDbHandler = async (req, res) => {
     
     const result = await refreshBuiltInCards();
 
-    return res.status(result.status).json(result.data);
+    return res.status(result.status).json(result);
 };

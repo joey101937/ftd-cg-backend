@@ -198,7 +198,7 @@ export const wfVehicles = [
         materialCost: 320000,
         blueprintCost: 329000,
         cpCost: 0,
-        imageUrl: 'theLast Rite.png',
+        imageUrl: 'theLastRite.png',
         playerId: null,
         vehicleType: VEHICLE_TYPES.PLANE,
         type: 'vehicle',

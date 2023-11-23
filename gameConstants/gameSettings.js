@@ -1,6 +1,10 @@
 export const STARTING_HAND_SIZE = 5;
 export const STARTING_CP_AMOUNT = 3;
 
+export const DECK_SIZE = 20;
+export const PLAYER_CARD_LIMIT = 4;
+export const UNIQUE_COPY_LIMIT = 2;
+
 export const GAME_STATUSES = {
     ACTIVE: 'active',
     COMPLETE: 'complete',

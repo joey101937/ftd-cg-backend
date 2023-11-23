@@ -4,8 +4,8 @@ export const dwgVehicles = [
     {
         name: 'Marauder',
         isBuiltIn: true,
-        cardText: 'When this vehicle is played, draw a card and gain a 1cp.',
-        materialCost: 20000,
+        cardText: 'When this vehicle is played, draw a vehicle card from the enemy deck reduce its cost by 50k',
+        materialCost: 40000,
         blueprintCost: 40205,
         cpCost: 0,
         imageUrl: 'marauder.png',
@@ -21,7 +21,7 @@ export const dwgVehicles = [
     {
         name: 'Crossbones',
         isBuiltIn: true,
-        cardText: 'When this vehicle is played, draw a card and gain 1cp.',
+        cardText: 'When this vehicle is plaW yed, draw a card and gain 1cp.',
         materialCost: 440000,
         blueprintCost: 449631,
         cpCost: 0,
@@ -55,7 +55,7 @@ export const dwgVehicles = [
     },{
         name: 'Plunderer',
         isBuiltIn: true,
-        cardText: 'Costs 20k less for each friendly vehicle in play',
+        cardText: 'Costs 20k less for each friendly vehicle in play. When this vehicle survives a victorious fleet battle or inflicts damage to the enemy base, draw one card from the enemy deck.',
         materialCost: 180000,
         blueprintCost: 187000,
         cpCost: 0,
@@ -69,7 +69,62 @@ export const dwgVehicles = [
         meta: {
             costModifier: 'plundererCostModifier',
         }
-    },{
+    },
+    {
+        name: 'Paddlegun',
+        isBuiltIn: true,
+        cardText: 'When played, draw a card from the enemy deck',
+        materialCost: 180000,
+        blueprintCost: 181000,
+        cpCost: 0,
+        imageUrl: 'paddlegun.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY],
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'paddlegunEffect',
+        }
+    },
+    {
+        name: 'Pilferer',
+        isBuiltIn: true,
+        cardText: 'When played, spawn another copy of this vehicle into the zone',
+        materialCost: 130000,
+        blueprintCost: 132000,
+        cpCost: 0,
+        imageUrl: 'pilferer.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        keywords: [KEYWORDS.SCRAPPY],
+        meta: {
+           additionalSpawns: 1,
+        }
+    },
+    {
+        name: 'Kraken',
+        isBuiltIn: true,
+        cardText: 'When played, refresh one of your hero powers then gain 1cp',
+        materialCost: 290000,
+        blueprintCost: 298000,
+        cpCost: 0,
+        imageUrl: 'paddlegun.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SCRAPPY],
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'paddlegunEffect',
+        }
+    },
+    {
         name: 'Tarpon',
         isBuiltIn: true,
         cardText: '',
@@ -220,7 +275,7 @@ export const dwgVehicles = [
         name: 'Gang Up',
         isBuiltIn: true,
         cardText: 'Choose an enemy vehicle. Start a battle with that vehicle vs all your vehicles from the same zone.',
-        materialCost: 0,
+        materialCost: 60000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'gangUp.png',

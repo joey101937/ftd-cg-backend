@@ -167,7 +167,7 @@ export const ssVehicles = [
     }, {
         name: 'Sacrilego',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle survives a fleet battle, you may sacrifice it to increase the remaining hp percent of a friendly ship by 10',
+        cardText: 'Whenever this vehicle survives a fleet battle, you may sacrifice it to increase the remaining hp percent of a friendly ship by 15',
         materialCost: 80000,
         blueprintCost: 86000,
         cpCost: 0,

@@ -10,6 +10,8 @@ import { createGameHandler } from './routes/createGame';
 import { gameActionHandler } from './routes/gameAction';
 import { stageDbHandler } from './routes/stageDb';
 import { getCustomCardsHandler } from './routes/getCards';
+import { upsertDeckHandler } from './routes/upsertDeckHandler';
+import { deleteDeckHandler } from './routes/deleteDeckHandler';
 
 const app = express();
 const port = 8000;
@@ -21,7 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/createUser', createUserHandler);
 app.post('/login', loginHandler);
 
-app.get('/mydecks', getDecksHandler);
+app.get('/decks', getDecksHandler);
+app.post('/deck', upsertDeckHandler);
+app.delete('/deck/:deckId', deleteDeckHandler);
 app.get('/myCards', getCustomCardsHandler);
 app.get('/myGames', getGamesOfUserHandler);
 app.get('/defaultCards', getDefaultCardsHandler);
