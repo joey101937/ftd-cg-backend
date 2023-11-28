@@ -1,34 +1,29 @@
 import { v4 as uuid } from 'uuid'; 
+import { ZONE_TYPES } from './gameSettings';
 
 export const standardZoneLayout = [
   {
-      type: 'water',
+      type: ZONE_TYPES.WATER,
       attackingPlayerCards: [],
       defendingPlayerCards: [],
-      attackingPlayerHp: 500,
-      defendingPlayerHp: 500,
-      attackingPlayerActiveEffects: [],
-      defendingPlayerActiveEffects: [],
+      attackingPlayerHp: 1000,
+      defendingPlayerHp: 1000,
       id: uuid(),
     },
     {
-      type: 'beach',
+      type: ZONE_TYPES.WATER,
       attackingPlayerCards: [],
       defendingPlayerCards: [],
-      attackingPlayerHp: 500,
-      defendingPlayerHp: 500,
-      attackingPlayerActiveEffects: [],
-      defendingPlayerActiveEffects: [],
+      attackingPlayerHp: 1000,
+      defendingPlayerHp: 1000,
       id: uuid(),
     },
     {
-      type: 'land',
+      type: ZONE_TYPES.WATER,
       attackingPlayerCards: [],
       defendingPlayerCards: [],
-      attackingPlayerHp: 500,
-      defendingPlayerHp: 500,
-      attackingPlayerActiveEffects: [],
-      defendingPlayerActiveEffects: [],
+      attackingPlayerHp: 1000,
+      defendingPlayerHp: 1000,
       id: uuid(),
     }
 ];

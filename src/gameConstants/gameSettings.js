@@ -12,6 +12,10 @@ export const GAME_STATUSES = {
 };
 
 export const GAME_ACTION_TYPES = {
+    PLAY_CARD_WITHOUT_TARGET: 'PLAY_CARD_WITHOUT_TARGET',
+    PLAY_CARD_TARGETING_CARD_ON_FIELD: 'PLAY_CARD_TARGETING_CARD_ON_FIELD',
+    PLAY_CARD_TARGETING_CARD_IN_HAND: 'PLAY_CARD_TARGETING_CARD_IN_HAND',
+    SET_ALERT_CARD: 'SET_ALERT_CARD', // this is used to show another player the card you are playing before the effect resolves- ie if card requires a battle to be fought
     PLAY_CARD_TO_ZONE: 'PLAY_CARD_TO_ZONE', // Either plays vehicle or applies ability effect to zone
     ATTACK_ENEMY_BASE: 'ATTACK_ENEMY_BASE',
     SUBMIT_PENDING_CHANGE: 'SUBMIT_PENDING_CHANGE',
@@ -72,6 +76,7 @@ export const TRIGGERS = {
     PLAY_ON_CARD: 'playOnCardEffect', // triggers against a specified card (in hand)
     ON_DEATH: 'onDeathEffect', // triggers when card is destroyed
     ON_BATTLE_EFFECT: 'onBattleEffect', // triggers when the card is played via battleReport pendingChange. parameter for battle
-    ON_BATTLE_TARGETED_EFFECT: 'onBattleTargetedEffect', // triggers when the card is played via battleReport pendingChange. parameter for battle and target instance
+    ON_BATTLE_VICTORY: 'onBattleVictory',
+    ON_BATTLE_DEFEAT: 'onBattleDefeat',
     ON_ACTIVATE: 'onActivate',
 };

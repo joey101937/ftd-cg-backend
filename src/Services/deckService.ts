@@ -1,7 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { Card, Deck, PrismaClient } from '@prisma/client';
 import { shuffle, uniq, uniqBy } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { DECK_SIZE, PLAYER_CARD_LIMIT, UNIQUE_COPY_LIMIT } from '../gameConstants/gameSettings';
+import { ServiceResponse, instantiatedCard } from '../gameConstants/schemas';
 
 const prismaClient = new PrismaClient();
 
@@ -58,8 +59,8 @@ export const isDeckValid = async ({meta: { cards, isUnrestricted }}) => {
     return { result: true };
 };
 
-export const getDecksOfUser = async (userId) => {
-    if (!userId) return [];
+export const getDecksOfUser = async (userId) : Promise<ServiceResponse> => {
+    if (!userId) throw new Error("UserId is required");
     try {
         const data = await prismaClient.deck.findMany({
             where: {
@@ -71,11 +72,11 @@ export const getDecksOfUser = async (userId) => {
         return { data, status: 200 };
     } catch (e) {
         console.log(`failed to get decks for user ${userId}`, e);
-        return { data: [], error: e.message };
+        return { data: [], error: e.message, status: 500 };
     }
 };
 
-export const upsertDeckOfUser = async(userId, deck) => {
+export const upsertDeckOfUser = async(userId, deck) : Promise<ServiceResponse> => {
 if(!userId) throw new Error('User Id required');
     
     const {result, error} = await isDeckValid(deck);
@@ -117,7 +118,7 @@ if(!userId) throw new Error('User Id required');
     return { status: 200, data: dbRes};
 };
 
-export const deleteUserDeck = async (userId, deckId) => {
+export const deleteUserDeck = async (userId, deckId) : Promise<ServiceResponse> => {
     if(!userId || !deckId) throw new Error('UserId and DeckId required');
 
     const existingDeck =  await prismaClient.deck.findFirst({
@@ -139,7 +140,7 @@ export const deleteUserDeck = async (userId, deckId) => {
 };
 
 
-export const getDeckById = async (deckId) => {
+export const getDeckById = async (deckId) : Promise<Deck> => {
     return await prismaClient.deck.findFirst({
         where: {
             id: {
@@ -149,8 +150,7 @@ export const getDeckById = async (deckId) => {
     });
 };
 
-
-export const createInstanceOfDeck = async (deck) => {
+export const createInstanceOfDeck = async (deck) : Promise<Array<instantiatedCard>> => {
     const cardMap = deck.meta.cards;
 
     const cardIds = Object.keys(cardMap);

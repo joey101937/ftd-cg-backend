@@ -3,7 +3,13 @@ import { standardZoneLayout } from "../gameConstants/zoneLayouts";
 
 export const createGameHandler = async (req, res) => {
     
-    const {attackingPlayerId, defendingPlayerId, zoneLayout = 'standard'} = req.body;
+    const {
+        attackingPlayerId,
+         defendingPlayerId,
+         zoneLayout = 'standard',
+         attackingPlayerDeckId,
+         defendingPlayerDeckId,
+        } = req.body;
 
     if(!attackingPlayerId || !defendingPlayerId) return res.status(400).json({ error: 'attackingPlayerId and defendingPlayerId body attribute required' });
 
@@ -18,7 +24,7 @@ export const createGameHandler = async (req, res) => {
 
     }
     
-    const result = await createGame(attackingPlayerId, defendingPlayerId, zoneLayoutToUse);
+    const result = await createGame(attackingPlayerId, defendingPlayerId, zoneLayoutToUse, attackingPlayerDeckId, defendingPlayerDeckId);
 
     return res.status(result.status).json(result);
 };

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { ServiceResponse } from '../gameConstants/schemas';
 
 const prismaClient = new PrismaClient();
 
@@ -22,7 +23,7 @@ export const getCustomCardsOfUser = async (userId) => {
     }
 };
 
-export const getDefaultCards = async () => {
+export const getDefaultCards = async () : Promise<ServiceResponse> => {
     try {
         const data = await prismaClient.card.findMany({
             where: {

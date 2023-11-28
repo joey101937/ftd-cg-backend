@@ -1,4 +1,4 @@
-import { createUser, loginAndGenerateJwt } from "../Services/userService";
+import { loginAndGenerateJwt } from "../Services/userService";
 
 export const loginHandler = async (req, res) => {
     console.log('hitting create user');
@@ -8,5 +8,5 @@ export const loginHandler = async (req, res) => {
 
     const result = await loginAndGenerateJwt(username, password);
 
-    return res.status(result.statusCode).json(result);
+    return res.status(result.status).json(result);
 };

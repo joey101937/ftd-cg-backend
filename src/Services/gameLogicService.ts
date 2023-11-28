@@ -1,10 +1,24 @@
+import { Game } from ".prisma/client";
 import { CARD_TYPES, KEYWORDS, VEHICLE_TYPES, ZONE_TYPES } from "../gameConstants/gameSettings";
+import { InstantiatedGame, instantiatedCard } from "../gameConstants/schemas";
+import { cardEffects } from "./cardEffectHandler";
 
 export const hasKeyword = (vehicle, keyword) => {
     return vehicle?.keywords?.includes(keyword) || false;
 };
 
-export const canPlayerAffordCard = (game, card, playerId) => {
+export const getMaterialCostOfCard = (card: instantiatedCard, game: InstantiatedGame): number => {
+    let cost = card.materialCost;
+    if(cardEffects[card.meta.costModifier]) {
+        cost += cardEffects[card.meta.costModifier]({card, game});
+    }
+    if(card.keywords.includes(KEYWORDS.HALF_COST)) {
+        cost /= 2;
+    }
+    return cost;
+};
+
+export const canPlayerAffordCard = (game: InstantiatedGame, card: instantiatedCard, playerId: String) : boolean => {
     const isAttackingPlayer = game.attackingPlayerId === playerId;
     const {
         materialCost,
@@ -18,7 +32,7 @@ export const canPlayerAffordCard = (game, card, playerId) => {
     }
 };
 
-export const payForCard = (inputGame, card, playerId) => {
+export const payForCard = (inputGame: InstantiatedGame, card: instantiatedCard, playerId: String) => {
     const isAttackingPlayer = inputGame.attackingPlayerId === playerId;
     const {
         materialCost,
@@ -38,7 +52,7 @@ export const payForCard = (inputGame, card, playerId) => {
     return inputGame;
 };
 
-export const canCardBePlayedToZoneType = (card, zoneType) => {
+export const canCardBePlayedToZoneType = (card: instantiatedCard, zoneType: string) => {
     if(card.type === CARD_TYPES.VEHICLE) {
         switch(card.vehicleType) {
             case VEHICLE_TYPES.SHIP: return zoneType === ZONE_TYPES.WATER || zoneType === ZONE_TYPES.BEACH;
@@ -59,10 +73,10 @@ export const canCardBePlayedToZoneType = (card, zoneType) => {
     return true;
 };
 
-export const canCardBePlayedToZone = (game, cardInstanceId, zoneId) => {
+export const canCardBePlayedToZone = (game: InstantiatedGame, cardInstanceId: String, zoneId: String) => {
     const attackingPlayerCard = game.attackingPlayerHand.find(x => x.instanceId === cardInstanceId);
     const defendingPlayerCard = game.defendingPlayerHand.find(x => x.instanceId === cardInstanceId);
-    const card = attackingPlayerCard || defendingPlayerCard;
+    const card:instantiatedCard = attackingPlayerCard || defendingPlayerCard;
 
     if(!card) {
         console.log('WARNING- trying to play card that does not exist in either players hand', {gameId: game.id, cardInstanceId});
@@ -100,7 +114,7 @@ export const getResourcesForTurn = (turnNumber) => {
     return realTurnNumber*50000;
 };
 
-export const doPlayersHaveNegativeResources = (game) => (
+export const doPlayersHaveNegativeResources = (game: InstantiatedGame) => (
     game.attackingPlayerCp < 0 || game.attackingPlayerMaterials < 0
     || game.defendingPlayerCp < 0 || game.defendingPlayerMaterials < 0
 );

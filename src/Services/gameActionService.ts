@@ -1,21 +1,21 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { canCardBePlayedToZone, canPlayerAffordCard, doPlayersHaveNegativeResources, getResourcesForTurn, hasKeyword, payForCard } from "./gameLogicService";
+import { canCardBePlayedToZone, canPlayerAffordCard, doPlayersHaveNegativeResources, getMaterialCostOfCard, getResourcesForTurn, hasKeyword, payForCard } from "./gameLogicService";
 import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, KEYWORDS, VEHICLE_TYPES } from "../gameConstants/gameSettings";
 import { cardEffects } from "./cardEffectHandler";
-import { cloneDeep, update } from "lodash";
-import { pendingChange as pendingChangeSchema } from "../gameConstants/schemas";
-import { getActiveCardsOfPlayer, isOwnerOfCardAttackerOrDefender, removeCardFromHand, removeCardFromPlay } from "../utils";
+import { cloneDeep } from "lodash";
+import { InstantiatedGame, ServiceResponse, instantiatedCard, pendingChangeSchema } from "../gameConstants/schemas";
+import { getActiveCardsOfPlayer, getRollOfOwner, removeCardFromPlay, spendResourcesForPlayer } from "../utils";
 import { updateGameDbEntry } from "./gameService";
 
 const prismaClient = new PrismaClient();
 
-const endTurnHandler = async (game, playerId) => {
+const endTurnHandler = async (game: InstantiatedGame, playerId: string) => {
     const isAttackingPlayer = game.attackingPlayerId === playerId;
     const isPlayersTurn = isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
 
     if (!isPlayersTurn) return { status: 400, data: { error: 'Not players turn' } };
 
-    game.turnNumber = parseFloat(game.turnNumber) + .5;
+    game.turnNumber = game.turnNumber + .5;
     game.isAttackingPlayersTurn = !game.isAttackingPlayersTurn;
 
     if (isAttackingPlayer) {
@@ -40,7 +40,7 @@ const endTurnHandler = async (game, playerId) => {
 
 };
 
-const attackEnemyBase = async (game, actionBody, playerId) => {
+const attackEnemyBase = async (game: InstantiatedGame, actionBody: any, playerId: string) => {
     const {
         targetZoneId,
     } = actionBody;
@@ -69,7 +69,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
 
     friendlyVehicles.forEach(x => {
         if (x.vehicleType && x.vehicleType !== VEHICLE_TYPES.SUB && `${x.meta.turnPlayed}` !== `${game.turnNumber}` && !hasKeyword(x, KEYWORDS.INOFFENSIVE)) {
-            damageToDeal += (x.materialCost / 1000);
+            damageToDeal += (Math.floor(x.materialCost / 1000));
         }
     });
 
@@ -93,7 +93,7 @@ const attackEnemyBase = async (game, actionBody, playerId) => {
  * @param {object} game game to run against
  * @returns true/false if successful
  */
-const handlePostBattleHeroPowers = (game) => {
+const handlePostBattleHeroPowers = (game: InstantiatedGame) => {
     const { pendingChange, attackingPlayerAvailableHeroPowers, defendingPlayerAvailableHeroPowers } = game;
     const { heroPowersUsed } = pendingChange;
 
@@ -111,31 +111,23 @@ const handlePostBattleHeroPowers = (game) => {
 
     Object.keys(heroPowersUsed).forEach(hpInstanceId => {
         const heroPower = allHeroPowers.find(x => x.instanceId === hpInstanceId);
-        const onBattleFuncName = heroPower.meta[TRIGGERS.ON_BATTLE_EFFECT];
-        const onBattleTargetedFuncName = heroPower.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT];
         const onBattleFunc = cardEffects[heroPower.meta[TRIGGERS.ON_BATTLE_EFFECT]];
-        const onBattleTargetedFunc = cardEffects[heroPower.meta[TRIGGERS.ON_BATTLE_EFFECT]];
-        if((onBattleFuncName && !onBattleFunc) || (onBattleTargetedFuncName && !onBattleTargetedFunc)) {
-            console.log('missing battle func or targeted battle func for ', heroPower);
-            results.push(false);
-        }
         if(onBattleFunc) results.push(onBattleFunc(game, heroPower));
-        if(onBattleTargetedFunc) results.push(onBattleTargetedFunc(game, heroPower));
     });
 
     return results.every(x => !!x);
 };
 
-export const applyPendingDecision = async (game) => {
+export const applyPendingDecision = async (game: InstantiatedGame) => {
     const { pendingChange } = game;
     if(!game.pendingChange) return { status: 400, data: {error: 'Game has no pending change'} };
     const validationResponse = pendingChangeSchema.validate(game.pendingChange);
     if(validationResponse.error) return { status: 409, data: {error: `Pending change failed schema validation- ${validationResponse.error}`} };
 
-    const updatedGame = cloneDeep(game);
-    
-    const allActiveCards = [...getActiveCardsOfPlayer(game, updatedGame.attackingPlayerId), ...getActiveCardsOfPlayer(game, updatedGame.defendingPlayerId)];
-    const instanceIdsToDestroy = pendingChange.CardsToDestroy || [];
+    const updatedGame : InstantiatedGame = cloneDeep(game);
+
+    const allActiveCards : Array<instantiatedCard> = [...getActiveCardsOfPlayer(game, updatedGame.attackingPlayerId), ...getActiveCardsOfPlayer(game, updatedGame.defendingPlayerId)];
+    const instanceIdsToDestroy = pendingChange.cardsToDestroy || [];
     const instanceIdsToRepair = pendingChange.vehiclesToRepair || [];
     
     // remove destroyed vehicles
@@ -148,14 +140,24 @@ export const applyPendingDecision = async (game) => {
         if(destroyedCard.meta[TRIGGERS.ON_DEATH]) {
             const func = cardEffects[destroyedCard?.meta[TRIGGERS.ON_DEATH]];
             if (!func) onDeathEffectError = `missing on death function ${destroyedCard.meta[TRIGGERS.ON_DEATH]}`;
-            if (!wasSuccess) onDeathEffectError = `Cards ON_DEATH trigger failed ${destroyedCard.instanceId}`;
+            if (!func(destroyedCard, game)) onDeathEffectError = `Cards ON_DEATH trigger failed ${destroyedCard.instanceId}-  ${destroyedCard.name}`;
         };
     });
     if(onDeathEffectError) return { status: 500, data: {error: onDeathEffectError }};
 
+    // trigger onBattle effects
+    pendingChange.participatingCards.forEach(instanceId => {
+        const cardInstance = allActiveCards.find(x => x.instanceId === instanceId);
+        const onBattleEffect = cardInstance.meta[TRIGGERS.ON_BATTLE_EFFECT];
+        if(onBattleEffect) {
+            onBattleEffect(cardInstance, game)
+        }
+    });
+    
+
     // handle repair costs
     allActiveCards.filter(x => instanceIdsToRepair.includes(x.instanceId)).forEach(cardToRepair => {
-        const roleOfOwner = isOwnerOfCardAttackerOrDefender(updatedGame, cardToRepair); // attacker or defender
+        const roleOfOwner = getRollOfOwner(updatedGame, cardToRepair); // attacker or defender string
         if(roleOfOwner === 'attacker') {
             updatedGame.attackingPlayerMaterials -= (cardToRepair.materialCost/2);
         }
@@ -163,13 +165,13 @@ export const applyPendingDecision = async (game) => {
             updatedGame.defendingPlayerMaterials -= (cardToRepair.materialCost/2);
         }
     });
-    if(updatedGame.defendingPlayerMaterials < 0 || updatedGame.attackingPlayerMaterials < 0) return {status: 400, data: { error: 'Repairs cannot be afforded' }};
 
+    if(updatedGame.defendingPlayerMaterials < 0 || updatedGame.attackingPlayerMaterials < 0) return {status: 400, data: { error: 'Repairs cannot be afforded' }};
     
     // handle postBattleCardsPlayed
     // these should attempt to proc effects if any and charge player for their cost if any
-    const attackersPostBattleCards = game.attackingPlayerHand.filter(x => pendingChange.postBattleCardsPlayed.includes(x.instanceId));
-    const defendersPostBattleCards = game.attackingPlayerHand.filter(x => pendingChange.postBattleCardsPlayed.includes(x.instanceId));
+    const attackersPostBattleCards = game.attackingPlayerHand.filter(x => pendingChange.battleCardsPlayed.includes(x.instanceId));
+    const defendersPostBattleCards = game.attackingPlayerHand.filter(x => pendingChange.battleCardsPlayed.includes(x.instanceId));
 
     attackersPostBattleCards.forEach(card => payForCard(game, card, game.attackingPlayerId));
     defendersPostBattleCards.forEach(card => payForCard(game, card, game.defendingPlayerId));
@@ -182,26 +184,16 @@ export const applyPendingDecision = async (game) => {
             console.log('Missing on battle function for ', card.meta[TRIGGERS.ON_BATTLE_EFFECT]);
             return false;
         }
-        else return func(game, card); 
+        else return func(card, game); 
     });
 
     if(effectResults.filter(x => !x).length > 0) return { status: 400, data: { error: 'Not all card effects returned true' }};
 
-    const targetedEffects = [...attackersPostBattleCards, ...defendersPostBattleCards].filter(x => !!x.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT]).map(card => {
-        const func = cardEffects[card.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT]];
-        if(!func) {
-            console.log('Missing on battle targeted function for ', card.meta[TRIGGERS.ON_BATTLE_TARGETED_EFFECT]);
-            return false;
-        }
-        else return func(game, card);
-    });
-
-    if(targetedEffects.filter(x => !x).length > 0) return { status: 400, data: { error: 'Not all targeted card effects returned true' }};
-
     const heroPowerResult = handlePostBattleHeroPowers(game);
 
     if(!heroPowerResult) return { status: 500, data: { error: 'Hero powers failed' } };
-
+    
+    // @ts-ignore:nextline
     game.pendingChange = Prisma.JsonNull;
     await updateGameDbEntry(game);
     // putting null in response bc Prisma.JsonNull serializes to empty json
@@ -216,7 +208,7 @@ export const applyPendingDecision = async (game) => {
  * @param {String} playerId 
  * @returns result
  */
-const playCardToZoneHandler = async (game, actionBody, playerId) => {
+const playCardToZoneHandler = async (game: InstantiatedGame, actionBody, playerId) : Promise<ServiceResponse> => {
     const {
         targetZoneId,
         cardInstanceId,
@@ -250,15 +242,15 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
         if (!func) return { status: 500, data: { error: `missing play on zone function ${playingCard.meta[TRIGGERS.PLAY_ON_ZONE]}` } };
         try {
             const wasSuccess = await func({
-                game,
                 playingCard,
+                game,
                 playerId,
                 actionBody
             });
-            if (!wasSuccess) return { status: 400, data: { error: 'Cards PLAY_ON_ZONE trigger failed' } };
+            if (!wasSuccess) return { status: 400, error: 'Cards PLAY_ON_ZONE trigger failed' };
         } catch (e) {
             console.log(e.message);
-            return { status: 400, data: { error: 'Cards PLAY_ON_ZONE trigger errored' } };
+            return { status: 400, error: 'Cards PLAY_ON_ZONE trigger errored' };
         }
     }
 
@@ -272,14 +264,16 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
                 playerId,
                 actionBody
             });
-            if (!wasSuccess) return { status: 400, data: { error: 'Cards ON_PLAY trigger failed' } };
+            if (!wasSuccess) return { status: 400, error: 'Cards ON_PLAY trigger failed' };
         } catch (e) {
             console.log(e.message);
-            return { status: 400, data: { error: 'Cards ON_PLAY trigger errored' } };
+            return { status: 400, error: 'Cards ON_PLAY trigger errored' };
         }
     }
 
-    const materialCost = hasKeyword(playingCard, KEYWORDS.HALF_COST) ? playingCard.materialCost / 2 : playingCard.materialCost;
+    const materialCost = getMaterialCostOfCard(playingCard, game);
+
+    spendResourcesForPlayer(game, playerId, materialCost, playingCard.cpCost);
 
     if (playingCard.type === CARD_TYPES.VEHICLE) {
         playingCard.meta.turnPlayed = game.turnNumber;
@@ -292,8 +286,6 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
             }
             targetZone.attackingPlayerCards.push(playingCard);
             game.attackingPlayerHand = game.attackingPlayerHand.filter(x => x.instanceId !== playingCard.instanceId);
-            game.attackingPlayerMaterials -= materialCost;
-            game.attackingPlayerCp -= playingCard.cpCost;
         } else {
             if (playingCard.meta.additionalCopies) {
                 for (let i = 0; i < playingCard.meta.additionalCopies; i++) {
@@ -303,8 +295,6 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
             }
             targetZone.defendingPlayerCards.push(playingCard);
             game.defendingPlayerHand = game.defendingPlayerHand.filter(x => x.instanceId !== playingCard.instanceId);
-            game.attackingPlayerMaterials -= materialCost;
-            game.attackingPlayerCp -= playingCard.cpCost;
         }
     }
 
@@ -313,21 +303,72 @@ const playCardToZoneHandler = async (game, actionBody, playerId) => {
     return { status: 200, data: updatedGame };
 };
 
-export const submitPendingChangeHandler = async (game, actionBody, triggeringPlayerId) => {
+const playCardWithoutTargetHandler = async(game: InstantiatedGame, actionBody, playerId) : Promise<ServiceResponse> => {
+    const {
+        cardInstanceId
+    } = actionBody;
+
+    const isAttackingPlayer = game.attackingPlayerId === playerId;
+    const isPlayersTurn = isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
+
+    if (!isPlayersTurn) return { status: 400, error: 'Not players turn' };
+
+    const playerHand = isAttackingPlayer ? game.attackingPlayerHand : game.defendingPlayerHand;
+
+    const playingCard = playerHand.find(x => x.instanceId = cardInstanceId);
+
+    if (playingCard.type === CARD_TYPES.VEHICLE) {
+        return {status: 400, error: 'Vehicle card must be played to a zone'};
+    }
+
+    if (!canPlayerAffordCard(game, playingCard, playerId)) {
+        return { status: 400, error: 'Player cannot afford that card' };
+    }
+
+    if (playingCard.meta[TRIGGERS.ON_PLAY]) {
+        const func = cardEffects[playingCard.meta[TRIGGERS.ON_PLAY]];
+        if (!func) return { status: 500, error: `missing on play function ${playingCard.meta[TRIGGERS.ON_PLAY]}` };
+        try {
+            const wasSuccess = await func({
+                game,
+                playingCard,
+                playerId,
+                actionBody
+            });
+            if (!wasSuccess) return { status: 400, error: 'Cards ON_PLAY trigger failed'};
+        } catch (e) {
+            console.log(e.message);
+            return { status: 400, error: 'Cards ON_PLAY trigger errored' };
+        }
+    }
+    
+    const materialCost = getMaterialCostOfCard(playingCard, game);
+
+    spendResourcesForPlayer(game, playerId, materialCost, playingCard.cpCost);
+
+    const updatedGame = await updateGameDbEntry(game);
+
+    return { status: 200, data: updatedGame };
+}
+
+
+export const submitPendingChangeHandler = async (game: InstantiatedGame, actionBody, triggeringPlayerId) : Promise<ServiceResponse> => {
+    actionBody.proposingPlayerId = triggeringPlayerId;
     const validationResponse = pendingChangeSchema.validate(actionBody);
     if(!validationResponse.error) {
         game.pendingChange = actionBody;
         const updatedGame = await updateGameDbEntry(game);
         return { status: 200, data: {updatedGame} };
     } else {
-        return { status: 400, data: {error: `Validation Error: ${validationResponse.error}`}};
+        return { status: 400, error: `Validation Error: ${validationResponse.error}`};
     }
 };
 
-export const decidePendingChangeHandler = async (game, actionBody, triggeringPlayerId) => {
-    if(!game.pendingChange) return { status: 400, data: { error: 'Game has no pending change' } };
-    if(game.pendingChange.proposingPlayerId === triggeringPlayerId) return {status: 400, data: { error: 'You cannot approve your own proposal' }};
+export const decidePendingChangeHandler = async (game: InstantiatedGame, actionBody, triggeringPlayerId) : Promise<ServiceResponse> => {
+    if(!game.pendingChange) return { status: 400, error: 'Game has no pending change' };
+    if(game.pendingChange.proposingPlayerId === triggeringPlayerId) return {status: 400, error: 'You cannot approve your own proposal' };
     if(actionBody.decision === false) {
+        // @ts-ignore:next-line
         game.pendingChange = Prisma.JsonNull;
         const updatedGame = await updateGameDbEntry(game);
         return { status: 200, data: { updatedGame } };
@@ -337,13 +378,14 @@ export const decidePendingChangeHandler = async (game, actionBody, triggeringPla
     return result;
 };
 
-export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType, actionBody }) => {
+export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType, actionBody }) : Promise<ServiceResponse> => {
 
     if (!triggeringPlayerId || !gameId || !actionType || !actionBody) {
         return { status: 400, data: { error: 'Missing parameter. triggeringPlayerId, gameId, actionType, actionBody required' } };
     }
 
-    const game = await prismaClient.game.findFirst({
+    // @ts-ignore:next-line
+    const game: InstantiatedGame = await prismaClient.game.findFirst({
         where: {
             id: {
                 equals: gameId,
@@ -357,15 +399,16 @@ export const handleGameAction = async ({ triggeringPlayerId, gameId, actionType,
     });
 
     if (!game) {
-        return { status: 400, data: { error: `User is not in a game with given id ${gameId}` } };
+        return { status: 400, error: `User is not in a game with given id ${gameId}` };
     }
 
     switch (actionType) {
         case GAME_ACTION_TYPES.PLAY_CARD_TO_ZONE: return await playCardToZoneHandler(game, actionBody, triggeringPlayerId);
+        case GAME_ACTION_TYPES.PLAY_CARD_WITHOUT_TARGET: return await playCardWithoutTargetHandler(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.ATTACK_ENEMY_BASE: return await attackEnemyBase(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.END_TURN: return await endTurnHandler(game, triggeringPlayerId);
         case GAME_ACTION_TYPES.SUBMIT_PENDING_CHANGE: return await submitPendingChangeHandler(game, actionBody, triggeringPlayerId);
         case GAME_ACTION_TYPES.DECIDE_PENDING_CHANGE: return await decidePendingChangeHandler(game, actionBody, triggeringPlayerId);
-        default: return { status: 400, data: { error: `unknown actionType ${actionType}` } };
+        default: return { status: 400,  error: `unknown actionType ${actionType}` };
     }
 };

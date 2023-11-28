@@ -1,13 +1,26 @@
 import { PrismaClient } from "@prisma/client";
-import { FACTIONS, KEYWORDS } from "../gameConstants/gameSettings";
-import { addCpToPlayer, getPlayerDeckInstance, getPlayerHand, shuffleMutating } from "../utils";
+import { CARD_TYPES, FACTIONS, KEYWORDS } from "../gameConstants/gameSettings";
+import { addCpToPlayer, getPlayerDeckInstance, getPlayerHand, getRollOfOwner, shuffleMutating } from "../utils";
 import { v4 as uuid } from "uuid";
+import { InstantiatedGame, instantiatedCard } from "../gameConstants/schemas";
 
 const prismaClient = new PrismaClient();
 
+type onPlayPayload = {
+    game: InstantiatedGame,
+    playingCard: instantiatedCard, // card triggering effect
+    playerId: string,
+    actionBody: any,
+}
+
+type costModifierPayload = {
+    game: InstantiatedGame,
+    card: instantiatedCard,
+}
+
 export const cardEffects = {
     // draw a card and gain 1 cp
-    marauderOnPlay: ({game, playerId, playingCard, actionBody}) => {
+    marauderOnPlay: ({game, playerId}: onPlayPayload) => {
         const playersHand = getPlayerHand(game, playerId);
         const drawnCard = getPlayerDeckInstance(game, playerId).shift();
         playersHand.push(drawnCard);
@@ -16,7 +29,7 @@ export const cardEffects = {
     },
 
     // draw a card and gain 1 cp
-    crossbonesOnPlay: ({game, playerId, playingCard, actionBody}) => {
+    crossbonesOnPlay: ({game, playerId}: onPlayPayload) => {
         const playersHand = getPlayerHand(game, playerId);
         const drawnCard = getPlayerDeckInstance(game, playerId).shift();
         addCpToPlayer(game, playerId, 1);
@@ -25,14 +38,14 @@ export const cardEffects = {
     },
 
     // reduce cost by 20k for each friendly dwg vehicle
-    plundererCostModifier: ({game, playerId}) => {
-        const isAttackingPlayer = game.attackingPlayerId === playerId;
+    plundererCostModifier: ({game, card}: costModifierPayload) => {
+        const isAttackingPlayer = getRollOfOwner(game, card.instanceId) === 'attacker';
         let numDwgVehicles = 0;
         game.zones.forEach(zone => {
             if(isAttackingPlayer) {
-                numDwgVehicles += zone.attackingPlayerCards.filter(x => x.faction === FACTIONS.DWG);
+                numDwgVehicles += zone.attackingPlayerCards.filter(x => x.type === CARD_TYPES.VEHICLE && x.faction === FACTIONS.DWG).length;
             } else {
-                numDwgVehicles += zone.defendingPlayerCards.filter(x => x.faction === FACTIONS.DWG);
+                numDwgVehicles += zone.defendingPlayerCards.filter(x => x.type === CARD_TYPES.VEHICLE && x.faction === FACTIONS.DWG).length;
             }
         });
 
@@ -40,7 +53,7 @@ export const cardEffects = {
     },
 
     // shuffle copy into deck that costs 0
-    loggerheadOnDeath: ({game, playerId, playingCard}) => {
+    loggerheadOnDeath: ({game, playerId, playingCard}: onPlayPayload) => {
         const deck = getPlayerDeckInstance(game, playerId);
         deck.push({
             ...playingCard,
@@ -52,7 +65,7 @@ export const cardEffects = {
     },
 
     // add 3 random dwg cards to ur hand
-    reservesEffect: async ({game, playerId}) => {
+    reservesEffect: async ({game, playerId}: onPlayPayload) => {
         const hand = getPlayerHand(game, playerId);
         const cardPool = await prismaClient.card.findMany({
             where: {
@@ -69,6 +82,7 @@ export const cardEffects = {
         });
         shuffleMutating(cardPool);
         for(let i =0; i < 3; i++) {
+            // @ts-ignore:next-line
             hand.push({
                 ...cardPool.shift(),
                 instanceId: uuid(),
@@ -78,7 +92,7 @@ export const cardEffects = {
     },
 
     // spawns a non-temporary buccaneer into a zone. give it scrappy.
-    spawnBuccaneerEffect: async ({game, playerId, actionBody}) => {
+    spawnBuccaneerEffect: async ({game, playerId, actionBody}: onPlayPayload) => {
         const { targetZoneId } = actionBody;
         const isAttackingPlayer = playerId === game.attackingPlayerId;
         const targetZone = game.zones.find(x => x.id === targetZoneId);
@@ -95,20 +109,22 @@ export const cardEffects = {
             }
         });
 
+        // @ts-ignore next-line
         arrayToAddTo.push({
             ...card,
             keywords: [KEYWORDS.SCRAPPY],
+            instanceId: uuid(),
         });
 
         return true;
     },
 
     // Target DWG vehicle card in hand spawns an additional copy of that vehicle when played if it costs less than 400k
-    doubleUpEffect: ({game, playerId, actionBody}) => {
+    doubleUpEffect: ({game, playerId, actionBody}: onPlayPayload) => {
         const {targetCardInstanceId} = actionBody;
         const hand = getPlayerHand(game, playerId);
         const targetCard = hand.find(x => x.instanceId === targetCardInstanceId);
-        if(targetCard.materialCost > 400000) return false;
+        if(!targetCard || targetCard.materialCost > 400000) return false;
 
         if(targetCard.meta.additionalSpawns) {
             targetCard.meta.additionalSpawns += 1;

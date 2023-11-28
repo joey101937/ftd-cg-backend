@@ -8,7 +8,7 @@ import { getUserIdFromRequest } from "../Services/userService";
  * @param {*} res 
  * @returns 
  */
-export const getGamesOfUserHandler = async (req, res) => {
+export const getMyGamesHandler = async (req, res) => {
     
     const { includeFinished } = req.query;
 

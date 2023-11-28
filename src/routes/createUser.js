@@ -8,5 +8,5 @@ export const createUserHandler = async (req, res) => {
 
     const result = await createUser(username, password);
 
-    return res.status(result.statusCode).json(result);
+    return res.status(result.status).json(result);
 };

@@ -32,10 +32,17 @@ const hashPassword = async (plaintextPassword) => {
     return hashedPassword;
 };
 
-export const createUser = async (username, password) => {
+export type createUserResponse = {
+    status: number,
+    data?: any,
+    error?: string,
+    jwt?: string
+}
+
+export const createUser = async (username, password) : Promise<createUserResponse> => {
     try {
         const hashedPassword = await hashPassword(password);
-        const dbRes = await prismaClient.User.create({
+        const dbRes = await prismaClient.user.create({
             data: { username, password: hashedPassword }
         });
 
@@ -44,14 +51,14 @@ export const createUser = async (username, password) => {
             username: dbRes.username,
         }, secretKey);
 
-        return { data: dbRes, jwt: token, statusCode: 200 };
+        return { data: dbRes, jwt: token, status: 200 };
     } catch (e) {
         console.log(e.message, e);
         const uniqueConstraintFailed = e.code === 'P2002';
         if (uniqueConstraintFailed) {
-            return { error: 'Username already taken', statusCode: 400 };
+            return { error: 'Username already taken', status: 400 };
         } else {
-            return { error: 'Internal Server Error', statusCode: 500 };
+            return { error: 'Internal Server Error', status: 500 };
         }
     }
 };
@@ -62,8 +69,14 @@ export const getAllUsers = async () => {
     return dbRes;
 };
 
+export type loginResponse = {
+    status: number,
+    username?: string,
+    error?: string,
+    jwt?: string,
+}
 
-export const loginAndGenerateJwt = async (username, password) => {
+export const loginAndGenerateJwt = async (username, password) : Promise<loginResponse> => {
     const user = await prismaClient.user.findUnique({
         where: {
             username,
@@ -71,13 +84,13 @@ export const loginAndGenerateJwt = async (username, password) => {
     });
 
     if (!user) {
-        return { error: 'No user with that username', statusCode: 400 };
+        return { error: 'No user with that username', status: 400 };
     }
 
     const validPw = await bcrypt.compare(password, user.password);
 
     if (!validPw) {
-        return { error: 'Invalid credentials', statusCode: 400 };
+        return { error: 'Invalid credentials', status: 400 };
     }
 
     const token = jwt.sign({
@@ -87,7 +100,7 @@ export const loginAndGenerateJwt = async (username, password) => {
     return {
         jwt: token,
         username: user.username,
-        statusCode: 200,
+        status: 200,
     };
 };
 
@@ -105,18 +118,20 @@ export const getActiveDeckOfPlayer = async (userId) => {
         return null;
     }
 
+    //@ts-ignore
     if(user.meta.activeDeckId) {
         const foundDeck = prismaClient.deck.findFirst({
             where: {
                 id: {
+                    //@ts-ignore
                     equals: user.meta.activeDeck
                 }
             }
         });
 
-        return foundDeck || testDefaultDeck;
+        return foundDeck;
     } else {
-        return testDefaultDeck;
+        return null;
     }
 };
 

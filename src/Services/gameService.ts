@@ -1,34 +1,47 @@
 import { PrismaClient } from '@prisma/client';
 import { createInstanceOfDeck, getDeckById } from './deckService';
 import { STARTING_CP_AMOUNT, STARTING_HAND_SIZE } from '../gameConstants/gameSettings';
-import { testDefaultDeck } from '../gameConstants/defaultDecks';
+import { ServiceResponse } from '../gameConstants/schemas';
+import { sanitizeGameForPlayer } from '../utils';
 
 const prismaClient = new PrismaClient();
 
+export const getGameById = async (gameId, requestingUserId): Promise<ServiceResponse> => {
 
-export const getGamesOfUser = async (userId, includeFinished) => {
-    if(!userId) return  [];
+    if(!gameId) return { status: 400, error: 'GameId required'};
+
+    const game = await prismaClient.game.findFirst({
+        where: {
+            id: gameId,
+        }
+    });
+
+    // @ts-ignore next-line
+    return {status: 200, data: sanitizeGameForPlayer(game, requestingUserId)};
+    
+}
+
+export const getGamesOfUser = async (userId: string, includeFinished: boolean) : Promise<ServiceResponse> => {
+    if(!userId) throw new Error("UserId required");
     try {
         const queryObj = {
             where: {
-                OR: {
-                    attackingPlayerId: {
-                        equals: userId
-                    },
-                    defendingPlayerId: {
-                        equals: userId
-                    },
-                }
+                OR: [
+                   { attackingPlayerId: userId },
+                   { defendingPlayerId: userId },
+                ]
             }
         };
 
         if(!includeFinished) {
+            // @ts-ignore:next-line
             queryObj.where.status = {
                 equals: 'active'
             };
         }
 
-        const data = await prismaClient.game.findMany(queryObj);
+        const data = await prismaClient.game.findMany(queryObj)
+        // @ts-ignore next-line
         return {data, status: 200};
     } catch(e) {
         console.log(`failed to get decks for user ${userId}`, e);
@@ -37,7 +50,7 @@ export const getGamesOfUser = async (userId, includeFinished) => {
 };
 
 
-export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayout) => {
+export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayout, attackingPlayerDeckId, defendingPlayerDeckId) => {
 
     const attackingPlayer = await prismaClient.user.findFirst({
         where: {
@@ -58,12 +71,16 @@ export const createGame = async (attackingPlayerId, defendingPlayerId, zoneLayou
     console.log({attackingPlayer, defendingPlayer});
 
     if(!attackingPlayer || !defendingPlayer) {
-        return { data: null, status: 400, error: 'player(s) not found'};
+        return { status: 400, error: 'player(s) not found'};
     }
+    // @ts-ignore:next-line
+    const attackingDeck = (await getDeckById(attackingPlayerDeckId || attackingPlayer.meta.activeDeckId));
+    // @ts-ignore:next-line
+    const defendingDeck = (await getDeckById(defendingPlayerDeckId || defendingPlayer.meta.activeDeckId));
 
-    const attackingDeck = (await getDeckById(attackingPlayer.meta.activeDeckId)) || testDefaultDeck;
-    const defendingDeck = (await getDeckById(defendingPlayer.meta.activeDeckId)) || testDefaultDeck;
-
+    if(!attackingDeck || !defendingDeck) {
+        return { status: 400, error: 'Both players must have their active deck set or manually provided' };
+    }
     
     const attackingPlayerDeckInstance = await createInstanceOfDeck(attackingDeck);
     const defendingPlayerDeckInstance = await createInstanceOfDeck(defendingDeck);
