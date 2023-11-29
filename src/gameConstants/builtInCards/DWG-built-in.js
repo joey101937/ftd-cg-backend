@@ -21,7 +21,7 @@ export const dwgVehicles = [
     {
         name: 'Crossbones',
         isBuiltIn: true,
-        cardText: 'When this vehicle is plaW yed, draw a card and gain 1cp.',
+        cardText: 'When this vehicle is played, draw a card and gain 1cp.',
         materialCost: 440000,
         blueprintCost: 449631,
         cpCost: 0,

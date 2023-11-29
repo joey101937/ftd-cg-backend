@@ -1,4 +1,4 @@
-import { Card, Game } from ".prisma/client";
+import { Card } from ".prisma/client";
 import Joi from "joi";
 
 export const pendingChangeSchema = Joi.object({
@@ -28,7 +28,7 @@ export type Zone = {
     lastActivatedTurn: number,
     defendingPlayerHp: number
     attackingPlayerHp: number
-    type: "water" | 'beach' | "land",
+    type: 'water' | 'beach' | 'land',
     id: string,
 }
 
@@ -53,6 +53,7 @@ status: string
 meta: {
     alertCard: instantiatedCard,
     alertCardPlayerId: string, // player who set alert card
+    recentlyPlayedCards: Array<instantiatedCard> | undefined,
 },
 turnNumber: number
 pendingChange: pendingChange

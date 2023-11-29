@@ -4,16 +4,15 @@ import { CARD_TYPES, GAME_ACTION_TYPES, TRIGGERS, KEYWORDS, VEHICLE_TYPES } from
 import { cardEffects } from "./cardEffectHandler";
 import { cloneDeep } from "lodash";
 import { InstantiatedGame, ServiceResponse, instantiatedCard, pendingChangeSchema } from "../gameConstants/schemas";
-import { getActiveCardsOfPlayer, getRollOfOwner, removeCardFromPlay, spendResourcesForPlayer } from "../utils";
+import { addToRecentlyPlayedCards, getActiveCardsOfPlayer, getRollOfOwner, isPlayersTurn, removeCardFromPlay, spendResourcesForPlayer } from "../utils";
 import { updateGameDbEntry } from "./gameService";
 
 const prismaClient = new PrismaClient();
 
 const endTurnHandler = async (game: InstantiatedGame, playerId: string) => {
     const isAttackingPlayer = game.attackingPlayerId === playerId;
-    const isPlayersTurn = isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
 
-    if (!isPlayersTurn) return { status: 400, data: { error: 'Not players turn' } };
+    if (!isPlayersTurn(game, playerId)) return { status: 400, data: { error: 'Not players turn' } };
 
     game.turnNumber = game.turnNumber + .5;
     game.isAttackingPlayersTurn = !game.isAttackingPlayersTurn;
@@ -46,9 +45,8 @@ const attackEnemyBase = async (game: InstantiatedGame, actionBody: any, playerId
     } = actionBody;
 
     const isAttackingPlayer = game.attackingPlayerId === playerId;
-    const isPlayersTurn = isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
 
-    if (!isPlayersTurn) return { status: 400, error: 'Not players turn' };
+    if (!isPlayersTurn(game, playerId)) return { status: 400, error: 'Not players turn' };
 
     const targetZone = game.zones.find(x => x.id === targetZoneId);
 
@@ -157,6 +155,8 @@ export const applyPendingDecision = async (game: InstantiatedGame) => {
 
     // handle repair costs
     allActiveCards.filter(x => instanceIdsToRepair.includes(x.instanceId)).forEach(cardToRepair => {
+        if(cardToRepair.keywords.includes(KEYWORDS.SCRAPPY)) return; // scrappy has no repair cost
+
         const roleOfOwner = getRollOfOwner(updatedGame, cardToRepair); // attacker or defender string
         if(roleOfOwner === 'attacker') {
             updatedGame.attackingPlayerMaterials -= (cardToRepair.materialCost/2);
@@ -176,7 +176,7 @@ export const applyPendingDecision = async (game: InstantiatedGame) => {
     attackersPostBattleCards.forEach(card => payForCard(game, card, game.attackingPlayerId));
     defendersPostBattleCards.forEach(card => payForCard(game, card, game.defendingPlayerId));
     
-    if(doPlayersHaveNegativeResources(game)) return {status: 400, data: {error: 'Players would have negative resources after paying for postbattle cards' }};
+    if(doPlayersHaveNegativeResources(game)) return {status: 400, data: {error: 'Players would have negative resources after paying for post battle cards' }};
 
     const effectResults = [...attackersPostBattleCards, ...defendersPostBattleCards].filter(x => !!x.meta[TRIGGERS.ON_BATTLE_EFFECT]).map(card => {
         const func = cardEffects[card.meta[TRIGGERS.ON_BATTLE_EFFECT]];
@@ -193,7 +193,7 @@ export const applyPendingDecision = async (game: InstantiatedGame) => {
 
     if(!heroPowerResult) return { status: 500, data: { error: 'Hero powers failed' } };
     
-    // @ts-ignore:nextline
+    // @ts-ignore:next-line
     game.pendingChange = Prisma.JsonNull;
     await updateGameDbEntry(game);
     // putting null in response bc Prisma.JsonNull serializes to empty json
@@ -215,9 +215,8 @@ const playCardToZoneHandler = async (game: InstantiatedGame, actionBody, playerI
     } = actionBody;
 
     const isAttackingPlayer = game.attackingPlayerId === playerId;
-    const isPlayersTurn = isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
 
-    if (!isPlayersTurn) return { status: 400, error: 'Not players turn' };
+    if (!isPlayersTurn(game, playerId)) return { status: 400, error: 'Not players turn' };
 
     const playerHand = isAttackingPlayer ? game.attackingPlayerHand : game.defendingPlayerHand;
 
@@ -236,6 +235,8 @@ const playCardToZoneHandler = async (game: InstantiatedGame, actionBody, playerI
     if (!canCardBePlayedToZone(game, playingCard.instanceId, targetZoneId)) {
         return { status: 400, data: { error: 'That card cannot be legally played to that zone' } };
     }
+
+    addToRecentlyPlayedCards(game, playingCard);
 
     if (playingCard.meta[TRIGGERS.PLAY_ON_ZONE]) {
         const func = cardEffects[playingCard.meta[TRIGGERS.PLAY_ON_ZONE]];
@@ -309,9 +310,8 @@ const playCardWithoutTargetHandler = async(game: InstantiatedGame, actionBody, p
     } = actionBody;
 
     const isAttackingPlayer = game.attackingPlayerId === playerId;
-    const isPlayersTurn = isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
 
-    if (!isPlayersTurn) return { status: 400, error: 'Not players turn' };
+    if (!isPlayersTurn(game, playerId)) return { status: 400, error: 'Not players turn' };
 
     const playerHand = isAttackingPlayer ? game.attackingPlayerHand : game.defendingPlayerHand;
 
@@ -324,6 +324,8 @@ const playCardWithoutTargetHandler = async(game: InstantiatedGame, actionBody, p
     if (!canPlayerAffordCard(game, playingCard, playerId)) {
         return { status: 400, error: 'Player cannot afford that card' };
     }
+
+    addToRecentlyPlayedCards(game, playingCard);
 
     if (playingCard.meta[TRIGGERS.ON_PLAY]) {
         const func = cardEffects[playingCard.meta[TRIGGERS.ON_PLAY]];

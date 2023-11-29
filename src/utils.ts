@@ -1,7 +1,6 @@
 import { InstantiatedGame, instantiatedCard } from "./gameConstants/schemas";
 import { cloneDeep } from "lodash";
 
-
 export const getPlayerHand = (game: InstantiatedGame, playerId) : Array<instantiatedCard> => {
     let isAttackingPlayer = false;
     if(game.attackingPlayerId === playerId) {
@@ -128,6 +127,17 @@ export const sanitizeGameForPlayer = (game: InstantiatedGame, playerId) => {
      }
 
     return out;
+}
+
+export const addToRecentlyPlayedCards = (game: InstantiatedGame, card: instantiatedCard) => {
+    const arr = game.meta.recentlyPlayedCards || [];
+    arr.push(card);
+    game.meta.recentlyPlayedCards = arr;
+};
+
+export const isPlayersTurn = (game: InstantiatedGame, playerId) => {
+    const isAttackingPlayer = game.attackingPlayerId === playerId;
+    return isAttackingPlayer ? game.isAttackingPlayersTurn : !game.isAttackingPlayersTurn;
 }
 
 /**

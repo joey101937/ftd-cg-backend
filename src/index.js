@@ -13,6 +13,7 @@ import { getCustomCardsHandler } from './routes/getCards';
 import { upsertDeckHandler } from './routes/upsertDeckHandler';
 import { deleteDeckHandler } from './routes/deleteDeckHandler';
 import { getGameByIdHandler } from './routes/getGameById';
+import { createCustomCardsHandler } from './routes/createCard';
 
 const app = express();
 const port = 8000;
@@ -30,7 +31,7 @@ app.delete('/deck/:deckId', deleteDeckHandler);
 
 app.get('/myCards', getCustomCardsHandler);
 app.get('/defaultCards', getDefaultCardsHandler);
-
+app.post('/card', createCustomCardsHandler);
 
 app.get('/game', getMyGamesHandler);
 app.get('/game/:gameId', getGameByIdHandler);

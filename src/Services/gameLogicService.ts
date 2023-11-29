@@ -1,4 +1,3 @@
-import { Game } from ".prisma/client";
 import { CARD_TYPES, KEYWORDS, VEHICLE_TYPES, ZONE_TYPES } from "../gameConstants/gameSettings";
 import { InstantiatedGame, instantiatedCard } from "../gameConstants/schemas";
 import { cardEffects } from "./cardEffectHandler";
