@@ -34,7 +34,7 @@ export const allHeroPowers = [
     {
         faction: FACTIONS.OW,
         name: 'Change Order',
-        text: 'Discard an OW vehicle card to draw a copy of a player made ship or tank from your deck',
+        text: 'Discard an OW vehicle card. Draw a copy of a player made ship or tank from your deck in two turns',
         cpCost: 1
     },
     {
