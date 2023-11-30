@@ -20,7 +20,7 @@ export const ssVehicles = [
     },{
         name: 'Victoria',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When this vehicle is destroyed, draw a card and reduce its cost by 50k',
         materialCost: 270000,
         blueprintCost: 270185,
         cpCost: 0,
@@ -36,8 +36,8 @@ export const ssVehicles = [
     },{
         name: 'Air Strafe',
         isBuiltIn: true,
-        cardText: 'Choose an enemy ship, it fights alone against a predatorX. If you have 180k+ materials, this costs 90k more and spawns an additional PredatorX',
-        materialCost: 90000,
+        cardText: 'Choose an enemy ship, it fights alone against two predatorX. If the target is a player design, also spawn your choice of hydra or cyclone',
+        materialCost: 180000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'airStrafe.png',
@@ -52,7 +52,7 @@ export const ssVehicles = [
     },{
         name: 'Repairmen Ready',
         isBuiltIn: true,
-        cardText: 'Grant target vehicle scrappy. If that vehicle costs less than 200k, draw a card.',
+        cardText: 'Grant target vehicle scrappy. If the target is an AI vehicle that costs less than 200k, draw a card.',
         materialCost: 0,
         blueprintCost: 0,
         cpCost: 0,
@@ -68,7 +68,7 @@ export const ssVehicles = [
     },{
         name: 'Excalibur',
         isBuiltIn: true,
-        cardText: 'Pick one ship in hand and reduce its cost by 150k',
+        cardText: 'Pick one AI ship in hand and reduce its cost by 200k',
         materialCost: 550000,
         blueprintCost: 553900,
         cpCost: 0,
@@ -100,7 +100,7 @@ export const ssVehicles = [
     } ,{
         name: 'Braveheart',
         isBuiltIn: true,
-        cardText: 'When fighting an offensive fleet battle in this zone, you may elect to omit any other friendly vehicle from the battle',
+        cardText: 'When fighting an offensive fleet battle in this zone, you may elect to omit one enemy ship that costs less than 300k from the battle. If you do so, you must also omit one of your own ships from the battle other than this card.',
         materialCost: 370000,
         blueprintCost: 371000,
         cpCost: 0,
@@ -209,7 +209,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [],
+        keywords: [KEYWORDS.BLOCKER],
         meta: {
         }
     }, {
@@ -283,8 +283,8 @@ export const ssVehicles = [
     {
         name: 'Falcon Squadron',
         isBuiltIn: true,
-        cardText: 'This card is considered destroyed if any of its sub-vehicles is destroyed in battle.',
-        materialCost: 90000,
+        cardText: 'This card is considered destroyed if any of its sub-vehicles is destroyed in battle',
+        materialCost: 60000,
         blueprintCost: 96276,
         cpCost: 0,
         imageUrl: 'falcon.png',
@@ -361,7 +361,7 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [],
+        keywords: [KEYWORDS.MOBILE],
         meta: {
         }
     },

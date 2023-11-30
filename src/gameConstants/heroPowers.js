@@ -34,13 +34,13 @@ export const allHeroPowers = [
     {
         faction: FACTIONS.OW,
         name: 'Change Order',
-        text: 'Discard an OW vehicle card to draw a copy of a player made ship or tank from your deck, then reduce its cost by 30k',
+        text: 'Discard an OW vehicle card to draw a copy of a player made ship or tank from your deck',
         cpCost: 1
     },
     {
         faction: FACTIONS.LH,
         name: 'Orbit Flank',
-        text: 'Choose an enemy vehicle. It fights alone against an orbit',
+        text: 'Choose one: Spawn a friendly orbit into any zone and give it the TEMPORARY keyword, or choose one enemy vehicle and have it fight alone against an orbit',
         cpCost: 1
     },
 ];

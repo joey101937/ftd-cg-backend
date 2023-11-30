@@ -38,7 +38,7 @@ export const wfVehicles = [
     {
         name: 'Excruciator',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When played, draw a card',
         materialCost: 660000,
         blueprintCost: 663000,
         cpCost: 0,
@@ -228,7 +228,7 @@ export const wfVehicles = [
     {
         name: 'Martyr Attack',
         isBuiltIn: true,
-        cardText: 'Choose an enemy vehicle. It enters a fight alone against 4 Martyrs. If it is an airship, it fights 6 Martyrs instead',
+        cardText: 'Choose an enemy vehicle. It enters a fight alone against 4 Martyrs. If it is an airship, or a player design costing 400k+, it fights 6 Martyrs instead',
         materialCost: 50000,
         blueprintCost: 0,
         cpCost: 0,
