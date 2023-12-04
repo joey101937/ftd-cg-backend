@@ -1,4 +1,4 @@
-import { FACTIONS, KEYWORDS, TRIGGERS, VEHICLE_TYPES } from "../gameSettings";
+import { CARD_TYPES, FACTIONS, KEYWORDS, TRIGGERS, VEHICLE_TYPES } from "../gameSettings";
 
 export const dwgVehicles = [
     {
@@ -316,6 +316,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
+        keywords: [KEYWORDS.STEALTHY],
         meta: {
             additionalSpawns: 1
         }
@@ -356,7 +357,7 @@ export const dwgVehicles = [
         name: 'Flying Squirrel Attack',
         isBuiltIn: true,
         cardText: 'Choose an enemy vehicle, that vehicle fights alone against a flying squirrel (3x squadron)',
-        materialCost: 0,
+        materialCost: 100000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'flyingSquirrelAttack.png',

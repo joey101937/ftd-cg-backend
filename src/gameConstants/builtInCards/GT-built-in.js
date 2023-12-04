@@ -99,7 +99,7 @@ export const gtVehicles = [
         type: 'vehicle',
         faction: FACTIONS.GT,
         blueprintId: null,
-        keywords: [KEYWORDS.FRAGILE, KEYWORDS.BLOCKER],
+        keywords: [KEYWORDS.FRAGILE],
         meta: {
         }
     },

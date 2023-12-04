@@ -39,8 +39,8 @@ export const allHeroPowers = [
     },
     {
         faction: FACTIONS.LH,
-        name: 'Orbit Flank',
-        text: 'Choose one: Spawn a friendly orbit into any zone and give it the TEMPORARY keyword, or choose one enemy vehicle and have it fight alone against an orbit',
+        name: 'Flyby',
+        text: 'Choose a LH vehicle card in hand. Give it the HALFCOST and TEMPORARY keywords.',
         cpCost: 1
     },
 ];

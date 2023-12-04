@@ -20,7 +20,7 @@ export const ssVehicles = [
     },{
         name: 'Victoria',
         isBuiltIn: true,
-        cardText: 'When this vehicle is destroyed, draw a card and reduce its cost by 50k',
+        cardText: 'When this vehicle is destroyed, draw a card',
         materialCost: 270000,
         blueprintCost: 270185,
         cpCost: 0,
@@ -30,10 +30,28 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [KEYWORDS.SCRAPPY],
+        keywords: [],
         meta: {
         }
-    },{
+    },
+    {
+        name: 'Trondheim',
+        isBuiltIn: true,
+        cardText: 'When this vehicle is destroyed, draw a card',
+        materialCost: 400000,
+        blueprintCost: 403000,
+        cpCost: 0,
+        imageUrl: 'trodnheim.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        keywords: [KEYWORDS.BLOCKER],
+        meta: {
+        }
+    },
+    {
         name: 'Air Strafe',
         isBuiltIn: true,
         cardText: 'Choose an enemy ship, it fights alone against two predatorX. If the target is a player design, also spawn your choice of hydra or cyclone',
@@ -84,7 +102,7 @@ export const ssVehicles = [
     } ,{
         name: 'Asphodel',
         isBuiltIn: true,
-        cardText: 'When played, draw a card',
+        cardText: '',
         materialCost: 470521,
         blueprintCost: 470000,
         cpCost: 0,
@@ -100,7 +118,7 @@ export const ssVehicles = [
     } ,{
         name: 'Braveheart',
         isBuiltIn: true,
-        cardText: 'When fighting an offensive fleet battle in this zone, you may elect to omit one enemy ship that costs less than 300k from the battle. If you do so, you must also omit one of your own ships from the battle other than this card.',
+        cardText: 'Once per turn, you may pay 1cp to have this ship 1v1 an enemy vehicle in the same zone',
         materialCost: 370000,
         blueprintCost: 371000,
         cpCost: 0,
@@ -167,7 +185,7 @@ export const ssVehicles = [
     }, {
         name: 'Sacrilego',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle survives a fleet battle, you may sacrifice it to increase the remaining hp percent of a friendly ship by 15',
+        cardText: 'Whenever this vehicle survives a fleet battle, gain 1cp. Additionally you may sacrifice it to increase the remaining hp percent of a friendly ship by 15',
         materialCost: 80000,
         blueprintCost: 86000,
         cpCost: 0,
@@ -184,7 +202,7 @@ export const ssVehicles = [
         name: 'Resolute',
         isBuiltIn: true,
         cardText: 'When this vehicle is played, draw a card',
-        materialCost: 50000,
+        materialCost: 60000,
         blueprintCost: 63300,
         cpCost: 0,
         imageUrl: 'resolute.png',
@@ -284,7 +302,7 @@ export const ssVehicles = [
         name: 'Falcon Squadron',
         isBuiltIn: true,
         cardText: 'This card is considered destroyed if any of its sub-vehicles is destroyed in battle',
-        materialCost: 60000,
+        materialCost: 80000,
         blueprintCost: 96276,
         cpCost: 0,
         imageUrl: 'falcon.png',
@@ -300,7 +318,7 @@ export const ssVehicles = [
     {
         name: 'Maelstrom',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When played, gain 1cp',
         materialCost: 220000,
         blueprintCost: 228000,
         cpCost: 0,

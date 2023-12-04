@@ -53,6 +53,7 @@ export const KEYWORDS = {
     FRAGILE: 'fragile',
     STEALTHY: 'stealthy', // opt out of defensive battles
     MOBILE: 'mobile', // can change zones once per turn
+    ROBOTIC: 'robotic', // Has unlimited resources for repair. Is considered destroyed if any of its sub objects are destroyed
 };
 
 
