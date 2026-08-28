@@ -52,25 +52,6 @@ export const wfVehicles = [
         meta: {
         }
     },
-    
-    {
-        name: 'Purifier',
-        isBuiltIn: true,
-        cardText: 'When played, draw a card',
-        materialCost: 760000,
-        blueprintCost: 765000,
-        cpCost: 0,
-        imageUrl: 'purifier.png',
-        playerId: null,
-        vehicleType: 'ship',
-        type: 'vehicle',
-        faction: FACTIONS.WF,
-        blueprintId: null,
-        keywords: [KEYWORDS.BLOCKER],
-        meta: {
-            [TRIGGERS.ON_PLAY]: 'purifierEffect'
-        }
-    },
     {
         name: 'Scourge',
         isBuiltIn: true,
@@ -260,8 +241,92 @@ export const wfVehicles = [
             [TRIGGERS.PLAY_ON_VEHICLE]: 'allForTheCauseEffect'
         }
     },
-    
-    
-    
+    {
+        name: 'Harbringer',
+        isBuiltIn: true,
+        cardText: 'Whenever this ship is in fleet combat, you may spawn in one WF ship that costs <=100k to join the battle',
+        materialCost: 550000,
+        blueprintCost: 551000,
+        cpCost: 0,
+        imageUrl: 'harbringer.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SHIP,
+        type: 'vehicle',
+        faction: FACTIONS.WF,
+        blueprintId: null,
+        keywords: [KEYWORDS.SUB_SCREEN],
+        meta: {
+        },
+    },
+    {
+        name: 'Purifier',
+        isBuiltIn: true,
+        cardText: 'This ship can only be played into a zone in which you have lost a fleet battle the previous turn. This vehicle does no damage to the enemy base.',
+        materialCost: 760000,
+        blueprintCost: 765000,
+        cpCost: 0,
+        imageUrl: 'purifier.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SHIP,
+        type: 'vehicle',
+        faction: FACTIONS.WF,
+        blueprintId: null,
+        keywords: [KEYWORDS.HALF_COST, KEYWORDS.FRAGILE],
+        meta: {
+        }
+    },
+    {
+        name: 'Pontus',
+        isBuiltIn: true,
+        cardText: 'When this sub is played into a zone, spawn two additional copies into that same zone.',
+        materialCost: 150000,
+        blueprintCost: 56000,
+        cpCost: 0,
+        imageUrl: 'pontus.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SUB,
+        type: 'vehicle',
+        faction: FACTIONS.WF,
+        blueprintId: null,
+        keywords: [KEYWORDS.FRAGILE],
+        meta: {
+            additionalSpawns: 2
+        }
+    },
+    {
+        name: 'Basher',
+        isBuiltIn: true,
+        cardText: 'When played, draw a card',
+        materialCost: 210000,
+        blueprintCost: 214000,
+        cpCost: 0,
+        imageUrl: 'basher.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SHIP,
+        type: 'vehicle',
+        faction: FACTIONS.WF,
+        blueprintId: null,
+        keywords: [],
+        meta: {
+            [TRIGGERS.ON_PLAY]: 'basherEffect'
+        }
+    },
+    {
+        name: 'Judgement',
+        isBuiltIn: true,
+        cardText: 'While your opponent has a submarine or airship, this card costs 100k less. Each turn, you may pay 1cp to have this vehicle 1v1 an enemy submarine or airship in this zone.',
+        materialCost: 540000,
+        blueprintCost: 546000,
+        cpCost: 0,
+        imageUrl: 'judgement.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SHIP,
+        type: 'vehicle',
+        faction: FACTIONS.WF,
+        blueprintId: null,
+        keywords: [],
+        meta: {
+        },
+    },
 
 ];

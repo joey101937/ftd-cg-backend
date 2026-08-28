@@ -17,7 +17,7 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.ON_PLAY]: 'marauderOnPlay'
         }
-    }, 
+    },
     {
         name: 'Crossbones',
         isBuiltIn: true,
@@ -52,7 +52,7 @@ export const dwgVehicles = [
         keywords: [KEYWORDS.SCRAPPY],
         meta: {
         }
-    },{
+    }, {
         name: 'Plunderer',
         isBuiltIn: true,
         cardText: 'Costs 20k less for each friendly vehicle in play. When this vehicle survives a victorious fleet battle or inflicts damage to the enemy base, draw one card from the enemy deck.',
@@ -103,7 +103,7 @@ export const dwgVehicles = [
         blueprintId: null,
         keywords: [KEYWORDS.SCRAPPY],
         meta: {
-           additionalSpawns: 1,
+            additionalSpawns: 1,
         }
     },
     {
@@ -127,7 +127,7 @@ export const dwgVehicles = [
     {
         name: 'Tarpon',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'While this vehicle is alive, you may not play any other aircraft into this zone',
         materialCost: 510000,
         blueprintCost: 511605,
         cpCost: 0,
@@ -137,10 +137,10 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [KEYWORDS.SUB_SCREEN, KEYWORDS.AIR_SCREEN],
+        keywords: [KEYWORDS.FRAGILE],
         meta: {
         }
-    },{
+    }, {
         name: 'Corsair',
         isBuiltIn: true,
         cardText: 'Whenever this card is played, add two additional copies into the zone',
@@ -157,7 +157,7 @@ export const dwgVehicles = [
         meta: {
             additionalSpawns: 2,
         }
-    },{
+    }, {
         name: 'Land Marauder',
         isBuiltIn: true,
         cardText: '',
@@ -174,7 +174,7 @@ export const dwgVehicles = [
         meta: {
             additionalSpawns: 1,
         }
-    },{
+    }, {
         name: 'Loggerhead',
         isBuiltIn: true,
         cardText: 'When this vehicle is destroyed, shuffle another copt of it into your deck. It costs 0.',
@@ -191,7 +191,7 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.ON_DEATH]: 'loggerheadOnDeath',
         }
-    },{
+    }, {
         name: 'Reserves',
         isBuiltIn: true,
         cardText: 'Generate three random DWG vehicle cards and put them into your hand',
@@ -207,12 +207,12 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.ON_PLAY]: 'reservesEffect',
         }
-    },{
+    }, {
         name: 'Buccaneer',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 250000,
-        blueprintCost: 250000,
+        materialCost: 200000,
+        blueprintCost: 296000,
         cpCost: 0,
         imageUrl: 'buccaneer.png',
         playerId: null,
@@ -223,7 +223,7 @@ export const dwgVehicles = [
         keywords: [KEYWORDS.HALF_COST],
         meta: {
         }
-    },{
+    }, {
         name: 'Spawn Buccaneer',
         isBuiltIn: true,
         cardText: 'Spawn a Buccaneer into a zone. It is not temporary. It gains the Scrappy keyword.',
@@ -239,10 +239,10 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'spawnBuccaneerEffect',
         }
-    },{
+    }, {
         name: 'Double Up',
         isBuiltIn: true,
-        cardText: 'Target DWG vehicle card in hand That costs less than 400k. spawns an additional copy of that vehicle when played',
+        cardText: 'Target DWG ship card in hand That costs less than 400k. spawns an additional copy of that ship when played',
         materialCost: 0,
         blueprintCost: 0,
         cpCost: 0,
@@ -255,7 +255,7 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_CARD]: 'doubleUpEffect',
         }
-    },{
+    }, {
         name: 'DWG Waters',
         isBuiltIn: true,
         cardText: ' Choose a zone. For the rest of the game, whenever you fight a defensive battle in that zone, you may choose one DWG vehicle with a cost <60k from the game to fight alongside your fleet in that battle. If the enemy attacks you directly in this zone, you can force them to beat this ship in battle first before doing damage with their surviving vehicles',
@@ -271,7 +271,7 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'dwgWatersEffect',
         }
-    },{
+    }, {
         name: 'Gang Up',
         isBuiltIn: true,
         cardText: 'Choose an enemy vehicle. Start a battle with that vehicle vs all your vehicles from the same zone.',
@@ -287,7 +287,7 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_VEHICLE]: 'gangUpEffect',
         }
-    },{
+    }, {
         name: 'Ongoing Attrition',
         isBuiltIn: true,
         cardText: 'Choose a zone. For the rest of the turn, if that zone is activated, and you are attacking with more vehicles than your opponent, deal 40k damage to the enemy base in that zone for each vehicle you have in the zone more than your opponent. If this card leaves play without dealing damage, draw a card.',
@@ -303,7 +303,7 @@ export const dwgVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'ongoingAttritionEffect',
         }
-    },{
+    }, {
         name: 'Abactor',
         isBuiltIn: true,
         cardText: 'Whenever this card is played, add an additional copy into the zone',
@@ -320,12 +320,12 @@ export const dwgVehicles = [
         meta: {
             additionalSpawns: 1
         }
-    },{
+    }, {
         name: 'Albacore',
         isBuiltIn: true,
-        cardText: '',
-        materialCost: 240000,
-        blueprintCost: 249522,
+        cardText: 'While this vehicle is alive, you may not play any other aircraft into this zone',
+        materialCost: 260000,
+        blueprintCost: 261000,
         cpCost: 0,
         imageUrl: 'albacore.png',
         playerId: null,
@@ -333,10 +333,10 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [KEYWORDS.HALF_COST],
+        keywords: [KEYWORDS.FRAGILE],
         meta: {
         }
-    },{
+    }, {
         name: 'Recurring Threat',
         isBuiltIn: true,
         cardText: 'Choose a friendly vehicle, destroy it. For the rest of the game, whenever you would fight a defensive fleet battle in the zone it was in, you may summon a copy of that vehicle to fight alongside your fleet in battle.',
@@ -368,6 +368,22 @@ export const dwgVehicles = [
         blueprintId: null,
         meta: {
             [TRIGGERS.ON_PLAY]: 'flyingSquirrelAttackEffect',
+        }
+    }, {
+        name: 'Sinners Luck',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 250000,
+        blueprintCost: 267000,
+        cpCost: 0,
+        imageUrl: 'sinnersluck.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SHIP,
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        keywords: [KEYWORDS.SCRAPPY],
+        meta: {
         }
     }
 ];

@@ -43,17 +43,18 @@ export const ZONE_TYPES = {
 };
 
 export const KEYWORDS = {
-    AIR_SCREEN: 'airScreen',
-    SUB_SCREEN: 'subScreen',
-    BLOCKER: 'blocker',
-    SCRAPPY: 'scrappy',
-    TEMPORARY: 'temporary',
-    INOFFENSIVE: 'inoffensive',
-    HALF_COST: 'halfCost', // for planes, they are half cost by default
-    FRAGILE: 'fragile',
+    AIR_SCREEN: 'airScreen', // enemy cannot play airships or planes into this zone
+    SUB_SCREEN: 'subScreen', // enemy cannot play subs into this zone
+    BLOCKER: 'blocker', // enemy cannot attack base in this zone
+    SCRAPPY: 'scrappy', // free repair cost
+    TEMPORARY: 'temporary', // goes away at end of turn
+    INOFFENSIVE: 'inoffensive', // cannot attack enemy base or participate in offensive fleet battles
+    HALF_COST: 'halfCost', // 50% cost modifier
+    FRAGILE: 'fragile', // cannot be repaired
     STEALTHY: 'stealthy', // opt out of defensive battles
     MOBILE: 'mobile', // can change zones once per turn
     ROBOTIC: 'robotic', // Has unlimited resources for repair. Is considered destroyed if any of its sub objects are destroyed
+    UPKEEP_REQUIRED: 'upkeepRequired', // at turn start, reduce your resources this turn by 15% of this cards cost
 };
 
 
