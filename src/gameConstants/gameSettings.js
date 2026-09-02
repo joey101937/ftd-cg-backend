@@ -53,7 +53,7 @@ export const KEYWORDS = {
     FRAGILE: 'fragile', // cannot be repaired
     STEALTHY: 'stealthy', // opt out of defensive battles
     MOBILE: 'mobile', // can change zones once per turn
-    ROBOTIC: 'robotic', // Has unlimited resources for repair. Is considered destroyed if any of its sub objects are destroyed
+    ROBOTIC: 'robotic', // Has unlimited resources for repair.
     UPKEEP_REQUIRED: 'upkeepRequired', // at turn start, reduce your resources this turn by 15% of this cards cost
 };
 

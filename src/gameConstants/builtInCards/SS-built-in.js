@@ -5,7 +5,7 @@ export const ssVehicles = [
         name: 'Iron Maiden',
         isBuiltIn: true,
         cardText: 'When this vehicle is destroyed, draw a card',
-        materialCost: 170000,
+        materialCost: 150000,
         blueprintCost: 174000,
         cpCost: 0,
         imageUrl: 'ironMaiden.png',
@@ -20,7 +20,7 @@ export const ssVehicles = [
     }, {
         name: 'Victoria',
         isBuiltIn: true,
-        cardText: 'Each turn you may spend 200k resources to spawn another victoria into this zone',
+        cardText: 'When played, pick one SS ship in hand and reduce its cost by 75k',
         materialCost: 250000,
         blueprintCost: 270185,
         cpCost: 0,
@@ -37,9 +37,9 @@ export const ssVehicles = [
     {
         name: 'Trondheim',
         isBuiltIn: true,
-        cardText: 'When this vehicle is destroyed, draw a card',
-        materialCost: 400000,
-        blueprintCost: 403000,
+        cardText: 'When this vehicle is destroyed, draw an SS ship and reduce its cost by 75k',
+        materialCost: 375000,
+        blueprintCost: 393000,
         cpCost: 0,
         imageUrl: 'trodnheim.png',
         playerId: null,
@@ -54,8 +54,8 @@ export const ssVehicles = [
     {
         name: 'Air Strafe',
         isBuiltIn: true,
-        cardText: 'Choose an enemy ship, it fights alone against two predatorX. If the target is a player design, also spawn your choice of hydra or cyclone',
-        materialCost: 180000,
+        cardText: 'Choose an enemy vehicle, it fights alone against two predatorX. If the target is a player design, also spawn your choice of hydra or cyclone',
+        materialCost: 150000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'airStrafe.png',
@@ -70,7 +70,7 @@ export const ssVehicles = [
     }, {
         name: 'Repairmen Ready',
         isBuiltIn: true,
-        cardText: 'Grant target vehicle scrappy. If the target is an AI vehicle that costs less than 400k, draw a card.',
+        cardText: 'Grant target vehicle scrappy. If the target is an SS vehicle that costs less than 400k, draw a card.',
         materialCost: 0,
         blueprintCost: 0,
         cpCost: 0,
@@ -86,7 +86,7 @@ export const ssVehicles = [
     }, {
         name: 'Excalibur',
         isBuiltIn: true,
-        cardText: 'Pick one AI ship in hand and reduce its cost by 200k',
+        cardText: 'Pick one SS ship in hand and reduce its cost by 200k',
         materialCost: 550000,
         blueprintCost: 553900,
         cpCost: 0,
@@ -103,7 +103,7 @@ export const ssVehicles = [
         name: 'Asphodel',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 470000,
+        materialCost: 400000,
         blueprintCost: 544000,
         cpCost: 0,
         imageUrl: 'asphodel.png',
@@ -112,13 +112,13 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [KEYWORDS.AIR_SCREEN],
+        keywords: [KEYWORDS.AIR_SCREEN, KEYWORDS.STEALTHY],
         meta: {
         }
     }, {
         name: 'Braveheart',
         isBuiltIn: true,
-        cardText: 'Once per turn, you may pay 1cp to have this ship 1v1 an enemy vehicle in the same zone',
+        cardText: 'Once per turn, you may pay 1cp to have any friendly ship in this zone 1v1 an enemy vehicle in the same zone',
         materialCost: 350000,
         blueprintCost: 371000,
         cpCost: 0,
@@ -135,7 +135,7 @@ export const ssVehicles = [
     , {
         name: 'Tyr',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'This card costs 60k less for every turn it spends in your hand',
         materialCost: 950000,
         blueprintCost: 983000,
         cpCost: 0,
@@ -152,8 +152,8 @@ export const ssVehicles = [
     , {
         name: 'Nothung',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle is played into a zone, also create a friendly Sacrilego in that zone',
-        materialCost: 470000,
+        cardText: 'When played, reduce the cost of all SS ships in your hand by 40k',
+        materialCost: 400000,
         blueprintCost: 478000,
         cpCost: 0,
         imageUrl: 'nothung.png',
@@ -184,8 +184,8 @@ export const ssVehicles = [
     }, {
         name: 'Sacrilego',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle participates in a fleet battle, friendly ships receive SCRAPPY keyword for that battle. Whenever this vehicle survives a fleet battle, gain 1cp.',
-        materialCost: 80000,
+        cardText: 'Whenever this vehicle participates in a fleet battle, friendly ships receive SCRAPPY keyword for that battle. Whenever this vehicle survives a fleet battle, reduce the cost of SS ships in hand by 30k.',
+        materialCost: 10000,
         blueprintCost: 86000,
         cpCost: 0,
         imageUrl: 'sacrilego.png',
@@ -200,7 +200,7 @@ export const ssVehicles = [
     }, {
         name: 'Resolute',
         isBuiltIn: true,
-        cardText: 'When this vehicle is played, draw a card',
+        cardText: 'When this vehicle is played, draw an SS ship from your deck. reduce its cost by 40k',
         materialCost: 60000,
         blueprintCost: 63300,
         cpCost: 0,
@@ -214,25 +214,9 @@ export const ssVehicles = [
         meta: {
         }
     }, {
-        name: 'Dryad',
-        isBuiltIn: true,
-        cardText: 'Whenever this ship participates in a defensive battle, spawn another dryad into the zone under your control',
-        materialCost: 40500,
-        blueprintCost: 40500,
-        cpCost: 0,
-        imageUrl: 'dryad.png',
-        playerId: null,
-        vehicleType: 'ship',
-        type: 'vehicle',
-        faction: FACTIONS.SS,
-        blueprintId: null,
-        keywords: [KEYWORDS.BLOCKER],
-        meta: {
-        }
-    }, {
         name: 'Typhoon',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When played into a zone, summon a second copy of it in that zone',
         materialCost: 130000,
         blueprintCost: 135323,
         cpCost: 0,
@@ -242,18 +226,19 @@ export const ssVehicles = [
         type: 'vehicle',
         faction: FACTIONS.SS,
         blueprintId: null,
-        keywords: [KEYWORDS.BLOCKER],
+        keywords: [],
         meta: {
+            additionalSpawns: 1,
         }
     },
     {
         name: 'Cyclone',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When played into a zone, give all enemy vehicles in that zone the fragile keyword',
         materialCost: 280000,
         blueprintCost: 281000,
         cpCost: 0,
-        imageUrl: 'typhoon.png',
+        imageUrl: 'cyclone.png',
         playerId: null,
         vehicleType: 'sub',
         type: 'vehicle',
@@ -267,7 +252,7 @@ export const ssVehicles = [
         name: 'Wolin',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 270000,
+        materialCost: 250000,
         blueprintCost: 271000,
         cpCost: 0,
         imageUrl: 'wolin.png',
@@ -283,8 +268,8 @@ export const ssVehicles = [
     {
         name: 'Spectre',
         isBuiltIn: true,
-        cardText: '',
-        materialCost: 210000,
+        cardText: 'When played, reduce your opponents cp by 1 (min 0)',
+        materialCost: 200000,
         blueprintCost: 214000,
         cpCost: 0,
         imageUrl: 'spectre.png',
@@ -352,7 +337,7 @@ export const ssVehicles = [
         name: 'Mobula',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 600000,
+        materialCost: 500000,
         blueprintCost: 603000,
         cpCost: 0,
         imageUrl: 'mobula.png',
@@ -368,8 +353,8 @@ export const ssVehicles = [
     {
         name: 'Hydra',
         isBuiltIn: true,
-        cardText: '',
-        materialCost: 230000,
+        cardText: 'When played, refresh one of your hero powers then gain 1cp',
+        materialCost: 220000,
         blueprintCost: 238000,
         cpCost: 0,
         imageUrl: 'hydra.png',
@@ -385,8 +370,8 @@ export const ssVehicles = [
     {
         name: 'Chrysaor',
         isBuiltIn: true,
-        cardText: 'While you have more than 200k resources, this card costs 100k more and spawns in a second Chrysaor',
-        materialCost: 110000,
+        cardText: 'While you have more than 150k resources, this card costs 75k more and spawns in a second Chrysaor',
+        materialCost: 75000,
         blueprintCost: 116000,
         cpCost: 0,
         imageUrl: 'Chrysaor.png',
@@ -402,7 +387,7 @@ export const ssVehicles = [
     {
         name: 'Argonaut',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When this is destroyed, reduce the cost of a random SS ship in your hand by 50k',
         materialCost: 90000,
         blueprintCost: 94000,
         cpCost: 0,
@@ -419,7 +404,7 @@ export const ssVehicles = [
     {
         name: 'Paladin',
         isBuiltIn: true,
-        cardText: 'While you have less than 240k materials, this can be played with halfcost and temporary',
+        cardText: 'When played, gain 1 cp. Once per turn, you may pay 1cp to spawn another Paladin',
         materialCost: 240000,
         blueprintCost: 240000,
         cpCost: 0,
@@ -437,7 +422,7 @@ export const ssVehicles = [
         name: 'Balmung',
         isBuiltIn: true,
         cardText: 'When this is played into a zone, create a hydra card in hand and reduce its cost to zero',
-        materialCost: 630000,
+        materialCost: 620000,
         blueprintCost: 636000,
         cpCost: 0,
         imageUrl: 'balmung.png',
@@ -447,6 +432,57 @@ export const ssVehicles = [
         faction: FACTIONS.SS,
         blueprintId: null,
         keywords: [KEYWORDS.BLOCKER],
+        meta: {
+        }
+    },
+    {
+        name: 'Thresher Shark',
+        isBuiltIn: true,
+        cardText: 'While you have less resources than this costs, you may play it with HALFCOST and INOFFENSIVE',
+        materialCost: 580000,
+        blueprintCost: 914000,
+        cpCost: 0,
+        imageUrl: 'thresher.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SUB_SCREEN],
+        meta: {
+        }
+    },
+    {
+        name: 'Bull Shark',
+        isBuiltIn: true,
+        cardText: 'Whenever this survives an offensive fleet battle, deal 200k damage to enemy base in this zone',
+        materialCost: 640000,
+        blueprintCost: 898000,
+        cpCost: 0,
+        imageUrl: 'bullshark.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SUB_SCREEN],
+        meta: {
+        }
+    },
+    {
+        name: 'Tiger Shark',
+        isBuiltIn: true,
+        cardText: 'Whenever this vehicle is played into a zone, reduce the maximum number of vehicle slots for your opponent in this zone by 3',
+        materialCost: 690000,
+        blueprintCost: 914000,
+        cpCost: 0,
+        imageUrl: 'tigershark.png',
+        playerId: null,
+        vehicleType: 'ship',
+        type: 'vehicle',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        keywords: [],
         meta: {
         }
     },
@@ -466,6 +502,23 @@ export const ssVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'blockadeEffect',
             [TRIGGERS.ON_BATTLE_DEFEAT]: 'blockadeLossEffect'
+        }
+    },
+    {
+        name: 'Cash advance',
+        isBuiltIn: true,
+        cardText: 'Gain 150k resources this turn, then draw a card.',
+        materialCost: 0,
+        blueprintCost: 0,
+        cpCost: 2,
+        imageUrl: 'favor.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.SS,
+        blueprintId: null,
+        meta: {
+
         }
     },
 ];

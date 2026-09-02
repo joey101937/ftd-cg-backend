@@ -4,8 +4,8 @@ export const wfVehicles = [
     {
         name: 'Buzzsaw',
         isBuiltIn: true,
-        cardText: 'This vehicle may be omitted from defensive battles unless the attacking enemy force contains a ship or tank',
-        materialCost: 80000,
+        cardText: 'When played, put an ambush card into your hand',
+        materialCost: 75000,
         blueprintCost: 88000,
         cpCost: 0,
         imageUrl: 'buzzsaw.png',
@@ -14,15 +14,15 @@ export const wfVehicles = [
         type: 'vehicle',
         faction: FACTIONS.WF,
         blueprintId: null,
-        keywords: [],
+        keywords: [KEYWORDS.STEALTHY, KEYWORDS.SCRAPPY],
         meta: {
         }
     },
     {
         name: 'Veles',
         isBuiltIn: true,
-        cardText: 'This vehicle may be omitted from defensive battles unless the attacking enemy force contains a ship or tank',
-        materialCost: 280000,
+        cardText: 'This card may be spawned into battle after all enemies are already spawned in',
+        materialCost: 225000,
         blueprintCost: 286922,
         cpCost: 0,
         imageUrl: 'veles.png',
@@ -31,15 +31,15 @@ export const wfVehicles = [
         type: 'vehicle',
         faction: FACTIONS.WF,
         blueprintId: null,
-        keywords: [],
+        keywords: [KEYWORDS.STEALTHY, KEYWORDS.SCRAPPY],
         meta: {
         }
     },
     {
         name: 'Excruciator',
         isBuiltIn: true,
-        cardText: 'When played, draw a card',
-        materialCost: 660000,
+        cardText: 'When played, draw two AI vehicles from your deck and reduce their cost by 100k.',
+        materialCost: 600000,
         blueprintCost: 663000,
         cpCost: 0,
         imageUrl: 'excruciator.png',
@@ -48,16 +48,16 @@ export const wfVehicles = [
         type: 'vehicle',
         faction: FACTIONS.WF,
         blueprintId: null,
-        keywords: [KEYWORDS.BLOCKER],
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.SUB_SCREEN],
         meta: {
         }
     },
     {
         name: 'Scourge',
         isBuiltIn: true,
-        cardText: '',
-        materialCost: 240000,
-        blueprintCost: 249000,
+        cardText: 'When played, gain 1cp',
+        materialCost: 225000,
+        blueprintCost: 209000,
         cpCost: 0,
         imageUrl: 'scourge.png',
         playerId: null,
@@ -73,8 +73,8 @@ export const wfVehicles = [
         name: 'Pandemonium',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 350000,
-        blueprintCost: 354000,
+        materialCost: 225000,
+        blueprintCost: 244000,
         cpCost: 0,
         imageUrl: 'pandemonium.png',
         playerId: null,
@@ -82,7 +82,7 @@ export const wfVehicles = [
         type: 'vehicle',
         faction: FACTIONS.WF,
         blueprintId: null,
-        keywords: [KEYWORDS.STEALTHY],
+        keywords: [KEYWORDS.STEALTHY, KEYWORDS.SUB_SCREEN],
         meta: {
         }
     },
@@ -106,7 +106,7 @@ export const wfVehicles = [
     {
         name: 'Disemboweler',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When played, gain 1 cp.',
         materialCost: 300000,
         blueprintCost: 305000,
         cpCost: 0,
@@ -124,7 +124,7 @@ export const wfVehicles = [
         name: 'Pulverizer',
         isBuiltIn: true,
         cardText: 'Spawn two additional copies of this vehicle into the zone',
-        materialCost: 120000,
+        materialCost: 78000,
         blueprintCost: 78000,
         cpCost: 0,
         imageUrl: 'pulverizer.png',
@@ -141,8 +141,8 @@ export const wfVehicles = [
     {
         name: 'Slasher',
         isBuiltIn: true,
-        cardText: '',
-        materialCost: 350000,
+        cardText: 'When this is played, add two earth rakers to your hand. they cost 0.',
+        materialCost: 300000,
         blueprintCost: 353000,
         cpCost: 0,
         imageUrl: 'Slasher.png',
@@ -158,7 +158,7 @@ export const wfVehicles = [
     {
         name: 'Earth Raker',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'When this is played, draw a card',
         materialCost: 50000,
         blueprintCost: 51000,
         cpCost: 0,
@@ -242,27 +242,10 @@ export const wfVehicles = [
         }
     },
     {
-        name: 'Harbringer',
-        isBuiltIn: true,
-        cardText: 'Whenever this ship is in fleet combat, you may spawn in one WF ship that costs <=100k to join the battle',
-        materialCost: 550000,
-        blueprintCost: 551000,
-        cpCost: 0,
-        imageUrl: 'harbringer.png',
-        playerId: null,
-        vehicleType: VEHICLE_TYPES.SHIP,
-        type: 'vehicle',
-        faction: FACTIONS.WF,
-        blueprintId: null,
-        keywords: [KEYWORDS.SUB_SCREEN],
-        meta: {
-        },
-    },
-    {
         name: 'Purifier',
         isBuiltIn: true,
-        cardText: 'This ship can only be played into a zone in which you have lost a fleet battle the previous turn. This vehicle does no damage to the enemy base.',
-        materialCost: 760000,
+        cardText: 'This vehicle does no damage to the enemy base. Whenever it participates in a fleet battle, the enemy forces must spawn in first, even if they are defending.',
+        materialCost: 750000,
         blueprintCost: 765000,
         cpCost: 0,
         imageUrl: 'purifier.png',
@@ -279,7 +262,7 @@ export const wfVehicles = [
         name: 'Pontus',
         isBuiltIn: true,
         cardText: 'When this sub is played into a zone, spawn two additional copies into that same zone.',
-        materialCost: 150000,
+        materialCost: 75000,
         blueprintCost: 56000,
         cpCost: 0,
         imageUrl: 'pontus.png',
@@ -314,7 +297,7 @@ export const wfVehicles = [
     {
         name: 'Judgement',
         isBuiltIn: true,
-        cardText: 'While your opponent has a submarine or airship, this card costs 100k less. Each turn, you may pay 1cp to have this vehicle 1v1 an enemy submarine or airship in this zone.',
+        cardText: 'While your opponent has a submarine or airship, this card costs 100k less. Each turn, you may have this vehicle 1v1 an enemy submarine or airship in this zone.',
         materialCost: 540000,
         blueprintCost: 546000,
         cpCost: 0,
@@ -327,6 +310,23 @@ export const wfVehicles = [
         keywords: [],
         meta: {
         },
+    },
+    {
+        name: 'Sub Strike',
+        isBuiltIn: true,
+        cardText: 'Target an enemy submarine, remove it from play.',
+        materialCost: 100000,
+        blueprintCost: 0,
+        cpCost: 1,
+        imageUrl: 'substrike.png',
+        playerId: null,
+        vehicleType: null,
+        type: 'ability',
+        faction: FACTIONS.WF,
+        blueprintId: null,
+        meta: {
+            [TRIGGERS.PLAY_ON_VEHICLE]: 'subKillerEffect',
+        }
     },
 
 ];

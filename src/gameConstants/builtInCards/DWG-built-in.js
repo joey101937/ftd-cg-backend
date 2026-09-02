@@ -4,8 +4,8 @@ export const dwgVehicles = [
     {
         name: 'Marauder',
         isBuiltIn: true,
-        cardText: 'When this vehicle is played, draw a vehicle card from the enemy deck reduce its cost by 50k',
-        materialCost: 40000,
+        cardText: 'When this vehicle is played, draw a vehicle card from the enemy deck',
+        materialCost: 55000,
         blueprintCost: 40205,
         cpCost: 0,
         imageUrl: 'marauder.png',
@@ -55,7 +55,7 @@ export const dwgVehicles = [
     }, {
         name: 'Plunderer',
         isBuiltIn: true,
-        cardText: 'Costs 20k less for each friendly vehicle in play. When this vehicle survives a victorious fleet battle or inflicts damage to the enemy base, draw one card from the enemy deck.',
+        cardText: 'Costs 20k less for each friendly vehicle in play. When this vehicle survives a victorious fleet battle or inflicts damage to the enemy base, draw one card from the enemy deck, but increase its cost by 20k',
         materialCost: 180000,
         blueprintCost: 187000,
         cpCost: 0,
@@ -137,7 +137,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [KEYWORDS.FRAGILE],
+        keywords: [KEYWORDS.FRAGILE, KEYWORDS.SUB_SCREEN],
         meta: {
         }
     }, {
@@ -187,7 +187,7 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [KEYWORDS.SCRAPPY, KEYWORDS.HALF_COST],
+        keywords: [],
         meta: {
             [TRIGGERS.ON_DEATH]: 'loggerheadOnDeath',
         }
@@ -211,7 +211,7 @@ export const dwgVehicles = [
         name: 'Buccaneer',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 200000,
+        materialCost: 225000,
         blueprintCost: 296000,
         cpCost: 0,
         imageUrl: 'buccaneer.png',
@@ -220,14 +220,14 @@ export const dwgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.DWG,
         blueprintId: null,
-        keywords: [KEYWORDS.HALF_COST],
+        keywords: [KEYWORDS.FRAGILE],
         meta: {
         }
     }, {
         name: 'Spawn Buccaneer',
         isBuiltIn: true,
         cardText: 'Spawn a Buccaneer into a zone. It is not temporary. It gains the Scrappy keyword.',
-        materialCost: 150000,
+        materialCost: 225000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'spawnBuccaneer.png',
@@ -377,6 +377,23 @@ export const dwgVehicles = [
         blueprintCost: 267000,
         cpCost: 0,
         imageUrl: 'sinnersluck.png',
+        playerId: null,
+        vehicleType: VEHICLE_TYPES.SHIP,
+        type: 'vehicle',
+        faction: FACTIONS.DWG,
+        blueprintId: null,
+        keywords: [KEYWORDS.SCRAPPY],
+        meta: {
+        }
+    },
+    {
+        name: 'Brigand',
+        isBuiltIn: true,
+        cardText: '',
+        materialCost: 260000,
+        blueprintCost: 356000,
+        cpCost: 0,
+        imageUrl: 'brigand.png',
         playerId: null,
         vehicleType: VEHICLE_TYPES.SHIP,
         type: 'vehicle',

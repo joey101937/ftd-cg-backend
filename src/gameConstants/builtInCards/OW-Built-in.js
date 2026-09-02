@@ -129,9 +129,9 @@ export const owVehicles = [
     {
         name: 'Bulwark',
         isBuiltIn: true,
-        cardText: 'When played, gain 2cp',
-        materialCost: 400000,
-        blueprintCost: 466000,
+        cardText: '',
+        materialCost: 450000,
+        blueprintCost: 848000,
         cpCost: 0,
         imageUrl: 'bulwark.png',
         playerId: null,
@@ -177,7 +177,7 @@ export const owVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_VEHICLE]: 'subKillerEffect',
         }
-    },    
+    },
     {
         name: 'Special Foundries',
         isBuiltIn: true,
@@ -194,7 +194,7 @@ export const owVehicles = [
         meta: {
             [TRIGGERS.ON_PLAY]: 'specialFoundriesEffect',
         }
-    },{
+    }, {
         name: 'Claymore',
         isBuiltIn: true,
         cardText: 'Draw a card when played',
@@ -228,7 +228,7 @@ export const owVehicles = [
         meta: {
             [TRIGGERS.ON_PLAY]: 'palisadeEffect'
         }
-    },{
+    }, {
         name: 'Defensive Parapet',
         isBuiltIn: true,
         cardText: 'Spawn two parapets into a zone. They gain Inoffensive, Scrappy, and blocker keywords.',
@@ -244,10 +244,10 @@ export const owVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_ZONE]: 'defensiveParapetEffect',
         }
-    },{
+    }, {
         name: 'The Onyx Throne',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle would partake in a defensive battle, spawn an allied alongside it. Once per turn, you may pay 1cp to draw a GT heavy airship card.',
+        cardText: 'Whenever this vehicle would partake in a defensive battle, spawn an allied parapet to fight alongside it. Once per turn, you may pay 1cp to draw a GT heavy airship card.',
         materialCost: 500000,
         blueprintCost: 492482,
         cpCost: 0,
@@ -263,8 +263,8 @@ export const owVehicles = [
         name: 'Eyrie',
         isBuiltIn: true,
         cardText: '',
-        materialCost: 780000,
-        blueprintCost: 781362,
+        materialCost: 575000,
+        blueprintCost: 809000,
         cpCost: 0,
         imageUrl: 'Eyrie.png',
         playerId: null,
@@ -272,7 +272,7 @@ export const owVehicles = [
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
-        keywords: [KEYWORDS.HALF_COST, KEYWORDS.BLOCKER]
+        keywords: [KEYWORDS.BLOCKER, KEYWORDS.FRAGILE]
     },
     {
         name: 'Rook',
@@ -283,12 +283,12 @@ export const owVehicles = [
         cpCost: 0,
         imageUrl: 'Rook.png',
         playerId: null,
-        vehicleType: VEHICLE_TYPES.ship,
+        vehicleType: VEHICLE_TYPES.AIRSHIP,
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
         keywords: []
-    },{
+    }, {
         name: 'Partisan',
         isBuiltIn: true,
         cardText: 'When this card is destroyed, draw a random GT Airship',
@@ -306,15 +306,15 @@ export const owVehicles = [
         }
     },
     {
-        name: 'Halberd',
+        name: 'Brandistock',
         isBuiltIn: true,
         cardText: 'When this card is destroyed, draw a random GT Airship',
-        materialCost: 120000,
-        blueprintCost: 121363,
+        materialCost: 250000,
+        blueprintCost: 258000,
         cpCost: 0,
-        imageUrl: 'halberd.png',
+        imageUrl: 'brandistock.png',
         playerId: null,
-        vehicleType: VEHICLE_TYPES.ship,
+        vehicleType: VEHICLE_TYPES.SHIP,
         type: 'vehicle',
         faction: FACTIONS.OW,
         blueprintId: null,
@@ -397,7 +397,7 @@ export const owVehicles = [
         blueprintId: null,
         keywords: [KEYWORDS.STEALTHY],
         meta: {
-            [TRIGGERS.ON_PLAY]: 'clydesdaleEffect' 
+            [TRIGGERS.ON_PLAY]: 'clydesdaleEffect'
         }
     },
     {
@@ -414,7 +414,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            [TRIGGERS.ON_PLAY]: 'CauldronEffect' 
+            [TRIGGERS.ON_PLAY]: 'CauldronEffect'
         }
     },
     {
@@ -431,7 +431,7 @@ export const owVehicles = [
         faction: FACTIONS.OW,
         blueprintId: null,
         meta: {
-            [TRIGGERS.ON_PLAY]: 'maceEffect' 
+            [TRIGGERS.ON_PLAY]: 'maceEffect'
         }
     },
     {
@@ -467,5 +467,5 @@ export const owVehicles = [
         meta: {
             [TRIGGERS.PLAY_ON_VEHICLE]: 'garrisonEffect',
         }
-    }, 
+    },
 ];
