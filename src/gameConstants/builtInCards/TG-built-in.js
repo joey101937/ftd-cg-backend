@@ -70,23 +70,6 @@ export const tgVehicles = [
         }
     },
     {
-        name: 'Horror',
-        isBuiltIn: true,
-        cardText: 'Whenever a horror participates in an offensive fleet battle, create anther copy of it in this zone. Max one spawn per zone',
-        materialCost: 50000,
-        blueprintCost: 77000,
-        cpCost: 0,
-        imageUrl: 'euphoria.png',
-        playerId: null,
-        vehicleType: 'ship',
-        type: 'vehicle',
-        faction: FACTIONS.TG,
-        blueprintId: null,
-        keywords: [KEYWORDS.ROBOTIC],
-        meta: {
-        }
-    },
-    {
         name: 'Nostalgia',
         isBuiltIn: true,
         cardText: 'Whenever this would be destroyed, put it back into your hand.',
@@ -242,7 +225,7 @@ export const tgVehicles = [
     {
         name: 'Fear',
         isBuiltIn: true,
-        cardText: 'When this vehicle is played, spawn a friendly horror into each zone',
+        cardText: 'When this vehicle is played, draw a card',
         materialCost: 500000,
         blueprintCost: 800000,
         cpCost: 0,
@@ -286,7 +269,7 @@ export const tgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.TG,
         blueprintId: null,
-        keywords: [KEYWORDS.HALF_COST, KEYWORDS.TEMPORARY],
+        keywords: [KEYWORDS.HALF_COST, KEYWORDS.TEMPORARY, KEYWORDS.FRAGILE],
         meta: {
         }
     },
@@ -294,7 +277,7 @@ export const tgVehicles = [
         name: 'Spawn Audacious',
         isBuiltIn: true,
         cardText: 'Spawn an audacious into target zone. It is not temporary.',
-        materialCost: 40000,
+        materialCost: 400000,
         blueprintCost: 0,
         cpCost: 0,
         imageUrl: 'spawnaudacious.png',
@@ -378,7 +361,7 @@ export const tgVehicles = [
     {
         name: 'Mirth Swarm',
         isBuiltIn: true,
-        cardText: '',
+        cardText: 'No more than one mirth swarm can participate in any one battle on a single side, even if spawned in by card effect',
         materialCost: 200000,
         blueprintCost: 200000,
         cpCost: 0,
@@ -412,7 +395,7 @@ export const tgVehicles = [
     {
         name: 'Mirth Factory',
         isBuiltIn: true,
-        cardText: 'Target friendly robotic vehicle. Whenever that vehicle is engaged in a fleet combat, spawn a Mirth swarm to fight along side it',
+        cardText: 'Target friendly AI ship. Whenever that vehicle is engaged in a fleet combat, spawn a Mirth swarm to fight along side it',
         materialCost: 60000,
         blueprintCost: 0,
         cpCost: 0,
@@ -429,8 +412,8 @@ export const tgVehicles = [
     {
         name: 'Obelisk',
         isBuiltIn: true,
-        cardText: 'Whenever this vehicle participates in a fleet battle, spawn a temporary Mirth swarm to fight on your side in the battlefield',
-        materialCost: 40000,
+        cardText: 'Whenever this vehicle participates in a fleet battle, spawn a temporary Mirth swarm to fight on your side in the battlefield.',
+        materialCost: 60000,
         blueprintCost: 32000,
         cpCost: 0,
         imageUrl: 'obelisk.png',
@@ -439,7 +422,7 @@ export const tgVehicles = [
         type: 'vehicle',
         faction: FACTIONS.TG,
         blueprintId: null,
-        keywords: [KEYWORDS.STEALTHY],
+        keywords: [],
         meta: {
         }
     }, {
